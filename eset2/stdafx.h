@@ -9,7 +9,15 @@
 
 #include <stdio.h>
 #include <tchar.h>
+#include <stdint.h>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <string>
+using namespace std;
 
+using Byte = uint8_t;
+using Bytes = vector<Byte>;
 
 
 // TODO: reference additional headers your program requires here
