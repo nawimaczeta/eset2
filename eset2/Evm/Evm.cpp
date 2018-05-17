@@ -69,10 +69,23 @@ namespace Evm {
 			}
 		}
 
-		pair<Bytes::iterator, Bytes::iterator> extractInstructions(Evm & evm)
+		pair<Bytes::iterator, Bytes::iterator> extractCode(Evm & evm)
 		{
+			if (evm.header.codeSize > evm.payload.size()) {
+				throw out_of_range{ "" };
+			}
 			auto codeBeginIt = begin(evm.payload);
 			auto codeEndIt = codeBeginIt + evm.header.codeSize;
+
+			return make_pair(codeBeginIt, codeEndIt);
+		}
+		pair<Bytes::iterator, Bytes::iterator> extractInitializedData(Evm & evm)
+		{
+			if (evm.header.codeSize + evm.header.initialDataSize > evm.payload.size()) {
+				throw out_of_range{ "" };
+			}
+			auto codeBeginIt = begin(evm.payload) + evm.header.codeSize;
+			auto codeEndIt = end(evm.payload);
 
 			return make_pair(codeBeginIt, codeEndIt);
 		}

@@ -8,18 +8,18 @@
 
 int main()
 {
-	const string EVM_FILE_NAME{ "in.evm" };
+	//const string EVM_FILE_NAME{ "in.evm" };
+	const string EVM_FILE_NAME{ "crc.evm" };
 
 	try {
 		auto evm = Evm::File::makeEvmFromFile(EVM_FILE_NAME);
 		Evm::File::validateEvm(*evm);
 		cout << *evm;
 		Evm::Application app{ *evm };
+		app.run();
 	}
 	catch (exception & e) {
 		cout << e.what();
-		getchar();
-		return 1;
 	}
 
 	getchar();
