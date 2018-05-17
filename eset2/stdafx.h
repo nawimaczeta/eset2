@@ -18,6 +18,8 @@
 #include <memory>
 #include <fstream>
 #include <utility>
+#include <array>
+#include <stack>
 using namespace std;
 
 using Byte = uint8_t;

@@ -14,7 +14,9 @@ namespace Evm {
 
 	void Application::run()
 	{
-
+		// create first thread
+		_threadList.emplace_back(this);
+		_threadList.at(0).run();
 	}
 
 	BitBuffer Application::_getProgramMemory(Evm & evm)
