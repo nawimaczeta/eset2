@@ -20,6 +20,9 @@
 #include <utility>
 #include <array>
 #include <stack>
+#include <functional>
+#include <iomanip>
+#include <ios>
 using namespace std;
 
 using Byte = uint8_t;

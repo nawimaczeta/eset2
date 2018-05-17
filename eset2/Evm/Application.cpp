@@ -19,6 +19,11 @@ namespace Evm {
 		_threadList.at(0).run();
 	}
 
+	Memory & Application::dataMemory()
+	{
+		return _dataMemory;
+	}
+
 	BitBuffer Application::_getProgramMemory(Evm & evm)
 	{
 		auto its = File::extractCode(evm);

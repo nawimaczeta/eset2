@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ThreadContext.h"
+#include "Application.h"
 
 namespace Evm {
 
@@ -26,7 +26,7 @@ namespace Evm {
 		}
 	}
 
-	void ThreadContext::reg(uint32_t index, uint64_t value)
+	void ThreadContext::reg(uint8_t index, uint64_t value)
 	{
 		if (index > _registerList.size()) {
 			throw runtime_error{ "Bad register index " + to_string(index) };
@@ -35,7 +35,7 @@ namespace Evm {
 		_registerList.at(index) = value;
 	}
 
-	uint64_t ThreadContext::reg(uint32_t index) const
+	uint64_t ThreadContext::reg(uint8_t index) const
 	{
 		if (index > _registerList.size()) {
 			throw runtime_error{ "Bad register index " + to_string(index) };

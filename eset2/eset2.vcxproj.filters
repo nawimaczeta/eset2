@@ -42,6 +42,12 @@
     <ClInclude Include="Evm\ThreadContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Evm\Operation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Evm\Argument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Evm\ThreadContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Evm\Argument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

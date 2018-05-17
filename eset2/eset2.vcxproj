@@ -149,7 +149,9 @@
   <ItemGroup>
     <ClInclude Include="BitBuffer.h" />
     <ClInclude Include="Evm\Application.h" />
+    <ClInclude Include="Evm\Argument.h" />
     <ClInclude Include="Evm\Evm.h" />
+    <ClInclude Include="Evm\Operation.h" />
     <ClInclude Include="Evm\RuntimeError.h" />
     <ClInclude Include="Evm\ThreadContext.h" />
     <ClInclude Include="Memory.h" />
@@ -160,6 +162,7 @@
     <ClCompile Include="eset2.cpp" />
     <ClCompile Include="BitBuffer.cpp" />
     <ClCompile Include="Evm\Application.cpp" />
+    <ClCompile Include="Evm\Argument.cpp" />
     <ClCompile Include="Evm\Evm.cpp" />
     <ClCompile Include="Evm\ThreadContext.cpp" />
     <ClCompile Include="Memory.cpp" />

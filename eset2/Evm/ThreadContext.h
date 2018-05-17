@@ -1,5 +1,7 @@
 #pragma once
 
+//#include "Application.h"
+
 namespace Evm {
 
 	struct Application;
@@ -9,8 +11,8 @@ namespace Evm {
 		ThreadContext(const ThreadContext & tc, uint32_t address);
 		void run();
 
-		void reg(uint32_t index, uint64_t value);
-		uint64_t reg(uint32_t index) const;
+		void reg(uint8_t index, uint64_t value);
+		uint64_t reg(uint8_t index) const;
 		Application *application();
 	private:
 		Application * _parent;

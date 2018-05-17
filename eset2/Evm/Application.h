@@ -1,10 +1,10 @@
 #pragma once
 
 #include "stdafx.h"
+#include "ThreadContext.h"
 #include "Memory.h"
 #include "BitBuffer.h"
 #include "Evm.h"
-#include "ThreadContext.h"
 
 namespace Evm {
 
@@ -14,6 +14,8 @@ namespace Evm {
 		Application(Evm & evm);
 
 		void run();
+		Memory & dataMemory();
+
 	private:
 		const BitBuffer _programMemory;
 		Memory _dataMemory;
