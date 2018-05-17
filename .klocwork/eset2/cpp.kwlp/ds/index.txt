@@ -1,0 +1,4 @@
+c:\Users\plluiwa\documents\visual studio 2015\Projects\eset2\eset2\eset2.cpp;c:\Users\plluiwa\documents\visual studio 2015\Projects\eset2\.klocwork\eset2\cpp.kwlp\ds\1\kysl1qta.ybv;1;0;False;C0CCF265D7D6303B8C510881AD0D96F4245C3E51;True
+c:\Users\plluiwa\documents\visual studio 2015\Projects\eset2\eset2\stdafx.h;c:\Users\plluiwa\documents\visual studio 2015\Projects\eset2\.klocwork\eset2\cpp.kwlp\ds\2\myhnmg1c.gmi;2;0;False;5736ABC61FB104C552CC906187D75A24BC73DBBB;True
+c:\Users\plluiwa\documents\visual studio 2015\Projects\eset2\eset2\targetver.h;;3;0;False;03AD3CC7B864B3E1B0A198F35E01381C27A5CFBF;False
+c:\Users\plluiwa\documents\visual studio 2015\Projects\eset2\eset2\stdafx.cpp;;4;0;False;6EE37378AC65DC318F883CA080950F0368211FE5;False

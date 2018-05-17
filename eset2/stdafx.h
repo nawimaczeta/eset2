@@ -10,10 +10,14 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <stdint.h>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <iterator>
 #include <string>
+#include <memory>
+#include <fstream>
+#include <utility>
 using namespace std;
 
 using Byte = uint8_t;
