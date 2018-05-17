@@ -4,13 +4,19 @@
 
 namespace Evm {
 
-	class RuntimeError : public runtime_error {
+	struct RuntimeError : public runtime_error {
 		RuntimeError(const string& _Message) :
 			runtime_error(_Message)
 		{}
 	};
 
-	class InstructionRuntimeError : public RuntimeError {
+	struct UnknownOperationRuntimeError : RuntimeError {
+		UnknownOperationRuntimeError() :
+			RuntimeError{ "Unknown operation" }
+		{}
+	};
+
+	struct InstructionRuntimeError : RuntimeError {
 		//InstructionRuntimeError()
 	};
 }

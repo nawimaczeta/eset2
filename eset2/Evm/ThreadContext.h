@@ -15,10 +15,13 @@ namespace Evm {
 		uint64_t reg(uint8_t index) const;
 		Application *application();
 	private:
+		uint32_t _id;
 		Application * _parent;
 		uint32_t _programCounter;
 		array<uint64_t, 16> _registerList;
 		stack<uint32_t> _stack;
 		bool _isRunning = false;
+
+		static uint32_t _currentThreadID;
 	};
 }

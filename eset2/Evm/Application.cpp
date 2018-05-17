@@ -24,6 +24,11 @@ namespace Evm {
 		return _dataMemory;
 	}
 
+	const BitBuffer & Application::programMemory() const
+	{
+		return _programMemory;
+	}
+
 	BitBuffer Application::_getProgramMemory(Evm & evm)
 	{
 		auto its = File::extractCode(evm);

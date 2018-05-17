@@ -152,6 +152,7 @@
     <ClInclude Include="Evm\Argument.h" />
     <ClInclude Include="Evm\Evm.h" />
     <ClInclude Include="Evm\Operation.h" />
+    <ClInclude Include="Evm\OperationFactory.h" />
     <ClInclude Include="Evm\RuntimeError.h" />
     <ClInclude Include="Evm\ThreadContext.h" />
     <ClInclude Include="Memory.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Evm\Application.cpp" />
     <ClCompile Include="Evm\Argument.cpp" />
     <ClCompile Include="Evm\Evm.cpp" />
+    <ClCompile Include="Evm\OperationFactory.cpp" />
     <ClCompile Include="Evm\ThreadContext.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="stdafx.cpp">

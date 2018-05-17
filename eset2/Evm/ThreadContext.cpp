@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Application.h"
+#include "OperationFactory.h"
 
 namespace Evm {
 
 	ThreadContext::ThreadContext(Application *application) :
+		_id{ _currentThreadID++ },
 		_parent{ application },
 		_programCounter{ 0 }
 	{
@@ -11,6 +13,7 @@ namespace Evm {
 	}
 
 	ThreadContext::ThreadContext(const ThreadContext & tc, uint32_t address) :
+		_id{ _currentThreadID++ },
 		_parent{tc._parent},
 		_programCounter{ address },
 		_registerList{ tc._registerList }
@@ -22,7 +25,7 @@ namespace Evm {
 		_isRunning = true;
 
 		while (_isRunning) {
-
+			auto operation = Operation::makeOperation(_parent->programMemory(), _programCounter);
 		}
 	}
 

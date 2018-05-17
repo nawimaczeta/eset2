@@ -15,6 +15,7 @@ namespace Evm {
 
 		void run();
 		Memory & dataMemory();
+		const BitBuffer & programMemory() const;
 
 	private:
 		const BitBuffer _programMemory;
