@@ -5,33 +5,41 @@
 
 namespace Evm {
 	namespace Operation {
+		constexpr uint32_t OPCODE_3BIT_MOV				= 0x00000000;	// mov arg1, arg2					opcode 000
+		constexpr uint32_t OPCODE_3BIT_LOAD_CONSTANT	= 0x00000001;	// loadConst constant, arg1			opcode 001
+		constexpr uint32_t OPCODE_4BIT_CALL				= 0x0000000c;	// call address						opcode 1100
+		constexpr uint32_t OPCODE_4BIT_RET				= 0x0000000d;	// ret								opcode 1101
+		constexpr uint32_t OPCODE_4BIT_LOCK				= 0x0000000e;	// lock arg1						opcode 1110
+		constexpr uint32_t OPCODE_4BIT_UNLOCK			= 0x0000000f;	// unlock arg1						opcode 1111
+		constexpr uint32_t OPCODE_5BIT_COMPARE			= 0x0000000c;	// compare arg1, arg2, arg3			opcode 01100
+		constexpr uint32_t OPCODE_5BIT_JUMP				= 0x0000000d;	// jump address						opcode 01101
+		constexpr uint32_t OPCODE_5BIT_JUMP_EQUAL		= 0x0000000e;	// jumpEqual address, arg1, arg2	opcode 01110
+		constexpr uint32_t OPCODE_5BIT_READ				= 0x00000010;	// read arg1, arg2, arg3, arg4		opcode 10000
+		constexpr uint32_t OPCODE_5BIT_WRITE			= 0x00000011;	// write arg1, arg2, arg3			opcode 10001
+		constexpr uint32_t OPCODE_5BIT_CONSOLE_READ		= 0x00000012;	// consoleRead arg1					opcode 10010
+		constexpr uint32_t OPCODE_5BIT_CONSOLE_WRITE	= 0x00000013;	// consoleWrite arg1				opcode 10011
+		constexpr uint32_t OPCODE_5BIT_CREATE_THREAD	= 0x00000014;	// createThread address, arg1		opcode 10100
+		constexpr uint32_t OPCODE_5BIT_JOIN_THREAD		= 0x00000015;	// joinThread arg1					opcode 10101
+		constexpr uint32_t OPCODE_5BIT_HLT				= 0x00000016;	// hlt								opcode 10110
+		constexpr uint32_t OPCODE_5BIT_SLEEP			= 0x00000017;	// sleep arg1						opcode 10111
+		constexpr uint32_t OPCODE_6BIT_ADD				= 0x00000011;	// add arg1, arg2, arg3				opcode 010001
+		constexpr uint32_t OPCODE_6BIT_SUB				= 0x00000012;	// sub arg1, arg2, arg3				opcode 010010
+		constexpr uint32_t OPCODE_6BIT_DIV				= 0x00000013;	// div arg1, arg2, arg3				opcode 010011
+		constexpr uint32_t OPCODE_6BIT_MOD				= 0x00000014;	// mod arg1, arg2, arg3				opcode 010100
+		constexpr uint32_t OPCODE_6BIT_MUL				= 0x00000015;	// mul arg1, arg2, arg3				opcode 010101
+		
 
 		/*
 		Interface that creates IOperation objects.
 		*/
 		struct IOperationFactory {
-			using OperationFactoryPtr = unique_ptr<IOperationFactory>;
-
-			IOperationFactory(OperationFactoryPtr next = nullptr) {
-				setNext(move(next));
-			}
-
+			IOperationFactory(const BitBuffer & bb, uint32_t & offset);
 			virtual ~IOperationFactory() = default;
-			virtual OperationPtr build(BitBuffer & bb, uint32_t offset) {
-				if (_next) {
-					return _next->build(bb, offset);
-				}
-				else {
-					throw runtime_error("Chain of responsibilities is not complited");
-				}
-			}
+			virtual OperationPtr build() = 0;
 
-			void setNext(OperationFactoryPtr next) {
-				_next = move(next);
-			}
-
-		private:
-			OperationFactoryPtr _next;
+		protected:
+			const BitBuffer & _programMemory;
+			uint32_t & _offset;
 		};
 
 		/*
@@ -39,7 +47,7 @@ namespace Evm {
 		*/
 		struct UnsupportedOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(BitBuffer & bb, uint32_t offset) {
+			virtual OperationPtr build() {
 				(void));
 				throw runtime_error("Unknown opcode at position " + to_string(bs.position()));
 			}
@@ -50,11 +58,7 @@ namespace Evm {
 		*/
 		struct MovOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
-
-			virtual OperationPtr build(BitBuffer & bb, uint32_t offset);
-		private:
-			static const uint8_t _MASK = 0x38u;
-			static const uint8_t _OPCODE = 0x00u;
+			virtual OperationPtr build();
 		};
 
 		/*
@@ -62,11 +66,17 @@ namespace Evm {
 		*/
 		struct LoadConstOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build();
+		};
 
-			virtual OperationPtr build(BitBuffer & bb, uint32_t offset);
-		private:
-			static const uint8_t _MASK = 0x38u;
-			static const uint8_t _OPCODE = 0x08u;
+
+
+		/*
+		Factory that makes MovOperation objects
+		*/
+		struct ConsoleWriteOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build();
 		};
 
 		/*
@@ -74,37 +84,13 @@ namespace Evm {
 		MathOperation class
 		*/
 		struct MathOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
+			MathOperationFactory(const BitBuffer & bb, uint32_t & offset, function<int64_t(int64_t, int64_t)> function);
+			OperationPtr build();
 
-			virtual OperationPtr build(BitBuffer & bb, uint32_t offset);
 		private:
-			static const uint8_t _MATH_OPCODE_MASK = 0x3f;
-			static const uint8_t _ADD_OPCODE = 0x11u;
-			static const uint8_t _SUB_OPCODE = 0x12u;
-			static const uint8_t _DIV_OPCODE = 0x13u;
-			static const uint8_t _MOD_OPCODE = 0x14u;
-			static const uint8_t _MUL_OPCODE = 0x15u;
-
-			// TODO: compare on signed or unsigned values?
-			static const uint8_t _COMPARE_OPCODE_MASK = 0x3e;
-			static const uint8_t _COMPARE_OPCODE = 0x18u;
-
-			OperationPtr _makeMathExpression(BitStream & bs, uint32_t opcodeSize, function<int64_t(int64_t, int64_t)> mathOperation) const;
+			function<int64_t(int64_t, int64_t)> _function;
 		};
 
-		/*
-		Factory that makes MovOperation objects
-		*/
-		struct ConsoleWriteOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-
-			virtual OperationPtr build(BitBuffer & bb, uint32_t offset);
-		private:
-			static const uint8_t _MASK = 0x3eu;
-			static const uint8_t _OPCODE = 0x26u;
-		};
-
-		OperationPtr makeOperation(const BitBuffer & bb, uint32_t offset);
-
+		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset);
 	}
 }

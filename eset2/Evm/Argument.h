@@ -52,8 +52,8 @@ namespace Evm {
 			uint64_t _value;
 		};
 
-		pair<IArgument *, uint32_t> getArgument(BitBuffer & bb, uint32_t offset);
-		uint64_t getConstant(BitBuffer & bb, uint32_t offset);
-		uint32_t getAddress(BitBuffer & bb, uint32_t offset);
+		IArgument * getArgument(const BitBuffer & bb, uint32_t & offset);
+		uint64_t getConstant(const BitBuffer & bb, uint32_t & offset);
+		uint32_t getAddress(const BitBuffer & bb, uint32_t & offset);
 	}
 }

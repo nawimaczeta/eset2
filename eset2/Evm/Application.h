@@ -22,6 +22,6 @@ namespace Evm {
 		Memory _dataMemory;
 		ThreadList _threadList;
 
-		BitBuffer _getProgramMemory(Evm & evm);
+		BitBuffer _getProgramMemory(Evm & evm) const;
 	};
 }

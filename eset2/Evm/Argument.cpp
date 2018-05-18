@@ -7,22 +7,23 @@ namespace Evm {
 		/*
 		Acquire argument form the bit stram
 		*/
-		pair<IArgument *, uint32_t> getArgument(BitBuffer & bb, uint32_t offset)
+		IArgument * getArgument(const BitBuffer & bb, uint32_t & offset)
 		{
 			IArgument * arg = nullptr;
-			uint32_t newOffset;
 
 			auto argType = bb.getU8(offset, 1);
 			if (argType == 0) {
 				// Argument - index of a register
 				auto regIndex = bb.getU8(offset + 1, 4, true);
+
+				offset += 5;
 				arg = new RegisterArgument{ regIndex };
-				newOffset = offset + 5;
 			}
 			else {
 				// Memory argument
 				auto memorySize = bb.getU8(offset + 1, 2);
 				auto regIndex = bb.getU8(offset + 3, 4, true);
+				offset += 7;
 
 				switch (memorySize) {
 				case 0:
@@ -33,35 +34,37 @@ namespace Evm {
 					// TODO
 					arg = new TmpArgument(12);
 				}
-
-				newOffset = offset + 7;
 			}
 
-			return make_pair(arg, newOffset);;
+			return arg;
 		}
 
 		/*
 		Acquire constant form the bit stram
 		*/
-		uint64_t getConstant(BitBuffer & bb, uint32_t offset)
+		uint64_t getConstant(const BitBuffer & bb, uint32_t & offset)
 		{
 			//if (offset + 64 > bb.size()) {
 			//	throw runtime_error("Unexpected end of file while loading constant");
 			//}
 
-			return bb.getU64(offset, 64, true);
+			auto res = bb.getU64(offset, 64, true);
+			offset += 64;
+			return res;
 		}
 
 		/*
 		Acquire instruction address form the bit stream
 		*/
-		uint32_t getAddress(BitBuffer & bb, uint32_t offset)
+		uint32_t getAddress(const BitBuffer & bb, uint32_t & offset)
 		{
 			//if (offset + 32 > bb.size()) {
 			//	throw runtime_error("Unexpected end of file while loading address");
 			//}
 
-			return bb.getU32(offset, 32, true);
+			auto res = bb.getU32(offset, 32, true);
+			offset += 32;
+			return res;
 		}
 
 
