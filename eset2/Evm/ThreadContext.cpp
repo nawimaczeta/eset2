@@ -3,6 +3,7 @@
 #include "OperationFactory.h"
 
 namespace Evm {
+	uint32_t ThreadContext::_currentThreadID = 0;
 
 	ThreadContext::ThreadContext(Application *application) :
 		_id{ _currentThreadID++ },
@@ -25,7 +26,15 @@ namespace Evm {
 		_isRunning = true;
 
 		while (_isRunning) {
-			auto operation = Operation::makeOperation(_parent->programMemory(), _programCounter);
+			try {
+				auto tmpProgramCounter = _programCounter;
+				auto operation = Operation::makeOperation(_parent->programMemory(), tmpProgramCounter);
+				operation->execute(*this);
+				_programCounter = tmpProgramCounter;
+			}
+			catch (RuntimeError & e) {
+				throw ThreadError{ *this, e };
+			}
 		}
 	}
 
@@ -47,9 +56,24 @@ namespace Evm {
 		return _registerList.at(index);
 	}
 
+	uint32_t ThreadContext::id() const
+	{
+		return _id;
+	}
+
+	uint32_t ThreadContext::programCounter() const
+	{
+		return _programCounter;
+	}
+
 	Application * ThreadContext::application()
 	{
 		return _parent;
+	}
+
+	void ThreadContext::terminate()
+	{
+		_isRunning = false;
 	}
 
 }

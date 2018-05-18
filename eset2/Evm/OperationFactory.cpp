@@ -5,172 +5,168 @@
 
 namespace Evm {
 	namespace Operation {
-		OperationPtr MovOperationFactory::build()
+		OperationPtr MovOperationFactory::build(uint32_t & offset)
 		{
-			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, IOperationFactory::_offset);
-			auto arg2 = Argument::getArgument(IOperationFactory::_programMemory, IOperationFactory::_offset);
+			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, offset);
+			auto arg2 = Argument::getArgument(IOperationFactory::_programMemory, offset);
 
 			return make_unique<MovOperation>(arg1, arg2);
 		}
 
-		OperationPtr LoadConstOperationFactory::build()
+		OperationPtr LoadConstOperationFactory::build(uint32_t & offset)
 		{
-			auto constant = Argument::getConstant(IOperationFactory::_programMemory, IOperationFactory::_offset);
-			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, IOperationFactory::_offset);
+			auto constant = Argument::getConstant(IOperationFactory::_programMemory, offset);
+			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, offset);
 
 			return make_unique<LoadConstOperation>(constant, arg1);
 		}
 
-		MathOperationFactory::MathOperationFactory(const BitBuffer & bb, uint32_t & offset, function<int64_t(int64_t, int64_t)> function) :
-			IOperationFactory{bb, offset },
+		MathOperationFactory::MathOperationFactory(const BitBuffer & bb, function<int64_t(int64_t, int64_t)> function) :
+			IOperationFactory{ bb },
 			_function{ function }
 		{}
 
-		OperationPtr MathOperationFactory::build()
+		OperationPtr MathOperationFactory::build(uint32_t & offset)
 		{
-			//return _makeMathExpression(bs, 6, [](int64_t a, int64_t b) {return a + b; });
-			//	break;
-			//case _SUB_OPCODE:
-			//	return _makeMathExpression(bs, 6, [](int64_t a, int64_t b) {return a - b; });
-			//	break;
-			//case _DIV_OPCODE:
-			//	return _makeMathExpression(bs, 6, [](int64_t a, int64_t b) {return a / b; });
-			//	break;
-			//case _MOD_OPCODE:
-			//	return _makeMathExpression(bs, 6, [](int64_t a, int64_t b) {return a % b; });
-			//	break;
-			//case _MUL_OPCODE:
-			//	return _makeMathExpression(bs, 6, [](int64_t a, int64_t b) {return a * b; });
-			//	break;
-			//}
-
-			//// detect compare opcode. Compare operation can be implemented as MathOperation object
-			//uint32_t compareMaskedOpcode = opcode & _COMPARE_OPCODE_MASK;
-			//if (compareMaskedOpcode == _COMPARE_OPCODE) {
-			//	return _makeMathExpression(bs, 5, [](int64_t a, int64_t b) {
-			//		if (a < b) return -1;
-			//		else if (a == b) return 0;
-			//		else return 1;
-			//	});
-			//}
-
-			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, IOperationFactory::_offset);
-			auto arg2 = Argument::getArgument(IOperationFactory::_programMemory, IOperationFactory::_offset);
-			auto arg3 = Argument::getArgument(IOperationFactory::_programMemory, IOperationFactory::_offset);
+			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, offset);
+			auto arg2 = Argument::getArgument(IOperationFactory::_programMemory, offset);
+			auto arg3 = Argument::getArgument(IOperationFactory::_programMemory, offset);
 
 			return make_unique<MathOperation>(arg1, arg2, arg3, _function);
 		}
 
-		OperationPtr ConsoleWriteOperationFactory::build(uint8_t opcode, BitStream & bs)
+		OperationPtr HltOperationFactory::build(uint32_t & offset)
 		{
-			uint32_t maskedOpcode = opcode & _MASK;
-			if (maskedOpcode == _OPCODE) {
-				auto offset = bs.position();
-				bs.pop(5);
+			return make_unique<HltOperation>();
+		}
 
-				auto arg1 = EvmArgument::getArgument(bs);
+		OperationPtr ConsoleWriteOperationFactory::build(uint32_t & offset)
+		{
+			auto arg1 = Argument::getArgument(_programMemory, offset);
 
-				auto operation = make_unique<ConsoleWriteOperation>(offset, arg1);
-				return move(operation);
-			}
-			else {
-				return IOperationFactory::build(opcode, bs);
-			}
+			return make_unique<ConsoleWriteOperation>(arg1);
 		}
 
 		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset)
 		{
-			OperationPtr operation = nullptr;
+			unique_ptr<IOperationFactory> factory = nullptr;
+			uint32_t tmpOffset;
 			uint32_t opcode;
 
 			// detect 3-bit operations
 			opcode = bb.getU32(offset, 3);
+			tmpOffset = offset + 3;
 			switch (opcode) {
 			case OPCODE_3BIT_MOV:
-				return MovOperationFactory{ bb, offset }.build();
+				factory = make_unique<MovOperationFactory>(bb);
 				break;
 			case OPCODE_3BIT_LOAD_CONSTANT:
-				return LoadConstOperationFactory{}.build(bb, offset);
+				factory = make_unique<LoadConstOperationFactory>(bb);
 				break;
 			}
-
-			// detect 4-bit operations
-			opcode = bb.getU32(offset, 4);
-			switch (opcode) {
-			case OPCODE_4BIT_CALL:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_4BIT_RET:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_4BIT_LOCK:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_4BIT_UNLOCK:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
+			
+			if (!factory) {
+				// detect 4-bit operations
+				tmpOffset = offset + 4;
+				opcode = bb.getU32(offset, 4);
+				switch (opcode) {
+				case OPCODE_4BIT_CALL:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_4BIT_RET:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_4BIT_LOCK:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_4BIT_UNLOCK:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				}
 			}
 
-			// detect 5-bit operations
-			opcode = bb.getU32(offset, 5);
-			switch (opcode) {
-			case OPCODE_5BIT_COMPARE:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_JUMP:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_JUMP_EQUAL:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_READ:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_WRITE:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_CONSOLE_READ:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_CONSOLE_WRITE:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_CREATE_THREAD:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_JOIN_THREAD:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_HLT:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_5BIT_SLEEP:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
+			if (!factory) {
+				// detect 5-bit operations
+				tmpOffset = offset + 5;
+				opcode = bb.getU32(offset, 5);
+				switch (opcode) {
+				case OPCODE_5BIT_COMPARE:
+					factory = make_unique<MathOperationFactory>(bb,
+						[](int64_t a, int64_t b) {
+								if (a < b) return -1;
+								else if (a == b) return 0;
+								else return 1;
+							});
+					break;
+				case OPCODE_5BIT_JUMP:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_JUMP_EQUAL:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_READ:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_WRITE:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_CONSOLE_READ:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_CONSOLE_WRITE:
+					factory = make_unique<ConsoleWriteOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_CREATE_THREAD:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_JOIN_THREAD:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_HLT:
+					//factory = make_unique<HltOperationFactory>(bb);
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				case OPCODE_5BIT_SLEEP:
+					factory = make_unique<NotImplementedOperationFactory>(bb);
+					break;
+				}
 			}
 
-			// detect 6-bit operations
-			opcode = bb.getU32(offset, 6);
-			switch (opcode) {
-			case OPCODE_6BIT_ADD:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_6BIT_SUB:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_6BIT_DIV:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_6BIT_MOD:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
-			case OPCODE_6BIT_MUL:
-				return UnsupportedOperationFactory{}.build(bb, offset);
-				break;
+			if (!factory) {
+				// detect 6-bit operations
+				tmpOffset = offset + 6;
+				opcode = bb.getU32(offset, 6);
+				switch (opcode) {
+				case OPCODE_6BIT_ADD:
+					factory = make_unique<MathOperationFactory>(bb, 
+						[](int64_t a, int64_t b) {return a + b; });
+					break;
+				case OPCODE_6BIT_SUB:
+					factory = make_unique<MathOperationFactory>(bb, 
+						[](int64_t a, int64_t b) {return a - b; });
+					break;
+				case OPCODE_6BIT_DIV:
+					factory = make_unique<MathOperationFactory>(bb, 
+						[](int64_t a, int64_t b) {return a / b; });
+					break;
+				case OPCODE_6BIT_MOD:
+					factory = make_unique<MathOperationFactory>(bb, 
+						[](int64_t a, int64_t b) {return a % b; });
+					break;
+				case OPCODE_6BIT_MUL:
+					factory = make_unique<MathOperationFactory>(bb, 
+						[](int64_t a, int64_t b) {return a * b; });
+					break;
+				}
 			}
 
-			// unknown operation
-			return UnsupportedOperationFactory{}.build(bb, offset);
+			if (!factory) {
+				// not supported opcode
+				factory = make_unique<UnsupportedOperationFactory>(bb);
+			}
+
+			offset = tmpOffset;
+			return factory->build(offset);
 		}
-}
+	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "Application.h"
+#include "RuntimeError.h"
 
 namespace Evm {
 
@@ -9,11 +9,14 @@ namespace Evm {
 	struct ThreadContext {
 		ThreadContext(Application *application);
 		ThreadContext(const ThreadContext & tc, uint32_t address);
-		void run();
 
+		void run();
 		void reg(uint8_t index, uint64_t value);
 		uint64_t reg(uint8_t index) const;
+		uint32_t id() const;
+		uint32_t programCounter() const;
 		Application *application();
+		void terminate();
 	private:
 		uint32_t _id;
 		Application * _parent;
@@ -23,5 +26,20 @@ namespace Evm {
 		bool _isRunning = false;
 
 		static uint32_t _currentThreadID;
+	};
+
+	struct ThreadError : runtime_error {
+		ThreadError(ThreadContext & thread, RuntimeError & runtimeError) :
+			runtime_error{ _message(thread, runtimeError)}
+		{}
+
+	private:
+		string _message(ThreadContext & thread, RuntimeError & runtimeError) {
+			ostringstream oss;
+			oss << "Thread " << thread.id() << 
+				" error at " << thread.programCounter() << ": " << 
+				runtimeError.what() << "\n";
+			return oss.str();
+		}
 	};
 }

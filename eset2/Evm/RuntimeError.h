@@ -10,13 +10,15 @@ namespace Evm {
 		{}
 	};
 
-	struct UnknownOperationRuntimeError : RuntimeError {
-		UnknownOperationRuntimeError() :
-			RuntimeError{ "Unknown operation" }
+	struct NotImplementedOperationRuntimeError : RuntimeError {
+		NotImplementedOperationRuntimeError() :
+			RuntimeError{ "Opcode not implemented" }
 		{}
 	};
 
-	struct InstructionRuntimeError : RuntimeError {
-		//InstructionRuntimeError()
+	struct UnknownOperationRuntimeError : RuntimeError {
+		UnknownOperationRuntimeError() :
+			RuntimeError{ "Unknown opcode" }
+		{}
 	};
 }

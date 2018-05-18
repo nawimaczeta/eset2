@@ -54,7 +54,7 @@ namespace Evm {
 			MathOperation(Argument::IArgument *arg1,
 				Argument::IArgument *arg2, Argument::IArgument *arg3,
 				function<int64_t(int64_t, int64_t)> mathOperation) :
-				_arg1{ arg1 }, _arg2{ arg2 }, _arg3{ arg3 }
+				_arg1{ arg1 }, _arg2{ arg2 }, _arg3{ arg3 }, _mathOperation{ mathOperation }
 			{}
 
 			~MathOperation() {
@@ -92,13 +92,19 @@ namespace Evm {
 
 			virtual void execute(ThreadContext & thread) {
 				uint64_t value = _arg1->getValue(thread);
-				ios_base::fmtflags f(cout.flags());
+				ios_base::fmtflags flags{ cout.flags() };
 				cout << "0x" << setfill('0') << setw(16) << hex << value << "\n";
-				cout.flags(f);
+				cout.flags(flags);
 			}
 
 		private:
 			Argument::IArgument * _arg1;
+		};
+
+		struct HltOperation : IOperation {
+			virtual void execute(ThreadContext & thread) {
+				thread.terminate();
+			}
 		};
 	}
 }

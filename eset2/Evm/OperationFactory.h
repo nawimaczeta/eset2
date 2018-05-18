@@ -33,13 +33,15 @@ namespace Evm {
 		Interface that creates IOperation objects.
 		*/
 		struct IOperationFactory {
-			IOperationFactory(const BitBuffer & bb, uint32_t & offset);
+			IOperationFactory(const BitBuffer & programMemory) :
+				_programMemory{ programMemory }
+			{}
+
 			virtual ~IOperationFactory() = default;
-			virtual OperationPtr build() = 0;
+			virtual OperationPtr build(uint32_t & offset) = 0;
 
 		protected:
 			const BitBuffer & _programMemory;
-			uint32_t & _offset;
 		};
 
 		/*
@@ -47,10 +49,27 @@ namespace Evm {
 		*/
 		struct UnsupportedOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build() {
-				(void));
-				throw runtime_error("Unknown opcode at position " + to_string(bs.position()));
+			virtual OperationPtr build(uint32_t & offset) {
+				throw UnknownOperationRuntimeError{};
 			}
+		};
+
+		/*
+		Last link of the responsibility chain. When cought, throw unknown operation exception
+		*/
+		struct NotImplementedOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				throw NotImplementedOperationRuntimeError{};
+			}
+		};
+
+		/*
+		Factory that makes LoadConstOperation objects
+		*/
+		struct HltOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
 		};
 
 		/*
@@ -58,7 +77,7 @@ namespace Evm {
 		*/
 		struct MovOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build();
+			virtual OperationPtr build(uint32_t & offset);
 		};
 
 		/*
@@ -66,17 +85,15 @@ namespace Evm {
 		*/
 		struct LoadConstOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build();
+			virtual OperationPtr build(uint32_t & offset);
 		};
-
-
 
 		/*
 		Factory that makes MovOperation objects
 		*/
 		struct ConsoleWriteOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build();
+			virtual OperationPtr build(uint32_t & offset);
 		};
 
 		/*
@@ -84,8 +101,8 @@ namespace Evm {
 		MathOperation class
 		*/
 		struct MathOperationFactory : IOperationFactory {
-			MathOperationFactory(const BitBuffer & bb, uint32_t & offset, function<int64_t(int64_t, int64_t)> function);
-			OperationPtr build();
+			MathOperationFactory(const BitBuffer & bb, function<int64_t(int64_t, int64_t)> function);
+			OperationPtr build(uint32_t & offset);
 
 		private:
 			function<int64_t(int64_t, int64_t)> _function;

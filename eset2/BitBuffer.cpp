@@ -123,8 +123,9 @@ uint8_t BitBuffer::getU8(uint32_t bitAddress, uint32_t size, bool reversed) cons
 	uint32_t currentByte = bitAddress / 8;
 	uint32_t currentBit = bitAddress % 8;
 	uint8_t res = 0;
+	uint32_t tmpSize = size;
 
-	while (size > 0) {
+	while (tmpSize > 0) {
 		if (currentByte > _data.size()) {
 			throw out_of_range{ "" };
 		}
@@ -144,12 +145,16 @@ uint8_t BitBuffer::getU8(uint32_t bitAddress, uint32_t size, bool reversed) cons
 
 		res |= bit;
 
-		size--;
+		tmpSize--;
 		currentBit++;
 		if (currentBit > 7) {
 			currentBit = 0;
 			currentByte++;
 		}
+	}
+
+	if (reversed) {
+		res >>= (8 - size);
 	}
 	return res;
 }

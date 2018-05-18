@@ -23,6 +23,7 @@
 #include <functional>
 #include <iomanip>
 #include <ios>
+#include <sstream>
 using namespace std;
 
 using Byte = uint8_t;
