@@ -10,7 +10,9 @@ int main()
 {
 	//const string EVM_FILE_NAME{ "in.evm" };
 	//const string EVM_FILE_NAME{ "math.evm" };
-	const string EVM_FILE_NAME{ "memory.evm" };
+	//const string EVM_FILE_NAME{ "memory.evm" };
+	//const string EVM_FILE_NAME{ "xor.evm" };
+	const string EVM_FILE_NAME{ "xor-with-stack-frame.evm" };
 
 	try {
 		auto evm = Evm::File::makeEvmFromFile(EVM_FILE_NAME);
@@ -23,6 +25,7 @@ int main()
 		cout << e.what();
 	}
 
+	getchar();
 	getchar();
     return 0;
 }

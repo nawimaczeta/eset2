@@ -96,6 +96,31 @@ namespace Evm {
 			virtual OperationPtr build(uint32_t & offset);
 		};
 
+		struct ConsoleReadOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct CallOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct RetOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct JumpEqualOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct JumpOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
 		/*
 		Factory that makes MathOperation objects. Detect math operation from opcode and create correct
 		MathOperation class

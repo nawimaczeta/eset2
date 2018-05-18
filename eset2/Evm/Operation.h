@@ -101,10 +101,88 @@ namespace Evm {
 			Argument::IArgument * _arg1;
 		};
 
+		struct ConsoleReadOperation : IOperation {
+			ConsoleReadOperation(Argument::IArgument *arg1) :
+				_arg1{ arg1 }
+			{}
+
+			~ConsoleReadOperation() {
+				delete _arg1;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				uint16_t input;
+				ios_base::fmtflags flags{ cin.flags() };
+				cin >> hex >> input;
+				cin.flags(flags);
+				_arg1->setValue(thread, input);
+			}
+
+		private:
+			Argument::IArgument * _arg1;
+		};
+
+		struct CallOperation : IOperation {
+			CallOperation(uint32_t address) :
+				_address{ address }
+			{}
+
+			virtual void execute(ThreadContext & thread) {
+				thread.push(thread.programCounter());
+				thread.programCounter(_address);
+			}
+
+		private:
+			uint32_t _address;
+		};
+
+		struct JumpOperation : IOperation {
+			JumpOperation(uint32_t address) :
+				_address{ address }
+			{}
+
+			virtual void execute(ThreadContext & thread) {
+				thread.programCounter(_address);
+			}
+
+		private:
+			uint32_t _address;
+		};
+
 		struct HltOperation : IOperation {
 			virtual void execute(ThreadContext & thread) {
 				thread.terminate();
 			}
+		};
+
+		struct RetOperation : IOperation {
+			virtual void execute(ThreadContext & thread) {
+				thread.programCounter(thread.pop());
+			}
+		};
+
+		struct JumpEqualOperation : IOperation {
+			JumpEqualOperation(uint32_t address, 
+				Argument::IArgument *arg1, Argument::IArgument *arg2) :
+				_address{ address }, _arg1{ arg1 }, _arg2{ arg2 }
+			{}
+
+			~JumpEqualOperation() {
+				delete _arg1, _arg2;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				auto arg1Value = _arg1->getValue(thread);
+				auto arg2Value = _arg2->getValue(thread);
+				if (arg1Value == arg2Value) {
+					thread.programCounter(_address);
+				}
+			}
+
+		private:
+			uint32_t _address;
+			Argument::IArgument *_arg1;
+			Argument::IArgument *_arg2;
 		};
 	}
 }

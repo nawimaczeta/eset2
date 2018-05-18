@@ -29,8 +29,8 @@ namespace Evm {
 			try {
 				auto tmpProgramCounter = _programCounter;
 				auto operation = Operation::makeOperation(_parent->programMemory(), tmpProgramCounter);
-				operation->execute(*this);
 				_programCounter = tmpProgramCounter;
+				operation->execute(*this);
 			}
 			catch (RuntimeError & e) {
 				throw ThreadError{ *this, e };
@@ -64,6 +64,23 @@ namespace Evm {
 	uint32_t ThreadContext::programCounter() const
 	{
 		return _programCounter;
+	}
+
+	void ThreadContext::programCounter(uint32_t newValue)
+	{
+		_programCounter = newValue;
+	}
+
+	void ThreadContext::push(uint32_t value)
+	{
+		_callStack.push(value);
+	}
+
+	uint32_t ThreadContext::pop()
+	{
+		uint32_t value = _callStack.top();
+		_callStack.pop();
+		return value;
 	}
 
 	Application * ThreadContext::application()

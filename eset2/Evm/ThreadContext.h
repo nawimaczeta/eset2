@@ -15,6 +15,9 @@ namespace Evm {
 		uint64_t reg(uint8_t index) const;
 		uint32_t id() const;
 		uint32_t programCounter() const;
+		void programCounter(uint32_t newValue);
+		void push(uint32_t value);
+		uint32_t pop();
 		Application *application();
 		void terminate();
 	private:
@@ -22,7 +25,7 @@ namespace Evm {
 		Application * _parent;
 		uint32_t _programCounter;
 		array<uint64_t, 16> _registerList;
-		stack<uint32_t> _stack;
+		stack<uint32_t> _callStack;
 		bool _isRunning = false;
 
 		static uint32_t _currentThreadID;

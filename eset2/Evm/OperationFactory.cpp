@@ -47,6 +47,41 @@ namespace Evm {
 			return make_unique<ConsoleWriteOperation>(arg1);
 		}
 
+		OperationPtr ConsoleReadOperationFactory::build(uint32_t & offset)
+		{
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<ConsoleReadOperation>(arg1);
+		}
+
+		OperationPtr CallOperationFactory::build(uint32_t & offset)
+		{
+			uint32_t address = Argument::getAddress(_programMemory, offset);
+
+			return make_unique<CallOperation>(address);
+		}
+
+		OperationPtr RetOperationFactory::build(uint32_t & offset)
+		{
+			return make_unique<RetOperation>();
+		}
+
+		OperationPtr JumpEqualOperationFactory::build(uint32_t & offset)
+		{
+			uint32_t address = Argument::getAddress(_programMemory, offset);
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+			auto arg2 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<JumpEqualOperation>(address, arg1, arg2);
+		}
+
+		OperationPtr JumpOperationFactory::build(uint32_t & offset)
+		{
+			uint32_t address = Argument::getAddress(_programMemory, offset);
+
+			return make_unique<JumpOperation>(address);
+		}
+
 		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset)
 		{
 			unique_ptr<IOperationFactory> factory = nullptr;
@@ -71,10 +106,10 @@ namespace Evm {
 				opcode = bb.getU32(offset, 4);
 				switch (opcode) {
 				case OPCODE_4BIT_CALL:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<CallOperationFactory>(bb);
 					break;
 				case OPCODE_4BIT_RET:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<RetOperationFactory>(bb);
 					break;
 				case OPCODE_4BIT_LOCK:
 					factory = make_unique<NotImplementedOperationFactory>(bb);
@@ -99,10 +134,10 @@ namespace Evm {
 							});
 					break;
 				case OPCODE_5BIT_JUMP:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<JumpOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_JUMP_EQUAL:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<JumpEqualOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_READ:
 					factory = make_unique<NotImplementedOperationFactory>(bb);
@@ -111,7 +146,7 @@ namespace Evm {
 					factory = make_unique<NotImplementedOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_CONSOLE_READ:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<ConsoleReadOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_CONSOLE_WRITE:
 					factory = make_unique<ConsoleWriteOperationFactory>(bb);
@@ -167,5 +202,5 @@ namespace Evm {
 			offset = tmpOffset;
 			return factory->build(offset);
 		}
-	}
+}
 }
