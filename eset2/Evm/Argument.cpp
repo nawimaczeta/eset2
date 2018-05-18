@@ -4,6 +4,13 @@
 
 namespace Evm {
 	namespace Argument {
+		union ConvertUnion {
+			uint64_t u64;
+			uint32_t u32[2];
+			uint16_t u16[4];
+			uint8_t u8[8];
+		};
+
 		/*
 		Acquire argument form the bit stram
 		*/
@@ -21,7 +28,7 @@ namespace Evm {
 			}
 			else {
 				// Memory argument
-				auto memorySize = bb.getU8(offset + 1, 2);
+				auto memorySize = bb.getU8(offset + 1, 2, true);
 				auto regIndex = bb.getU8(offset + 3, 4, true);
 				offset += 7;
 
@@ -30,9 +37,18 @@ namespace Evm {
 					// byte access
 					arg = new MemoryBYTEArgument(regIndex);
 					break;
-				default:
-					// TODO
-					arg = new TmpArgument(12);
+				case 1:
+					// byte access
+					arg = new MemoryWORDArgument(regIndex);
+					break;
+				case 2:
+					// byte access
+					arg = new MemoryDWORDArgument(regIndex);
+					break;
+				case 3:
+					// byte access
+					arg = new MemoryQWORDArgument(regIndex);
+					break;
 				}
 			}
 
@@ -78,13 +94,9 @@ namespace Evm {
 			thread.reg(_regIndex, value);
 		}
 
-		MemoryBYTEArgument::MemoryBYTEArgument(uint8_t regIndex) :
-			_regIndex{ regIndex }
-		{}
-
 		uint64_t MemoryBYTEArgument::getValue(ThreadContext & thread) const
 		{
-			auto memory = thread.application()->dataMemory();
+			Memory & memory = thread.application()->dataMemory();
 			uint64_t address = thread.reg(_regIndex);
 
 			Bytes data = memory.read(address, 1);
@@ -93,12 +105,110 @@ namespace Evm {
 		}
 		void MemoryBYTEArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
-			auto memory = thread.application()->dataMemory();
+			Memory & memory = thread.application()->dataMemory();
 			uint64_t address = thread.reg(_regIndex);
 
 			Byte byte = static_cast<Byte>(value);
 			Bytes data{ byte };
 			memory.write(address, data);
 		}
-	}
+
+		uint64_t MemoryWORDArgument::getValue(ThreadContext & thread) const
+		{
+			Memory & memory = thread.application()->dataMemory();
+			uint64_t address = thread.reg(_regIndex);
+
+			Bytes data = memory.read(address, 2);
+
+			ConvertUnion cu;
+			cu.u8[0] = data.at(0);
+			cu.u8[1] = data.at(1);
+
+			return static_cast<uint64_t>(cu.u16[0]);
+		}
+
+		void MemoryWORDArgument::setValue(ThreadContext & thread, uint64_t value)
+		{
+			Memory & memory = thread.application()->dataMemory();
+			uint64_t address = thread.reg(_regIndex);
+
+			ConvertUnion cu;
+			cu.u64 = value;
+			Byte byte0 = static_cast<Byte>(cu.u8[0]);
+			Byte byte1 = static_cast<Byte>(cu.u8[1]);
+
+			Bytes data{ byte0, byte1 };
+			memory.write(address, data);
+		}
+
+		uint64_t MemoryDWORDArgument::getValue(ThreadContext & thread) const
+		{
+			Memory & memory = thread.application()->dataMemory();
+			uint64_t address = thread.reg(_regIndex);
+
+			Bytes data = memory.read(address, 4);
+
+			ConvertUnion cu;
+			cu.u8[0] = data.at(0);
+			cu.u8[1] = data.at(1);
+			cu.u8[2] = data.at(2);
+			cu.u8[3] = data.at(3);
+
+			return static_cast<uint64_t>(cu.u32[0]);
+		}
+
+		void MemoryDWORDArgument::setValue(ThreadContext & thread, uint64_t value)
+		{
+			Memory & memory = thread.application()->dataMemory();
+			uint64_t address = thread.reg(_regIndex);
+
+			ConvertUnion cu;
+			cu.u64 = value;
+			Byte byte0 = static_cast<Byte>(cu.u8[0]);
+			Byte byte1 = static_cast<Byte>(cu.u8[1]);
+			Byte byte2 = static_cast<Byte>(cu.u8[2]);
+			Byte byte3 = static_cast<Byte>(cu.u8[3]);
+
+			Bytes data{ byte0, byte1, byte2, byte3 };
+			memory.write(address, data);
+		}
+		uint64_t MemoryQWORDArgument::getValue(ThreadContext & thread) const
+		{
+			Memory & memory = thread.application()->dataMemory();
+			uint64_t address = thread.reg(_regIndex);
+
+			Bytes data = memory.read(address, 8);
+
+			ConvertUnion cu;
+			cu.u8[0] = data.at(0);
+			cu.u8[1] = data.at(1);
+			cu.u8[2] = data.at(2);
+			cu.u8[3] = data.at(3);
+			cu.u8[4] = data.at(4);
+			cu.u8[5] = data.at(5);
+			cu.u8[6] = data.at(6);
+			cu.u8[7] = data.at(7);
+
+			return cu.u64;
+		}
+		void MemoryQWORDArgument::setValue(ThreadContext & thread, uint64_t value)
+		{
+			Memory & memory = thread.application()->dataMemory();
+			uint64_t address = thread.reg(_regIndex);
+
+			ConvertUnion cu;
+			cu.u64 = value;
+			Byte byte0 = static_cast<Byte>(cu.u8[0]);
+			Byte byte1 = static_cast<Byte>(cu.u8[1]);
+			Byte byte2 = static_cast<Byte>(cu.u8[2]);
+			Byte byte3 = static_cast<Byte>(cu.u8[3]);
+			Byte byte4 = static_cast<Byte>(cu.u8[4]);
+			Byte byte5 = static_cast<Byte>(cu.u8[5]);
+			Byte byte6 = static_cast<Byte>(cu.u8[6]);
+			Byte byte7 = static_cast<Byte>(cu.u8[7]);
+
+			Bytes data{ byte0, byte1, byte2, byte3, byte4, byte5, byte6, byte7 };
+			memory.write(address, data);
+		}
+}
 }

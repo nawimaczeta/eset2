@@ -7,35 +7,52 @@
 namespace Evm {
 	namespace Argument {
 		struct IArgument {
+			IArgument(uint8_t registerIndex) :
+				_regIndex{ registerIndex }
+			{}
+
 			virtual ~IArgument() = default;
 			virtual uint64_t getValue(ThreadContext & thread) const = 0;
 			virtual void setValue(ThreadContext & thread, uint64_t value) = 0;
+		protected:
+			uint8_t _regIndex;
 		};
 
 		struct RegisterArgument : IArgument {
-			RegisterArgument(uint8_t regIndex) :
-				_regIndex{ regIndex }
-			{}
+			using IArgument::IArgument;
 
 			virtual uint64_t getValue(ThreadContext & thread) const;
 			virtual void setValue(ThreadContext & thread, uint64_t value);
-
-		private:
-			uint8_t _regIndex;
 		};
 
 		struct MemoryBYTEArgument : IArgument {
-			MemoryBYTEArgument(uint8_t regIndex);
+			using IArgument::IArgument;
 			virtual uint64_t getValue(ThreadContext & thread) const;
 			virtual void setValue(ThreadContext & thread, uint64_t value);
+		};
 
-		private:
-			uint8_t _regIndex;
+		struct MemoryWORDArgument : IArgument {
+			using IArgument::IArgument;
+			virtual uint64_t getValue(ThreadContext & thread) const;
+			virtual void setValue(ThreadContext & thread, uint64_t value);
+		};
+
+		struct MemoryDWORDArgument : IArgument {
+			using IArgument::IArgument;
+			virtual uint64_t getValue(ThreadContext & thread) const;
+			virtual void setValue(ThreadContext & thread, uint64_t value);
+		};
+
+		struct MemoryQWORDArgument : IArgument {
+			using IArgument::IArgument;
+			virtual uint64_t getValue(ThreadContext & thread) const;
+			virtual void setValue(ThreadContext & thread, uint64_t value);
 		};
 
 		struct TmpArgument : IArgument {
 			TmpArgument(uint64_t value) :
-				_value(value)
+				_value(value),
+				IArgument{0}
 			{}
 
 			virtual uint64_t getValue(ThreadContext & thread) const {

@@ -123,8 +123,7 @@ namespace Evm {
 					factory = make_unique<NotImplementedOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_HLT:
-					//factory = make_unique<HltOperationFactory>(bb);
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<HltOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_SLEEP:
 					factory = make_unique<NotImplementedOperationFactory>(bb);

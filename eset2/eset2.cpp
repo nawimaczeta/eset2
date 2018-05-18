@@ -9,7 +9,8 @@
 int main()
 {
 	//const string EVM_FILE_NAME{ "in.evm" };
-	const string EVM_FILE_NAME{ "math.evm" };
+	//const string EVM_FILE_NAME{ "math.evm" };
+	const string EVM_FILE_NAME{ "memory.evm" };
 
 	try {
 		auto evm = Evm::File::makeEvmFromFile(EVM_FILE_NAME);
