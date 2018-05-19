@@ -15,17 +15,14 @@ int main(int argc, char** argv)
 	//try {
 	//	TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
 	//	TCLAP::UnlabeledValueArg<string> evmFilenameArg("evm", "evm file name", true, "", "filename");
-	//	TCLAP::ValueArg<std::string> inputFilenameArg("i", "input_file", "Input file", false, "in", "filename");
-	//	TCLAP::ValueArg<std::string> outputFilenameArg("o", "output_file", "Output file", false, "out", "filename");
+	//	TCLAP::ValueArg<std::string> filenameArg("i", "input_file", "Input file", false, "in", "filename");
 	//	cmd.add(evmFilenameArg);
-	//	cmd.add(inputFilenameArg);
-	//	cmd.add(outputFilenameArg);
+	//	cmd.add(filenameArg);
 
 	//	cmd.parse(argc, argv);
 
 	//	evmFilename = evmFilenameArg.getValue();
-	//	inputFilename = inputFilenameArg.getValue();
-	//	outputFilename = outputFilenameArg.getValue();
+	//	filename = filenameArg.getValue();
 	//}
 	//catch (TCLAP::ArgException &e)  // catch any exceptions
 	//{
@@ -36,7 +33,8 @@ int main(int argc, char** argv)
 	//const string EVM_FILE_NAME{ "input/memory.evm" };
 	//const string EVM_FILE_NAME{ "input/xor.evm" };
 	//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
-	const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
+	//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
+	const string EVM_FILE_NAME{ "input/threadingBase.evm" };
 
 	try {
 		auto evm = Evm::File::makeEvmFromFile(EVM_FILE_NAME);
@@ -45,6 +43,7 @@ int main(int argc, char** argv)
 		cout << *evm;
 		Evm::Application app{ *evm };
 		app.run();
+		app.join();
 	}
 	catch (exception & e) {
 		cout << e.what();

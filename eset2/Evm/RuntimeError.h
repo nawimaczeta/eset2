@@ -21,4 +21,10 @@ namespace Evm {
 			RuntimeError{ "Unknown opcode" }
 		{}
 	};
+
+	struct UnknownThreadRuntimeError : RuntimeError {
+		UnknownThreadRuntimeError(uint64_t threadID) :
+			RuntimeError{ "Thread " + to_string(threadID) + " doesn't exist" }
+		{}
+	};
 }

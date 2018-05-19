@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "ThreadContext.h"
 #include "Argument.h"
+#include "Application.h"
 
 namespace Evm {
 	namespace Operation {
@@ -183,6 +184,44 @@ namespace Evm {
 			uint32_t _address;
 			Argument::IArgument *_arg1;
 			Argument::IArgument *_arg2;
+		};
+
+		struct CreateThreadOperation : IOperation {
+			CreateThreadOperation(uint32_t address,
+				Argument::IArgument *arg1) :
+				_address{ address }, _arg1{ arg1 }
+			{}
+
+			~CreateThreadOperation() {
+				delete _arg1;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				uint64_t newThreadID = thread.application()->runNewThread(thread, _address);
+				_arg1->setValue(thread, newThreadID);
+			}
+
+		private:
+			uint32_t _address;
+			Argument::IArgument *_arg1;
+		};
+
+		struct JoinOperation : IOperation {
+			JoinOperation(Argument::IArgument *arg1) :
+				_arg1{ arg1 }
+			{}
+
+			~JoinOperation() {
+				delete _arg1;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				uint64_t threadId = _arg1->getValue(thread);
+				thread.application()->joinThread(threadId);
+			}
+
+		private:
+			Argument::IArgument * _arg1;
 		};
 	}
 }

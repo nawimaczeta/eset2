@@ -11,6 +11,7 @@ namespace Evm {
 		ThreadContext(const ThreadContext & tc, uint32_t address);
 
 		void run();
+		void join();
 		void reg(uint8_t index, uint64_t value);
 		uint64_t reg(uint8_t index) const;
 		uint32_t id() const;
@@ -22,6 +23,7 @@ namespace Evm {
 		void terminate();
 	private:
 		uint32_t _id;
+		thread _thread;
 		Application * _parent;
 		uint32_t _programCounter;
 		array<uint64_t, 16> _registerList;

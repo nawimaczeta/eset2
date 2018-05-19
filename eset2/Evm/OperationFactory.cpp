@@ -82,6 +82,21 @@ namespace Evm {
 			return make_unique<JumpOperation>(address);
 		}
 
+		OperationPtr CreateThreadOperationFactory::build(uint32_t & offset)
+		{
+			uint32_t address = Argument::getAddress(_programMemory, offset);
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<CreateThreadOperation>(address, arg1);
+		}
+
+		OperationPtr JoinOperationFactory::build(uint32_t & offset)
+		{
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<JoinOperation>(arg1);
+		}
+
 		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset)
 		{
 			unique_ptr<IOperationFactory> factory = nullptr;
@@ -152,10 +167,10 @@ namespace Evm {
 					factory = make_unique<ConsoleWriteOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_CREATE_THREAD:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<CreateThreadOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_JOIN_THREAD:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<JoinOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_HLT:
 					factory = make_unique<HltOperationFactory>(bb);

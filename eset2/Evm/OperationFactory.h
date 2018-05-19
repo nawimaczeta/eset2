@@ -121,6 +121,17 @@ namespace Evm {
 			virtual OperationPtr build(uint32_t & offset);
 		};
 
+		struct CreateThreadOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct 
+			JoinOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
 		/*
 		Factory that makes MathOperation objects. Detect math operation from opcode and create correct
 		MathOperation class

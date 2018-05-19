@@ -7,6 +7,7 @@ namespace Evm {
 
 	ThreadContext::ThreadContext(Application *application) :
 		_id{ _currentThreadID++ },
+		_thread{},
 		_parent{ application },
 		_programCounter{ 0 }
 	{
@@ -15,6 +16,7 @@ namespace Evm {
 
 	ThreadContext::ThreadContext(const ThreadContext & tc, uint32_t address) :
 		_id{ _currentThreadID++ },
+		_thread{},
 		_parent{tc._parent},
 		_programCounter{ address },
 		_registerList{ tc._registerList }
@@ -25,17 +27,26 @@ namespace Evm {
 	{
 		_isRunning = true;
 
-		while (_isRunning) {
-			try {
-				auto tmpProgramCounter = _programCounter;
-				auto operation = Operation::makeOperation(_parent->programMemory(), tmpProgramCounter);
-				_programCounter = tmpProgramCounter;
-				operation->execute(*this);
+		_thread = thread{ [&]() {
+			cout << "Thread " << _id << " is launched\n";
+			while (_isRunning) {
+				try {
+					auto tmpProgramCounter = _programCounter;
+					auto operation = Operation::makeOperation(_parent->programMemory(), tmpProgramCounter);
+					_programCounter = tmpProgramCounter;
+					operation->execute(*this);
+				}
+				catch (RuntimeError & e) {
+					throw ThreadError{ *this, e };
+				}
 			}
-			catch (RuntimeError & e) {
-				throw ThreadError{ *this, e };
-			}
-		}
+			cout << "Thread " << _id << " is about to terminate\n";
+		} };
+	}
+
+	void ThreadContext::join()
+	{
+		_thread.join();
 	}
 
 	void ThreadContext::reg(uint8_t index, uint64_t value)

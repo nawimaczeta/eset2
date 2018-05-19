@@ -9,11 +9,15 @@
 namespace Evm {
 
 	struct Application {
-		using ThreadList = vector<ThreadContext>;
+		using ThreadContexPtr = unique_ptr<ThreadContext>;
+		using ThreadList = vector<ThreadContexPtr>;
 
 		Application(Evm & evm);
 
 		void run();
+		void join();
+		uint64_t runNewThread(ThreadContext & caller, uint32_t address);
+		void joinThread(uint64_t threadId);
 		Memory & dataMemory();
 		const BitBuffer & programMemory() const;
 
@@ -22,6 +26,6 @@ namespace Evm {
 		Memory _dataMemory;
 		ThreadList _threadList;
 
-		BitBuffer _getProgramMemory(Evm & evm) const;
+		BitBuffer _extractProgramMemory(Evm & evm) const;
 	};
 }
