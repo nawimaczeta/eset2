@@ -126,8 +126,22 @@ namespace Evm {
 			virtual OperationPtr build(uint32_t & offset);
 		};
 
-		struct 
-			JoinOperationFactory : IOperationFactory {
+		struct JoinOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct SleepOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct LockOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset);
+		};
+
+		struct UnlockOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset);
 		};

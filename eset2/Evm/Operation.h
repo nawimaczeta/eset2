@@ -223,5 +223,59 @@ namespace Evm {
 		private:
 			Argument::IArgument * _arg1;
 		};
+
+		struct SleepOperation : IOperation {
+			SleepOperation(Argument::IArgument *arg1) :
+				_arg1{ arg1 }
+			{}
+
+			~SleepOperation() {
+				delete _arg1;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				uint64_t ms = _arg1->getValue(thread);
+				thread.sleep(ms);
+			}
+
+		private:
+			Argument::IArgument * _arg1;
+		};
+
+		struct LockOperation : IOperation {
+			LockOperation(Argument::IArgument *arg1) :
+				_arg1{ arg1 }
+			{}
+
+			~LockOperation() {
+				delete _arg1;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				uint64_t lockID = _arg1->getValue(thread);
+				thread.application()->lock(lockID);
+			}
+
+		private:
+			Argument::IArgument * _arg1;
+		};
+
+		struct UnlockOperation : IOperation {
+			UnlockOperation(Argument::IArgument *arg1) :
+				_arg1{ arg1 }
+			{}
+
+			~UnlockOperation() {
+				delete _arg1;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				uint64_t lockID = _arg1->getValue(thread);
+				thread.application()->unlock(lockID);
+			}
+
+		private:
+			Argument::IArgument * _arg1;
+		};
 	}
 }

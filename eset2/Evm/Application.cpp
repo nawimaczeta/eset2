@@ -50,6 +50,25 @@ namespace Evm {
 		}
 	}
 
+	void Application::lock(uint64_t lockID)
+	{
+		// get mutex or create new if it doesn't exist
+		mutex & m = _lockList[lockID];
+		m.lock();
+	}
+
+	void Application::unlock(uint64_t lockID)
+	{
+		try {
+			mutex & m = _lockList.at(lockID);
+			m.unlock();
+		}
+		catch (out_of_range & e) {
+			(void)e;
+			throw BadLockIDRuntimeError(lockID);
+		}
+	}
+
 	Memory & Application::dataMemory()
 	{
 		return _dataMemory;

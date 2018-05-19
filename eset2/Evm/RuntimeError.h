@@ -27,4 +27,10 @@ namespace Evm {
 			RuntimeError{ "Thread " + to_string(threadID) + " doesn't exist" }
 		{}
 	};
+
+	struct BadLockIDRuntimeError : RuntimeError {
+		BadLockIDRuntimeError(uint64_t id) :
+			RuntimeError{ "Lock with id " + to_string(id) + " doesn't exist" }
+		{}
+	};
 }

@@ -10,11 +10,13 @@ namespace Evm {
 		ThreadContext(Application *application);
 		ThreadContext(const ThreadContext & tc, uint32_t address);
 
+		uint32_t id() const;
+
 		void run();
 		void join();
+		void sleep(uint64_t ms);
 		void reg(uint8_t index, uint64_t value);
 		uint64_t reg(uint8_t index) const;
-		uint32_t id() const;
 		uint32_t programCounter() const;
 		void programCounter(uint32_t newValue);
 		void push(uint32_t value);

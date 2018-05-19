@@ -97,6 +97,27 @@ namespace Evm {
 			return make_unique<JoinOperation>(arg1);
 		}
 
+		OperationPtr SleepOperationFactory::build(uint32_t & offset)
+		{
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<SleepOperation>(arg1);
+		}
+
+		OperationPtr LockOperationFactory::build(uint32_t & offset)
+		{
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<LockOperation>(arg1);
+		}
+
+		OperationPtr UnlockOperationFactory::build(uint32_t & offset)
+		{
+			auto arg1 = Argument::getArgument(_programMemory, offset);
+
+			return make_unique<UnlockOperation>(arg1);
+		}
+
 		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset)
 		{
 			unique_ptr<IOperationFactory> factory = nullptr;
@@ -127,10 +148,10 @@ namespace Evm {
 					factory = make_unique<RetOperationFactory>(bb);
 					break;
 				case OPCODE_4BIT_LOCK:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<LockOperationFactory>(bb);
 					break;
 				case OPCODE_4BIT_UNLOCK:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<UnlockOperationFactory>(bb);
 					break;
 				}
 			}
@@ -176,7 +197,7 @@ namespace Evm {
 					factory = make_unique<HltOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_SLEEP:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<SleepOperationFactory>(bb);
 					break;
 				}
 			}

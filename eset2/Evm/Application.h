@@ -11,6 +11,7 @@ namespace Evm {
 	struct Application {
 		using ThreadContexPtr = unique_ptr<ThreadContext>;
 		using ThreadList = vector<ThreadContexPtr>;
+		using LockList = map<uint64_t, mutex>;
 
 		Application(Evm & evm);
 
@@ -18,6 +19,8 @@ namespace Evm {
 		void join();
 		uint64_t runNewThread(ThreadContext & caller, uint32_t address);
 		void joinThread(uint64_t threadId);
+		void lock(uint64_t lockID);
+		void unlock(uint64_t lockID);
 		Memory & dataMemory();
 		const BitBuffer & programMemory() const;
 
@@ -25,6 +28,7 @@ namespace Evm {
 		const BitBuffer _programMemory;
 		Memory _dataMemory;
 		ThreadList _threadList;
+		LockList _lockList;
 
 		BitBuffer _extractProgramMemory(Evm & evm) const;
 	};

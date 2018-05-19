@@ -34,7 +34,10 @@ int main(int argc, char** argv)
 	//const string EVM_FILE_NAME{ "input/xor.evm" };
 	//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
 	//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
-	const string EVM_FILE_NAME{ "input/threadingBase.evm" };
+	//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
+	//const string EVM_FILE_NAME{ "input/philosophers.evm" };
+	//const string EVM_FILE_NAME{ "input/lock.evm" };
+	const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
 
 	try {
 		auto evm = Evm::File::makeEvmFromFile(EVM_FILE_NAME);

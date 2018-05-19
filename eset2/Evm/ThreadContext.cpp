@@ -49,6 +49,11 @@ namespace Evm {
 		_thread.join();
 	}
 
+	void ThreadContext::sleep(uint64_t ms)
+	{
+		this_thread::sleep_for(chrono::milliseconds(ms));
+	}
+
 	void ThreadContext::reg(uint8_t index, uint64_t value)
 	{
 		if (index > _registerList.size()) {
