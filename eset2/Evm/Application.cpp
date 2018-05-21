@@ -49,10 +49,16 @@ namespace Evm {
 
 	void Application::wait()
 	{
-		// join main thread
 		//cout << "Application: joining with main thread\n";
+		// wait for main thread
 		_threadList.at(0)->join();
 		//cout << "Application: main thread is over\n";
+
+		// terminate other threads, they shouldn't run when the main thread is dead.
+		for (auto & t : _threadList) {
+			t->terminate();
+			t->join();
+		}
 	}
 
 	uint64_t Application::runNewThread(ThreadContext & caller, uint32_t address)

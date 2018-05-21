@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	try {
 		// get configuration from console
 		Evm::CliConfiguration cliConfig;				
-		//getCliConfiguration(argc, argv, cliconfig);	// get configuration from cli
+		//getCliConfiguration(argc, argv, cliConfig);		// get configuration from cli
 		getCliConfigurationHardcoded(cliConfig);		// hardcoded configuration - for tests
 
 		// Run application, wait for execution

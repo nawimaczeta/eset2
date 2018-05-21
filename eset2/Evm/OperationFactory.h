@@ -114,6 +114,7 @@ namespace Evm {
 		struct UnsupportedOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
+				(void)offset;
 				throw UnknownOperationRuntimeError{};
 			}
 		};
@@ -124,6 +125,7 @@ namespace Evm {
 		struct NotImplementedOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
+				(void)offset;
 				throw NotImplementedOperationRuntimeError{};
 			}
 		};
@@ -153,7 +155,6 @@ namespace Evm {
 		struct MathOperationFactory : IOperationFactory {
 			MathOperationFactory(const BitBuffer & bb, function<int64_t(int64_t, int64_t)> function);
 			OperationPtr build(uint32_t & offset);
-
 		private:
 			function<int64_t(int64_t, int64_t)> _function;
 		};

@@ -65,6 +65,7 @@ namespace Evm {
 		//! @brief Wait for execution
 		//!
 		//! The function waits until the main evm thread is done.
+		//! If the main thread is done, other threads are terminated and joined.
 		//! @note This is blocking function
 		//! @throw RuntimeError
 		void wait();

@@ -54,4 +54,16 @@ namespace Evm {
 			RuntimeError{ "Input file error: " + msg }
 		{}
 	};
+
+	struct BadRegisterRuntimeError : RuntimeError {
+		BadRegisterRuntimeError(uint8_t regIndex) :
+			RuntimeError{ "Bad register index: " + to_string(regIndex) }
+		{}
+	};
+
+	struct StackRuntimeError : RuntimeError {
+		StackRuntimeError() :
+			RuntimeError{ "Call stack error" }
+		{}
+	};
 }

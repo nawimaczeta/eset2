@@ -7,10 +7,12 @@
 #include "stdafx.h"
 #include "Application.h"
 #include "OperationFactory.h"
+#include "RuntimeError.h"
 
 namespace Evm {
 	uint32_t ThreadContext::_currentThreadID = 0;
 
+	// Consdtuctor for the main thread
 	ThreadContext::ThreadContext(Application *application) :
 		_id{ _currentThreadID++ },
 		_thread{},
@@ -20,6 +22,7 @@ namespace Evm {
 		fill(begin(_registerList), end(_registerList), 0);
 	}
 
+	// Copy constructor for children threads
 	ThreadContext::ThreadContext(const ThreadContext & caller, uint32_t address) :
 		_id{ _currentThreadID++ },
 		_thread{},
@@ -36,6 +39,9 @@ namespace Evm {
 		_thread = thread{ [&]() {
 			//cout << "Thread " << _id << " is launched\n";
 			while (_isRunning) {
+				// Evm execution loop.
+				// In each iteration the next instruction is being decided and executed.
+				// Each instruction is converted to Operation class and executed.
 				try {
 					auto tmpProgramCounter = _programCounter;
 					auto operation = Operation::makeOperation(_parent->programMemory(), tmpProgramCounter);
@@ -54,7 +60,9 @@ namespace Evm {
 
 	void ThreadContext::join()
 	{
-		_thread.join();
+		if (_thread.joinable()) {
+			_thread.join();
+		}
 	}
 
 	void ThreadContext::sleep(uint64_t ms)
@@ -64,8 +72,8 @@ namespace Evm {
 
 	void ThreadContext::reg(uint8_t index, uint64_t value)
 	{
-		if (index > _registerList.size()) {
-			throw runtime_error{ "Bad register index " + to_string(index) };
+		if (index >= _registerList.size()) {
+			throw BadRegisterRuntimeError{ index };
 		}
 
 		_registerList.at(index) = value;
@@ -73,8 +81,8 @@ namespace Evm {
 
 	uint64_t ThreadContext::reg(uint8_t index) const
 	{
-		if (index > _registerList.size()) {
-			throw runtime_error{ "Bad register index " + to_string(index) };
+		if (index >= _registerList.size()) {
+			throw BadRegisterRuntimeError{ index };
 		}
 
 		return _registerList.at(index);
@@ -102,9 +110,14 @@ namespace Evm {
 
 	uint32_t ThreadContext::pop()
 	{
-		uint32_t value = _callStack.top();
-		_callStack.pop();
-		return value;
+		try {
+			uint32_t value = _callStack.top();
+			_callStack.pop();
+			return value;
+		}
+		catch (...) {
+			throw StackRuntimeError{};
+		}
 	}
 
 	Application * ThreadContext::application()
