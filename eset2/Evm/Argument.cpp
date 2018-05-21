@@ -38,15 +38,15 @@ namespace Evm {
 					arg = new MemoryBYTEArgument(regIndex);
 					break;
 				case 1:
-					// byte access
+					// word access
 					arg = new MemoryWORDArgument(regIndex);
 					break;
 				case 2:
-					// byte access
+					// dword access
 					arg = new MemoryDWORDArgument(regIndex);
 					break;
 				case 3:
-					// byte access
+					// qword access
 					arg = new MemoryQWORDArgument(regIndex);
 					break;
 				}

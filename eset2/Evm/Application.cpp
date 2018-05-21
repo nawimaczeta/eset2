@@ -7,13 +7,30 @@ namespace Evm {
 	Application::Application(CliConfiguration & config) :
 		_evm{ _parseEvmFile(config) },
 		_programMemory{ _extractProgramMemory(*_evm) },
-		_dataMemory{ _evm->header.dataSize }
+		_dataMemory{ _evm->header.dataSize },
+		_inputFileName{config.inputFileName},
+		_isInputFileGiven{ config.inputFileIsGiven }
 	{
 		cout << *_evm << "\n";
 
 		// Copy initialized data to beginning of data memory
 		auto initDataIts = File::extractInitializedData(*_evm);
 		_dataMemory.write(0, initDataIts.first, initDataIts.second);
+
+		// open input file if it is given by an user
+		if (_isInputFileGiven) {
+			_inputFileStream.open(_inputFileName, fstream::in | fstream::out | fstream::binary | fstream::app);
+			if (!_inputFileStream.is_open()) {
+				throw InputFileRuntimeError{ _inputFileName, "Unable to open" };
+			}
+		}
+	}
+
+	Application::~Application()
+	{
+		if (_isInputFileGiven) {
+			_inputFileStream.close();
+		}
 	}
 
 	void Application::run()
@@ -83,6 +100,19 @@ namespace Evm {
 		return _programMemory;
 	}
 
+	fstream & Application::inputFile()
+	{
+		if (!_isInputFileGiven) {
+			throw InputFileRuntimeError{ "Unknown user file. Give user file when lunch the application (-i filename)" };
+		}
+		return _inputFileStream;
+	}
+
+	const string & Application::inputFileName() const
+	{
+		return _inputFileName;
+	}
+
 	unique_ptr<Evm> Application::_parseEvmFile(const CliConfiguration & config) const
 	{
 		auto evm = File::makeEvmFromFile(config.evmFileName);
@@ -128,9 +158,13 @@ namespace Evm {
 		//const string EVM_FILE_NAME{ "input/philosophers.evm" };
 		//const string EVM_FILE_NAME{ "input/lock.evm" };
 		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
-		const string EVM_FILE_NAME{ "input/sleep_test.evm" };
+		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
+		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
+		const string EVM_FILE_NAME{ "input/crc.evm" };
 
 		cliConfig.evmFileName = EVM_FILE_NAME;
-		cliConfig.inputFileIsGiven = false;
+		//cliConfig.inputFileName = "input/multithreaded_file_write.bin";
+		cliConfig.inputFileName = "input/crc.bin";
+		cliConfig.inputFileIsGiven = true;
 	}
 }

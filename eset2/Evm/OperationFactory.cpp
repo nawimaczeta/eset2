@@ -102,10 +102,10 @@ namespace Evm {
 					factory = make_unique<JumpEqualOperationFactory>(bb);
 					break;
 				case OPCODE_5BIT_READ:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<Arg1Arg2Arg3Arg4OperationFactory<ReadOperation>>(bb);
 					break;
 				case OPCODE_5BIT_WRITE:
-					factory = make_unique<NotImplementedOperationFactory>(bb);
+					factory = make_unique<Arg1Arg2Arg3OperationFactory<WriteOperation>>(bb);
 					break;
 				case OPCODE_5BIT_CONSOLE_READ:
 					factory = make_unique<Arg1OperationFactory<ConsoleReadOperation>>(bb);

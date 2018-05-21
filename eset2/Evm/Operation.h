@@ -277,5 +277,70 @@ namespace Evm {
 		private:
 			Argument::IArgument * _arg1;
 		};
+
+		struct WriteOperation : IOperation {
+			WriteOperation(Argument::IArgument *arg1, Argument::IArgument *arg2, 
+				Argument::IArgument *arg3) :
+				_arg1{ arg1 }, _arg2{ arg2 }, _arg3{ arg3 }
+			{}
+
+			~WriteOperation() {
+				delete _arg1, _arg2, _arg3;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				auto offset = _arg1->getValue(thread);
+				auto numOfBytes = _arg2->getValue(thread);
+				auto memoryAddress = _arg3->getValue(thread);
+				auto & file = thread.application()->inputFile();
+				auto & memory = thread.application()->dataMemory();
+
+				Bytes dataToWrite = memory.read(memoryAddress, numOfBytes);
+
+				file.seekp(offset);
+				file.write(reinterpret_cast<const char *>(dataToWrite.data()), dataToWrite.size());
+				if (!file.good()) {
+					throw InputFileRuntimeError{ thread.application()->inputFileName(), "Unable to write. Offset: " + to_string(offset) +
+						" address: " + to_string(memoryAddress) + " bytes: " + to_string(numOfBytes) };
+				}
+			}
+
+		private:
+			Argument::IArgument *_arg1;
+			Argument::IArgument *_arg2;
+			Argument::IArgument *_arg3;
+		};
+
+		struct ReadOperation : IOperation {
+			ReadOperation(Argument::IArgument *arg1, Argument::IArgument *arg2,
+				Argument::IArgument *arg3, Argument::IArgument *arg4) :
+				_arg1{ arg1 }, _arg2{ arg2 }, _arg3{ arg3 }, _arg4{ arg4 }
+			{}
+
+			~ReadOperation() {
+				delete _arg1, _arg2, _arg3, _arg4;
+			}
+
+			virtual void execute(ThreadContext & thread) {
+				auto offset = _arg1->getValue(thread);
+				auto numOfBytes = _arg2->getValue(thread);
+				auto memoryAddress = _arg3->getValue(thread);
+				auto & file = thread.application()->inputFile();
+				auto & memory = thread.application()->dataMemory();
+
+				Bytes dataBuffer(numOfBytes);
+
+				file.seekg(offset);
+				file.read(reinterpret_cast<char *>(dataBuffer.data()), dataBuffer.size());
+				auto bytesRead = file.gcount();
+				_arg4->setValue(thread, static_cast<uint64_t>(bytesRead));
+			}
+
+		private:
+			Argument::IArgument *_arg1;
+			Argument::IArgument *_arg2;
+			Argument::IArgument *_arg3;
+			Argument::IArgument *_arg4;
+		};
 	}
 }

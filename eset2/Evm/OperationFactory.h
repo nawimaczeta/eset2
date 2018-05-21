@@ -86,6 +86,19 @@ namespace Evm {
 		};
 
 		template <typename T>
+		struct Arg1Arg2Arg3Arg4OperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				auto arg1 = Argument::getArgument(_programMemory, offset);
+				auto arg2 = Argument::getArgument(_programMemory, offset);
+				auto arg3 = Argument::getArgument(_programMemory, offset);
+				auto arg4 = Argument::getArgument(_programMemory, offset);
+
+				return make_unique<T>(arg1, arg2, arg3, arg4);
+			}
+		};
+
+		template <typename T>
 		struct AddressOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {

@@ -20,6 +20,7 @@ namespace Evm {
 		using LockList = map<uint64_t, mutex>;
 
 		Application(CliConfiguration & config);
+		~Application();
 
 		void run();
 		void wait();
@@ -29,6 +30,8 @@ namespace Evm {
 		void unlock(uint64_t lockID);
 		Memory & dataMemory();
 		const BitBuffer & programMemory() const;
+		fstream & inputFile();
+		const string & inputFileName() const;
 
 	private:
 		unique_ptr<Evm> _evm;
@@ -36,6 +39,9 @@ namespace Evm {
 		Memory _dataMemory;
 		ThreadList _threadList;
 		LockList _lockList;
+		const string _inputFileName;
+		bool _isInputFileGiven;
+		fstream _inputFileStream;
 
 		unique_ptr<Evm> _parseEvmFile(const CliConfiguration & config) const;
 		BitBuffer _extractProgramMemory(const Evm & evm) const;

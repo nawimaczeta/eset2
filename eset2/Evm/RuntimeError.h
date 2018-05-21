@@ -35,14 +35,23 @@ namespace Evm {
 	};
 
 	struct EvmFileParseRuntimeError : RuntimeError {
-		EvmFileParseRuntimeError(string msg) :
+		EvmFileParseRuntimeError(const string & msg) :
 			RuntimeError{ "Error while parsing evm file: " + msg }
 		{}
 	};
 
 	struct CliConfigurationRuntimeError : RuntimeError {
-		CliConfigurationRuntimeError(string msg) :
+		CliConfigurationRuntimeError(const string & msg) :
 			RuntimeError{ "Error while parsing arguments from cli: " + msg }
+		{}
+	};
+
+	struct InputFileRuntimeError : RuntimeError {
+		InputFileRuntimeError(const string & filename, const string & msg) :
+			RuntimeError{ "Input file " + filename + " error: " + msg }
+		{}
+		InputFileRuntimeError(const string & msg) :
+			RuntimeError{ "Input file error: " + msg }
 		{}
 	};
 }
