@@ -28,7 +28,7 @@ namespace Evm {
 		_isRunning = true;
 
 		_thread = thread{ [&]() {
-			cout << "Thread " << _id << " is launched\n";
+			//cout << "Thread " << _id << " is launched\n";
 			while (_isRunning) {
 				try {
 					auto tmpProgramCounter = _programCounter;
@@ -37,10 +37,12 @@ namespace Evm {
 					operation->execute(*this);
 				}
 				catch (RuntimeError & e) {
-					throw ThreadError{ *this, e };
+					//throw ThreadError{ *this, e };
+					cerr << "Thread " << id() << " error at: " << programCounter() << ": " << e.what() << "\n";
+					return;
 				}
 			}
-			cout << "Thread " << _id << " is about to terminate\n";
+			//cout << "Thread " << _id << " is about to terminate\n";
 		} };
 	}
 

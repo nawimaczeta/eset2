@@ -35,19 +35,19 @@ namespace Evm {
 
 	void Application::run()
 	{
-		cout << "Application: spawn main thread\n";
+		//cout << "Application: spawn main thread\n";
 		// create first thread
 		_threadList.emplace_back(make_unique<ThreadContext>(this));
 		_threadList.at(0)->run();
-		cout << "Application: main thread is alive!\n";
+		//cout << "Application: main thread is alive!\n";
 	}
 
 	void Application::wait()
 	{
 		// join main thread
-		cout << "Application: joining with main thread\n";
+		//cout << "Application: joining with main thread\n";
 		_threadList.at(0)->join();
-		cout << "Application: main thread is over\n";
+		//cout << "Application: main thread is over\n";
 	}
 
 	uint64_t Application::runNewThread(ThreadContext & caller, uint32_t address)
@@ -159,12 +159,13 @@ namespace Evm {
 		//const string EVM_FILE_NAME{ "input/lock.evm" };
 		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
 		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
-		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
-		const string EVM_FILE_NAME{ "input/crc.evm" };
+		const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
+		//const string EVM_FILE_NAME{ "input/crc.evm" };
 
 		cliConfig.evmFileName = EVM_FILE_NAME;
-		//cliConfig.inputFileName = "input/multithreaded_file_write.bin";
-		cliConfig.inputFileName = "input/crc.bin";
-		cliConfig.inputFileIsGiven = true;
+		cliConfig.inputFileName = "input/multithreaded_file_write1.bin";
+		//cliConfig.inputFileName = "input/crc.bin";
+		//cliConfig.inputFileIsGiven = true;
+		cliConfig.inputFileIsGiven = false;
 	}
 }

@@ -30,7 +30,9 @@ namespace Evm {
 			{}
 
 			~Arg1Arg2Operation() {
-				delete _arg1, _arg2;
+				delete _arg1;
+				delete _arg2;
+
 			}
 		protected:
 			Argument::IArgument *_arg1;
@@ -43,7 +45,9 @@ namespace Evm {
 			{}
 
 			~Arg1Arg2Arg3Operation() {
-				delete _arg1, _arg2, _arg3;
+				delete _arg1;
+				delete _arg2;
+				delete _arg3;
 			}
 		protected:
 			Argument::IArgument *_arg1;
@@ -58,7 +62,10 @@ namespace Evm {
 			{}
 
 			~Arg1Arg2Arg3Arg4Operation() {
-				delete _arg1, _arg2, _arg3, _arg4;
+				delete _arg1;
+				delete _arg2;
+				delete _arg3;
+				delete _arg4;
 			}
 		protected:
 			Argument::IArgument *_arg1;
