@@ -3,8 +3,8 @@
 #include "stdafx.h"
 
 struct BitBuffer {
-	BitBuffer(Bytes & data);
-	BitBuffer(Bytes::iterator begin, Bytes::iterator end);
+	BitBuffer(const Bytes & data);
+	BitBuffer(Bytes::const_iterator begin, Bytes::const_iterator end);
 
 	uint64_t getU64(uint32_t bitAddress, uint32_t size, bool reversed = false) const;
 	uint32_t getU32(uint32_t bitAddress, uint32_t size, bool reversed = false) const;

@@ -21,11 +21,8 @@ namespace Evm {
 
 	namespace File {
 		unique_ptr<Evm> makeEvmFromFile(string filename);
-		void validateEvm(Evm & evm);
-		pair<Bytes::iterator, Bytes::iterator> extractCode(Evm & evm);
-		pair<Bytes::iterator, Bytes::iterator> extractInitializedData(Evm & evm);
+		void validateEvm(const Evm & evm);
+		pair<Bytes::const_iterator, Bytes::const_iterator> extractCode(const Evm & evm);
+		pair<Bytes::const_iterator, Bytes::const_iterator> extractInitializedData(const Evm & evm);
 	}
-
-
-	
 }

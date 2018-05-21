@@ -1,14 +1,18 @@
 
 #include "stdafx.h"
 #include "Application.h"
+#include "tclap/CmdLine.h"
 
 namespace Evm {
-	Application::Application(Evm & evm) :
-		_programMemory{ _extractProgramMemory(evm) },
-		_dataMemory{ evm.header.dataSize }
+	Application::Application(CliConfiguration & config) :
+		_evm{ _parseEvmFile(config) },
+		_programMemory{ _extractProgramMemory(*_evm) },
+		_dataMemory{ _evm->header.dataSize }
 	{
+		cout << *_evm << "\n";
+
 		// Copy initialized data to beginning of data memory
-		auto initDataIts = File::extractInitializedData(evm);
+		auto initDataIts = File::extractInitializedData(*_evm);
 		_dataMemory.write(0, initDataIts.first, initDataIts.second);
 	}
 
@@ -21,10 +25,10 @@ namespace Evm {
 		cout << "Application: main thread is alive!\n";
 	}
 
-	void Application::join()
+	void Application::wait()
 	{
 		// join main thread
-		cout << "Application: joining for main thread\n";
+		cout << "Application: joining with main thread\n";
 		_threadList.at(0)->join();
 		cout << "Application: main thread is over\n";
 	}
@@ -79,10 +83,54 @@ namespace Evm {
 		return _programMemory;
 	}
 
-	BitBuffer Application::_extractProgramMemory(Evm & evm) const
+	unique_ptr<Evm> Application::_parseEvmFile(const CliConfiguration & config) const
+	{
+		auto evm = File::makeEvmFromFile(config.evmFileName);
+		File::validateEvm(*evm);
+		return move(evm);
+	}
+
+	BitBuffer Application::_extractProgramMemory(const Evm & evm) const
 	{
 		auto its = File::extractCode(evm);
 		return{ its.first, its.second };
 	}
 
+	void getCliConfiguration(int argc, char ** argv, CliConfiguration & cliConfig)
+	{
+		try {
+			TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
+			TCLAP::UnlabeledValueArg<string> evmFilenameArg("evm", "evm file name", true, "", "filename");
+			TCLAP::ValueArg<std::string> filenameArg("i", "input_file", "Input file", false, "in", "filename");
+			cmd.add(evmFilenameArg);
+			cmd.add(filenameArg);
+
+			cmd.parse(argc, argv);
+
+			cliConfig.evmFileName = evmFilenameArg.getValue();
+			cliConfig.inputFileIsGiven = filenameArg.isSet();
+			cout << "inputFileIsGiven? " << cliConfig.inputFileIsGiven << "\n";
+			cliConfig.inputFileName = filenameArg.getValue();
+		}
+		catch (TCLAP::ArgException &e)  // catch any exceptions
+		{
+			throw CliConfigurationRuntimeError{ e.error() + " for arg " + e.argId() };
+		}
+	}
+	void getCliConfigurationHardcoded(CliConfiguration & cliConfig)
+	{
+		//const string EVM_FILE_NAME{ "input/math.evm" };
+		//const string EVM_FILE_NAME{ "input/memory.evm" };
+		//const string EVM_FILE_NAME{ "input/xor.evm" };
+		//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
+		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
+		//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
+		//const string EVM_FILE_NAME{ "input/philosophers.evm" };
+		//const string EVM_FILE_NAME{ "input/lock.evm" };
+		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
+		const string EVM_FILE_NAME{ "input/sleep_test.evm" };
+
+		cliConfig.evmFileName = EVM_FILE_NAME;
+		cliConfig.inputFileIsGiven = false;
+	}
 }

@@ -44,6 +44,57 @@ namespace Evm {
 			const BitBuffer & _programMemory;
 		};
 
+		template <typename T>
+		struct NoneArgOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				return make_unique<T>();
+			}
+		};
+
+		template <typename T>
+		struct Arg1OperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				auto arg1 = Argument::getArgument(_programMemory, offset);
+
+				return make_unique<T>(arg1);
+			}
+		};
+
+		template <typename T>
+		struct Arg1Arg2OperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				auto arg1 = Argument::getArgument(_programMemory, offset);
+				auto arg2 = Argument::getArgument(_programMemory, offset);
+
+				return make_unique<T>(arg1, arg2);
+			}
+		};
+
+		template <typename T>
+		struct Arg1Arg2Arg3OperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				auto arg1 = Argument::getArgument(_programMemory, offset);
+				auto arg2 = Argument::getArgument(_programMemory, offset);
+				auto arg3 = Argument::getArgument(_programMemory, offset);
+
+				return make_unique<T>(arg1, arg2, arg3);
+			}
+		};
+
+		template <typename T>
+		struct AddressOperationFactory : IOperationFactory {
+			using IOperationFactory::IOperationFactory;
+			virtual OperationPtr build(uint32_t & offset) {
+				auto address = Argument::getAddress(_programMemory, offset);
+
+				return make_unique<T>(address);
+			}
+		};
+
 		/*
 		Last link of the responsibility chain. When cought, throw unknown operation exception
 		*/
@@ -67,46 +118,7 @@ namespace Evm {
 		/*
 		Factory that makes LoadConstOperation objects
 		*/
-		struct HltOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		/*
-		Factory that makes MovOperation objects
-		*/
-		struct MovOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		/*
-		Factory that makes LoadConstOperation objects
-		*/
 		struct LoadConstOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		/*
-		Factory that makes MovOperation objects
-		*/
-		struct ConsoleWriteOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct ConsoleReadOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct CallOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct RetOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset);
 		};
@@ -116,32 +128,7 @@ namespace Evm {
 			virtual OperationPtr build(uint32_t & offset);
 		};
 
-		struct JumpOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
 		struct CreateThreadOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct JoinOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct SleepOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct LockOperationFactory : IOperationFactory {
-			using IOperationFactory::IOperationFactory;
-			virtual OperationPtr build(uint32_t & offset);
-		};
-
-		struct UnlockOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset);
 		};

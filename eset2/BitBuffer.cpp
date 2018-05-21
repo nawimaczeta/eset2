@@ -2,11 +2,11 @@
 #include "stdafx.h"
 #include "BitBuffer.h"
 
-BitBuffer::BitBuffer(Bytes & data) :
+BitBuffer::BitBuffer(const Bytes & data) :
 	_data(data)
 {}
 
-BitBuffer::BitBuffer(Bytes::iterator begin, Bytes::iterator end) :
+BitBuffer::BitBuffer(Bytes::const_iterator begin, Bytes::const_iterator end) :
 	_data(begin, end)
 {}
 

@@ -33,4 +33,16 @@ namespace Evm {
 			RuntimeError{ "Lock with id " + to_string(id) + " doesn't exist" }
 		{}
 	};
+
+	struct EvmFileParseRuntimeError : RuntimeError {
+		EvmFileParseRuntimeError(string msg) :
+			RuntimeError{ "Error while parsing evm file: " + msg }
+		{}
+	};
+
+	struct CliConfigurationRuntimeError : RuntimeError {
+		CliConfigurationRuntimeError(string msg) :
+			RuntimeError{ "Error while parsing arguments from cli: " + msg }
+		{}
+	};
 }

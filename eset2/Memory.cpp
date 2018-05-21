@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Memory.h"
 
-void Memory::write(uint64_t address, Bytes & data)
+void Memory::write(uint64_t address, const Bytes & data)
 {
 	if (_outOfMemory(address, data.size())) {
 		throw out_of_range("Writing beyound memory. Memory size :" +
@@ -12,7 +12,7 @@ void Memory::write(uint64_t address, Bytes & data)
 	copy(begin(data), end(data), begin(_memory) + address);
 }
 
-void Memory::write(uint64_t address, Bytes::iterator beg, Bytes::iterator end)
+void Memory::write(uint64_t address, Bytes::const_iterator beg, Bytes::const_iterator end)
 {
 	auto dataSize = distance(beg, end);
 	if ((dataSize + address) > _memory.size()) {
