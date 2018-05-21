@@ -163,6 +163,7 @@
     <ClInclude Include="ThirdParty\tclap\CmdLine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Evm\Operation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BitBuffer.cpp" />
     <ClCompile Include="Evm\Application.cpp" />

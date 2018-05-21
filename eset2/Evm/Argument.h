@@ -49,26 +49,6 @@ namespace Evm {
 			virtual void setValue(ThreadContext & thread, uint64_t value);
 		};
 
-		struct TmpArgument : IArgument {
-			TmpArgument(uint64_t value) :
-				_value(value),
-				IArgument{0}
-			{}
-
-			virtual uint64_t getValue(ThreadContext & thread) const {
-				(void)thread;
-				return _value;
-			}
-
-			virtual void setValue(ThreadContext & thread, uint64_t value) {
-				(void)thread;
-				_value = value;
-			}
-
-		private:
-			uint64_t _value;
-		};
-
 		IArgument * getArgument(const BitBuffer & bb, uint32_t & offset);
 		uint64_t getConstant(const BitBuffer & bb, uint32_t & offset);
 		uint32_t getAddress(const BitBuffer & bb, uint32_t & offset);
