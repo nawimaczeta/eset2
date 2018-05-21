@@ -1,4 +1,9 @@
-
+//! @file	Application.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+//! @brief	EVM application
+//! 
+//! Definition of Application class
 #include "stdafx.h"
 #include "Application.h"
 #include "tclap/CmdLine.h"
@@ -113,14 +118,14 @@ namespace Evm {
 		return _inputFileName;
 	}
 
-	unique_ptr<Evm> Application::_parseEvmFile(const CliConfiguration & config) const
+	unique_ptr<File::EvmFile> Application::_parseEvmFile(const CliConfiguration & config) const
 	{
 		auto evm = File::makeEvmFromFile(config.evmFileName);
 		File::validateEvm(*evm);
 		return move(evm);
 	}
 
-	BitBuffer Application::_extractProgramMemory(const Evm & evm) const
+	BitBuffer Application::_extractProgramMemory(const File::EvmFile & evm) const
 	{
 		auto its = File::extractCode(evm);
 		return{ its.first, its.second };

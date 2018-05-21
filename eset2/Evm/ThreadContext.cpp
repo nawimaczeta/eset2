@@ -1,3 +1,9 @@
+//! @file	ThreadContext.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+//! @brief	EVM application
+//! 
+//! Definition of ThreadContext class
 #include "stdafx.h"
 #include "Application.h"
 #include "OperationFactory.h"
@@ -14,12 +20,12 @@ namespace Evm {
 		fill(begin(_registerList), end(_registerList), 0);
 	}
 
-	ThreadContext::ThreadContext(const ThreadContext & tc, uint32_t address) :
+	ThreadContext::ThreadContext(const ThreadContext & caller, uint32_t address) :
 		_id{ _currentThreadID++ },
 		_thread{},
-		_parent{tc._parent},
+		_parent{ caller._parent},
 		_programCounter{ address },
-		_registerList{ tc._registerList }
+		_registerList{ caller._registerList }
 	{
 	}
 

@@ -1,17 +1,9 @@
 
 #include "stdafx.h"
-#include "Evm.h"
+#include "EvmFile.h"
 #include "RuntimeError.h"
 
 namespace Evm {
-
-	ostream & operator<<(ostream & os, Evm & evm) {
-		os << "EVM file:\nmagic " << string(begin(evm.header.magic), end(evm.header.magic)) << "\ncode size " << evm.header.codeSize <<
-			"\ndata size " << evm.header.dataSize << "\ninit data size " << evm.header.initialDataSize <<
-			"\nfile size " << evm.fileSize << "\npayload size " << evm.payload.size() << "\n";
-		return os;
-	}
-
 	namespace File {
 		static const uint32_t HEADER_SIZE = 20;
 		static const char HEADER_MAGIC[8] = { 'E', 'S', 'E', 'T', '-', 'V' , 'M', '2' };
@@ -19,14 +11,14 @@ namespace Evm {
 		/*
 		Make evm object from given file
 		*/
-		unique_ptr<Evm> makeEvmFromFile(string filename)
+		unique_ptr<File::EvmFile> makeEvmFromFile(const string & filename)
 		{
 			ifstream ifs(filename, ios::binary);
 			if (!ifs.is_open()) {
 				throw EvmFileParseRuntimeError{ "Bad filename: " + filename };
 			}
 
-			auto evm = make_unique<Evm>();
+			auto evm = make_unique<EvmFile>();
 
 			// get file size
 			ifs.seekg(0, ifs.end);
@@ -53,7 +45,7 @@ namespace Evm {
 			return move(evm);
 		}
 
-		void validateEvm(const Evm & evm)
+		void validateEvm(const EvmFile & evm)
 		{
 			if (!(evm.header.dataSize >= evm.header.initialDataSize)) {
 				throw EvmFileParseRuntimeError{ "Bad header: data size < initialized data size" };
@@ -74,7 +66,7 @@ namespace Evm {
 			}
 		}
 
-		pair<Bytes::const_iterator, Bytes::const_iterator> extractCode(const Evm & evm)
+		pair<Bytes::const_iterator, Bytes::const_iterator> extractCode(const EvmFile & evm)
 		{
 			if (evm.header.codeSize > evm.payload.size()) {
 				throw EvmFileParseRuntimeError{ "Code size from header doesn't match real payload size" };
@@ -84,7 +76,7 @@ namespace Evm {
 
 			return make_pair(codeBeginIt, codeEndIt);
 		}
-		pair<Bytes::const_iterator, Bytes::const_iterator> extractInitializedData(const Evm & evm)
+		pair<Bytes::const_iterator, Bytes::const_iterator> extractInitializedData(const EvmFile & evm)
 		{
 			if (evm.header.codeSize + evm.header.initialDataSize > evm.payload.size()) {
 				throw EvmFileParseRuntimeError{ "Code size from header doesn't match real payload size" };
@@ -93,6 +85,13 @@ namespace Evm {
 			auto codeEndIt = end(evm.payload);
 
 			return make_pair(codeBeginIt, codeEndIt);
+		}
+
+		ostream & operator<<(ostream & os, EvmFile & evm) {
+			os << "EVM file:\nmagic " << string(begin(evm.header.magic), end(evm.header.magic)) << "\ncode size " << evm.header.codeSize <<
+				"\ndata size " << evm.header.dataSize << "\ninit data size " << evm.header.initialDataSize <<
+				"\nfile size " << evm.fileSize << "\npayload size " << evm.payload.size() << "\n";
+			return os;
 		}
 	}
 }

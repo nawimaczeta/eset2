@@ -30,9 +30,6 @@
     <ClInclude Include="BitBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Evm\Evm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Evm\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,15 +51,18 @@
     <ClInclude Include="ThirdParty\tclap\CmdLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Evm\EvmFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Evm\Evm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BitBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Evm\Evm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Evm\Application.cpp">
@@ -84,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Evm\Operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Evm\EvmFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

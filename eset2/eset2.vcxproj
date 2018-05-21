@@ -153,6 +153,7 @@
     <ClInclude Include="Evm\Application.h" />
     <ClInclude Include="Evm\Argument.h" />
     <ClInclude Include="Evm\Evm.h" />
+    <ClInclude Include="Evm\EvmFile.h" />
     <ClInclude Include="Evm\Operation.h" />
     <ClInclude Include="Evm\OperationFactory.h" />
     <ClInclude Include="Evm\RuntimeError.h" />
@@ -168,7 +169,7 @@
     <ClCompile Include="BitBuffer.cpp" />
     <ClCompile Include="Evm\Application.cpp" />
     <ClCompile Include="Evm\Argument.cpp" />
-    <ClCompile Include="Evm\Evm.cpp" />
+    <ClCompile Include="Evm\EvmFile.cpp" />
     <ClCompile Include="Evm\OperationFactory.cpp" />
     <ClCompile Include="Evm\ThreadContext.cpp" />
     <ClCompile Include="Memory.cpp" />
