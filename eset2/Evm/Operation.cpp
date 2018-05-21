@@ -26,10 +26,18 @@ namespace Evm {
 		}
 
 		void ConsoleWriteOperation::execute(ThreadContext & thread) {
-			uint64_t value = _arg1->getValue(thread);
-			ios_base::fmtflags flags{ cout.flags() };
-			cout << "0x" << setfill('0') << setw(16) << hex << value << "\n";
-			cout.flags(flags);
+			static mutex sem;
+
+			{
+				// mutex protection of console output.
+				// In my opinion this is a shared resource and should be protected by
+				// implementon
+				lock_guard<mutex> lock(sem);
+				uint64_t value = _arg1->getValue(thread);
+				ios_base::fmtflags flags{ cout.flags() };
+				cout << "0x" << setfill('0') << setw(16) << hex << value << "\n";
+				cout.flags(flags);
+			}
 		}
 
 		void ConsoleReadOperation::execute(ThreadContext & thread) {
@@ -91,19 +99,28 @@ namespace Evm {
 		}
 
 		void WriteOperation::execute(ThreadContext & thread) {
-			auto offset = _arg1->getValue(thread);
-			auto numOfBytes = _arg2->getValue(thread);
-			auto memoryAddress = _arg3->getValue(thread);
-			auto & file = thread.application()->inputFile();
-			auto & memory = thread.application()->dataMemory();
+			static mutex sem;
 
-			Bytes dataToWrite = memory.read(memoryAddress, numOfBytes);
+			{
+				// mutex protection of console output.
+				// In my opinion this is a shared resource and should be protected by
+				// implementon. I decided to implement the lock to achieve good
+				// execution of multithreaded_file_write.evm example
+				lock_guard<mutex> lock(sem);
+				auto offset = _arg1->getValue(thread);
+				auto numOfBytes = _arg2->getValue(thread);
+				auto memoryAddress = _arg3->getValue(thread);
+				auto & file = thread.application()->inputFile();
+				auto & memory = thread.application()->dataMemory();
 
-			file.seekp(offset);
-			file.write(reinterpret_cast<const char *>(dataToWrite.data()), dataToWrite.size());
-			if (!file.good()) {
-				throw InputFileRuntimeError{ thread.application()->inputFileName(), "Unable to write. Offset: " + to_string(offset) +
-					" address: " + to_string(memoryAddress) + " bytes: " + to_string(numOfBytes) };
+				Bytes dataToWrite = memory.read(memoryAddress, numOfBytes);
+
+				file.seekp(offset);
+				file.write(reinterpret_cast<const char *>(dataToWrite.data()), dataToWrite.size());
+				if (!file.good()) {
+					throw InputFileRuntimeError{ thread.application()->inputFileName(), "Unable to write. Offset: " + to_string(offset) +
+						" address: " + to_string(memoryAddress) + " bytes: " + to_string(numOfBytes) };
+				}
 			}
 		}
 

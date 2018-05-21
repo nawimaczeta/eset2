@@ -160,12 +160,14 @@ namespace Evm {
 		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
 		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
 		const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
+		//const string EVM_FILE_NAME{ "input/my/multithreaded_file_write.evm" };
 		//const string EVM_FILE_NAME{ "input/crc.evm" };
 
 		cliConfig.evmFileName = EVM_FILE_NAME;
-		cliConfig.inputFileName = "input/multithreaded_file_write1.bin";
+		cliConfig.inputFileName = "input/multithreaded_file_write.bin";
+		//cliConfig.inputFileName = "input/my/multithreaded_file_write.bin";
 		//cliConfig.inputFileName = "input/crc.bin";
 		//cliConfig.inputFileIsGiven = true;
-		cliConfig.inputFileIsGiven = false;
+		cliConfig.inputFileIsGiven = true;
 	}
 }
