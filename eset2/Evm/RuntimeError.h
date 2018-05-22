@@ -66,4 +66,22 @@ namespace Evm {
 			RuntimeError{ "Call stack error" }
 		{}
 	};
+
+	struct ProgramMemoryExceedBusWidthRuntimeError : RuntimeError {
+		ProgramMemoryExceedBusWidthRuntimeError() :
+			RuntimeError{ "Program memory out of range. Instruction address bus is 32-bit, code size is greater." }
+		{}
+	};
+
+	struct ProgramMemoryOutOfRangeRuntimeError : RuntimeError {
+		ProgramMemoryOutOfRangeRuntimeError() :
+			RuntimeError{ "Trying to access data out of program memory" }
+		{}
+	};
+
+	struct DataMemoryOutOfRangeRuntimeError : RuntimeError {
+		DataMemoryOutOfRangeRuntimeError(string & msg) :
+			RuntimeError{ "Trying to access data out of data memory. " + msg }
+		{}
+	};
 }
