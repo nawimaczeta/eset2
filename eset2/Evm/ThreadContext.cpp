@@ -5,9 +5,11 @@
 //! 
 //! Definition of ThreadContext class
 #include "stdafx.h"
-#include "Application.h"
 #include "OperationFactory.h"
+#include "ThreadContext.h"
 #include "RuntimeError.h"
+#include "Application.h"
+#include "Operation.h"
 
 namespace Evm {
 	uint32_t ThreadContext::_currentThreadID = 0;
@@ -20,6 +22,7 @@ namespace Evm {
 		_programCounter{ 0 }
 	{
 		fill(begin(_registerList), end(_registerList), 0);
+		_openTraceFile();
 	}
 
 	// Copy constructor for children threads
@@ -30,6 +33,7 @@ namespace Evm {
 		_programCounter{ address },
 		_registerList{ caller._registerList }
 	{
+		_closeTraceFile();
 	}
 
 	void ThreadContext::run()
@@ -44,9 +48,12 @@ namespace Evm {
 				// Each instruction is converted to Operation class and executed.
 				try {
 					auto tmpProgramCounter = _programCounter;
-					auto operation = Operation::makeOperation(_parent->programMemory(), tmpProgramCounter);
-					_programCounter = tmpProgramCounter;
+					auto operation = Operation::makeOperation(_parent->programMemory(), _programCounter);
 					operation->execute(*this);
+					//string str = operation->trace(*this);
+					//cout << str << "\n";
+					//cout << *operation << "\n";
+					_logTrace(tmpProgramCounter, operation->trace(*this));
 				}
 				catch (RuntimeError & e) {
 					//throw ThreadError{ *this, e };
@@ -128,6 +135,35 @@ namespace Evm {
 	void ThreadContext::terminate()
 	{
 		_isRunning = false;
+	}
+
+	void ThreadContext::_openTraceFile()
+	{
+		bool trace = application()->configuartion().trace;
+		if (trace) {
+			string filename = application()->configuartion().evmFileName + "_thread_" + to_string(id()) + ".trace";
+			_traceFile.open(filename, fstream::trunc);
+			_traceFile << "Thread " << id() << " spawned\n";
+		}
+	}
+
+	void ThreadContext::_closeTraceFile()
+	{
+		bool trace = application()->configuartion().trace;
+		if (trace) {
+			_traceFile.close();
+			_traceFile << "Thread " << id() << " closed\n";
+		}
+	}
+
+	void ThreadContext::_logTrace(uint32_t instructionAddress, string & msg)
+	{
+		bool trace = application()->configuartion().trace;
+		if (trace) {
+			ostringstream oss;
+			oss << ":0x" << setfill('0') << setw(8) << hex << instructionAddress << ": ";
+			_traceFile << oss.str() << msg << "\n";
+		}
 	}
 
 }

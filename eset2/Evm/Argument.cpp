@@ -67,7 +67,7 @@ namespace Evm {
 		/*
 		Acquire constant form the bit stram
 		*/
-		ArgumentPtr getConstant(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getConstantArgument(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			try {
 				auto value = bb.getU64(offset, 64, true);
@@ -83,7 +83,7 @@ namespace Evm {
 		/*
 		Acquire instruction address form the bit stream
 		*/
-		ArgumentPtr getAddress(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getAddressArgument(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			try {
 				auto value = bb.getU32(offset, 32, true);
@@ -105,6 +105,18 @@ namespace Evm {
 		void RegisterArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
 			thread.reg(_regIndex, value);
+		}
+
+		string RegisterArgument::label() const
+		{
+			return "reg" + to_string(_regIndex);
+		}
+
+		string RegisterArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "reg" << to_string(_regIndex) << ":0x" << setfill('0') << setw(16) << hex << getValue(thread);
+			return oss.str();
 		}
 
 		uint64_t MemoryBYTEArgument::getValue(ThreadContext & thread) const
@@ -140,6 +152,18 @@ namespace Evm {
 			catch (RuntimeError & e) {
 				throw e;
 			}
+		}
+
+		string MemoryBYTEArgument::label() const
+		{
+			return "BYTE[reg" + to_string(_regIndex) + "]";
+		}
+
+		string MemoryBYTEArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "BYTE:0x" << setfill('0') << setw(2) << hex << getValue(thread);
+			return oss.str();
 		}
 
 		uint64_t MemoryWORDArgument::getValue(ThreadContext & thread) const
@@ -184,6 +208,18 @@ namespace Evm {
 			catch (RuntimeError & e) {
 				throw e;
 			}
+		}
+
+		string MemoryWORDArgument::label() const
+		{
+			return "WORD[reg" + to_string(_regIndex) + "]";
+		}
+
+		string MemoryWORDArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "WORD:0x" << setfill('0') << setw(4) << hex << getValue(thread);
+			return oss.str();
 		}
 
 		uint64_t MemoryDWORDArgument::getValue(ThreadContext & thread) const
@@ -233,6 +269,19 @@ namespace Evm {
 				throw e;
 			}
 		}
+
+		string MemoryDWORDArgument::label() const
+		{
+			return "DWORD[reg" + to_string(_regIndex) + "]";
+		}
+
+		string MemoryDWORDArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "DWORD:0x" << setfill('0') << setw(8) << hex << getValue(thread);
+			return oss.str();
+		}
+
 		uint64_t MemoryQWORDArgument::getValue(ThreadContext & thread) const
 		{
 			try {
@@ -288,6 +337,18 @@ namespace Evm {
 			}
 		}
 
+		string MemoryQWORDArgument::label() const
+		{
+			return "QWORD[reg" + to_string(_regIndex) + "]";
+		}
+
+		string MemoryQWORDArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "QWORD:0x" << setfill('0') << setw(16) << hex << getValue(thread);
+			return oss.str();
+		}
+
 		uint64_t ConstArgument::getValue(ThreadContext & thread) const
 		{
 			return _constValue;
@@ -298,6 +359,18 @@ namespace Evm {
 			throw WriteToConstRuntimeError{};
 		}
 
+		string ConstArgument::label() const
+		{
+			return "const";
+		}
+
+		string ConstArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "const:0x" << setfill('0') << setw(16) << hex << getValue(thread);
+			return oss.str();
+		}
+
 		uint64_t AddressArgument::getValue(ThreadContext & thread) const
 		{
 			return static_cast<uint64_t>(_value);
@@ -306,6 +379,16 @@ namespace Evm {
 		void AddressArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
 			throw WriteToConstRuntimeError{};
+		}
+		string AddressArgument::label() const
+		{
+			return "address";
+		}
+		string AddressArgument::printValue(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << "add:0x" << setfill('0') << setw(8) << hex << getValue(thread);
+			return oss.str();
 		}
 }
 }

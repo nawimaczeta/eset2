@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Operation.h"
+#include "RuntimeError.h"
 #include "BitBuffer.h"
 
 namespace Evm {
@@ -32,7 +33,8 @@ namespace Evm {
 		Interface that creates IOperation objects.
 		*/
 		struct IOperationFactory {
-			IOperationFactory(const Utils::BitBuffer & programMemory) :
+			IOperationFactory(const string & opcode, const Utils::BitBuffer & programMemory) :
+				_opcode{ opcode },
 				_programMemory{ programMemory }
 			{}
 
@@ -40,6 +42,7 @@ namespace Evm {
 			virtual OperationPtr build(uint32_t & offset) = 0;
 
 		protected:
+			string _opcode;
 			const Utils::BitBuffer & _programMemory;
 		};
 
@@ -47,7 +50,8 @@ namespace Evm {
 		struct NoneArgOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
-				return make_unique<T>();
+				(void)offset;
+				return make_unique<T>(_opcode);
 			}
 		};
 
@@ -55,7 +59,7 @@ namespace Evm {
 		struct Arg1OperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
-				auto res = make_unique<T>();
+				auto res = make_unique<T>(_opcode);
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				return res;
 			}
@@ -65,7 +69,7 @@ namespace Evm {
 		struct Arg1Arg2OperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
-				auto res = make_unique<T>();
+				auto res = make_unique<T>(_opcode);
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				return res;
@@ -76,7 +80,7 @@ namespace Evm {
 		struct Arg1Arg2Arg3OperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
-				auto res = make_unique<T>();
+				auto res = make_unique<T>(_opcode);
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
@@ -88,7 +92,7 @@ namespace Evm {
 		struct Arg1Arg2Arg3Arg4OperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
-				OperationPtr res = make_unique<T>();
+				OperationPtr res = make_unique<T>(_opcode);
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
 				res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
@@ -101,8 +105,8 @@ namespace Evm {
 		struct AddressOperationFactory : IOperationFactory {
 			using IOperationFactory::IOperationFactory;
 			virtual OperationPtr build(uint32_t & offset) {
-				OperationPtr res = make_unique<T>();
-				res->pushArgument(Argument::getAddress(_programMemory, offset));
+				OperationPtr res = make_unique<T>(_opcode);
+				res->pushArgument(Argument::getAddressArgument(_programMemory, offset));
 				return res;
 			}
 		};
@@ -152,7 +156,7 @@ namespace Evm {
 		MathOperation class
 		*/
 		struct MathOperationFactory : IOperationFactory {
-			MathOperationFactory(const Utils::BitBuffer & bb, function<int64_t(int64_t, int64_t)> function);
+			MathOperationFactory(const string & opcode, const Utils::BitBuffer & bb, function<int64_t(int64_t, int64_t)> function);
 			OperationPtr build(uint32_t & offset);
 		private:
 			function<int64_t(int64_t, int64_t)> _function;

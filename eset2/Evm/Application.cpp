@@ -5,16 +5,18 @@
 //! 
 //! Definition of Application class
 #include "stdafx.h"
+#include "ThreadContext.h"
 #include "Application.h"
+#include "RuntimeError.h"
 #include "tclap/CmdLine.h"
+
 
 namespace Evm {
 	Application::Application(CliConfiguration & config) :
+		_config{ config },
 		_evm{ _parseEvmFile(config) },
 		_programMemory{ _extractProgramMemory(*_evm) },
-		_dataMemory{ _evm->header.dataSize },
-		_inputFileName{config.inputFileName},
-		_isInputFileGiven{ config.inputFileIsGiven }
+		_dataMemory{ _evm->header.dataSize }
 	{
 		cout << *_evm << "\n";
 
@@ -23,17 +25,17 @@ namespace Evm {
 		_dataMemory.write(0, initDataIts.first, initDataIts.second);
 
 		// open input file if it is given by an user
-		if (_isInputFileGiven) {
-			_inputFileStream.open(_inputFileName, fstream::in | fstream::out | fstream::binary | fstream::app);
+		if (_config.inputFileIsGiven) {
+			_inputFileStream.open(config.inputFileName, fstream::in | fstream::out | fstream::binary | fstream::app);
 			if (!_inputFileStream.is_open()) {
-				throw InputFileRuntimeError{ _inputFileName, "Unable to open" };
+				throw InputFileRuntimeError{ config.inputFileName, "Unable to open" };
 			}
 		}
 	}
 
 	Application::~Application()
 	{
-		if (_isInputFileGiven) {
+		if (_config.inputFileIsGiven) {
 			_inputFileStream.close();
 		}
 	}
@@ -113,7 +115,7 @@ namespace Evm {
 
 	fstream & Application::inputFile()
 	{
-		if (!_isInputFileGiven) {
+		if (!_config.inputFileIsGiven) {
 			throw InputFileRuntimeError{ "Unknown user file. Give user file when lunch the application (-i filename)" };
 		}
 		return _inputFileStream;
@@ -121,7 +123,12 @@ namespace Evm {
 
 	const string & Application::inputFileName() const
 	{
-		return _inputFileName;
+		return _config.inputFileName;
+	}
+
+	const CliConfiguration & Application::configuartion() const
+	{
+		return _config;
 	}
 
 	unique_ptr<File::EvmFile> Application::_parseEvmFile(const CliConfiguration & config) const
@@ -165,21 +172,21 @@ namespace Evm {
 		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
 		//const string EVM_FILE_NAME{ "input/xor.evm" };
 		//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
-		//const string EVM_FILE_NAME{ "input/crc.evm" };
+		const string EVM_FILE_NAME{ "input/crc.evm" };
 		//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
 		//const string EVM_FILE_NAME{ "input/lock.evm" };
 		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
 		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
-		const string EVM_FILE_NAME{ "input/philosophers.evm" };
+		//const string EVM_FILE_NAME{ "input/philosophers.evm" };
 		
 		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
 		//const string EVM_FILE_NAME{ "input/my/multithreaded_file_write.evm" };
 		
 
 		cliConfig.evmFileName = EVM_FILE_NAME;
-		cliConfig.inputFileName = "input/multithreaded_file_write.bin";
+		//cliConfig.inputFileName = "input/multithreaded_file_write.bin";
 		//cliConfig.inputFileName = "input/my/multithreaded_file_write.bin";
-		//cliConfig.inputFileName = "input/crc.bin";
+		cliConfig.inputFileName = "input/crc.bin";
 		//cliConfig.inputFileIsGiven = true;
 		cliConfig.inputFileIsGiven = true;
 	}

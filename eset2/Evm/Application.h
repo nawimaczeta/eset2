@@ -14,10 +14,12 @@
 #pragma once
 
 #include "stdafx.h"
-#include "ThreadContext.h"
+//#include "ThreadContext.h"
 #include "Memory.h"
 #include "BitBuffer.h"
 #include "EvmFile.h"
+
+struct ThreadContext;
 
 //! @namespace Eva
 //!
@@ -30,7 +32,8 @@ namespace Evm {
 	struct CliConfiguration {
 		string evmFileName;		//!< File name of .evm executable
 		string inputFileName;	//!< File name of user input file (if it is required)
-		bool inputFileIsGiven;	//!< True if the input file is given. 
+		bool inputFileIsGiven;	//!< True if the input file is given.
+		bool trace;				//!< True if command execution trace is enabled
 	};
 
 	//! @brief Main EVM application class
@@ -138,6 +141,8 @@ namespace Evm {
 		//! @return input file name
 		const string & inputFileName() const;
 
+		const CliConfiguration & configuartion() const;
+
 		Application() = delete;
 		Application(const Application &) = delete;
 		Application(Application &&) = delete;
@@ -145,13 +150,12 @@ namespace Evm {
 		Application & operator=(Application &&) = delete;
 
 	private:
+		const CliConfiguration _config;
 		unique_ptr<File::EvmFile> _evm;	//!< Pointer to evm file structure
 		const Utils::BitBuffer _programMemory;	//!< Program memory as bit buffer
 		Utils::Memory _dataMemory;				//!< Data memory
 		ThreadList _threadList;			//!< List of evm threads
 		LockList _lockList;				//!< Directory with evm locks
-		const string _inputFileName;	//!< Input file name
-		bool _isInputFileGiven;			//!< True if input file is given by user
 		fstream _inputFileStream;		//!< Stream to the input file. 
 										//!< Valid only when _isInputFileGiven is true.
 

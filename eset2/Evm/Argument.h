@@ -10,12 +10,8 @@ namespace Evm {
 			virtual ~IArgument() = default;
 			virtual uint64_t getValue(ThreadContext & thread) const = 0;
 			virtual void setValue(ThreadContext & thread, uint64_t value) = 0;
-			
-			enum class ValueType {
-				UINT64,
-				UINT32
-			};
-			virtual ValueType type() const = 0;
+			virtual string label() const = 0;
+			virtual string printValue(ThreadContext & thread) const = 0;
 		};
 
 		using ArgumentPtr = unique_ptr<Argument::IArgument>;
@@ -24,9 +20,6 @@ namespace Evm {
 			IRegisterBaseArgument(uint8_t registerIndex) :
 				_regIndex{ registerIndex }
 			{}
-			virtual ValueType type() const override {
-				return ValueType::UINT64;
-			}
 		protected:
 			uint8_t _regIndex;
 		};
@@ -35,30 +28,40 @@ namespace Evm {
 			using IRegisterBaseArgument::IRegisterBaseArgument;
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		};
 
 		struct MemoryBYTEArgument : IRegisterBaseArgument {
 			using IRegisterBaseArgument::IRegisterBaseArgument;
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		};
 
 		struct MemoryWORDArgument : IRegisterBaseArgument {
 			using IRegisterBaseArgument::IRegisterBaseArgument;
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		};
 
 		struct MemoryDWORDArgument : IRegisterBaseArgument {
 			using IRegisterBaseArgument::IRegisterBaseArgument;
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		};
 
 		struct MemoryQWORDArgument : IRegisterBaseArgument {
 			using IRegisterBaseArgument::IRegisterBaseArgument;
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		};
 
 		struct ConstArgument : IArgument {
@@ -67,9 +70,8 @@ namespace Evm {
 			{}
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
-			virtual ValueType type() const override {
-				return ValueType::UINT64;
-			}
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		private:
 			const uint64_t _constValue;
 		};
@@ -80,15 +82,14 @@ namespace Evm {
 			{}
 			virtual uint64_t getValue(ThreadContext & thread) const override;
 			virtual void setValue(ThreadContext & thread, uint64_t value) override;
-			virtual ValueType type() const override {
-				return ValueType::UINT32;
-			}
+			virtual string label() const override;
+			virtual string printValue(ThreadContext & thread) const override;
 		private:
 			const uint32_t _value;
 		};
 
 		ArgumentPtr getRegisterArgument(const Utils::BitBuffer & bb, uint32_t & offset);
-		ArgumentPtr getConstant(const Utils::BitBuffer & bb, uint32_t & offset);
-		ArgumentPtr getAddress(const Utils::BitBuffer & bb, uint32_t & offset);
+		ArgumentPtr getConstantArgument(const Utils::BitBuffer & bb, uint32_t & offset);
+		ArgumentPtr getAddressArgument(const Utils::BitBuffer & bb, uint32_t & offset);
 	}
 }

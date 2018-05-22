@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Operation.h"
+#include "Application.h"
 
 namespace Evm {
 	namespace Operation {
@@ -143,5 +144,28 @@ namespace Evm {
 			auto bytesRead = file.gcount();
 			_argList.at(3)->setValue(thread, static_cast<uint64_t>(bytesRead));
 		}
-	}
+
+		ostream & operator<<(ostream & os, IOperation & op)
+		{
+			os << op._opcode;
+			for (auto & a : op._argList) {
+				os << " " << a->label();
+			}
+			return os;
+		}
+		string IOperation::trace(ThreadContext & thread) const
+		{
+			ostringstream oss;
+			oss << _opcode;
+			for (auto & a : _argList) {
+				oss << " " << a->label();
+			}
+			oss << "\t\t# ";
+			for (auto & a : _argList) {
+				oss << " " << a->printValue(thread);
+			}
+
+			return oss.str();
+		}
+}
 }

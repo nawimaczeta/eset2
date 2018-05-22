@@ -9,6 +9,7 @@
 //! resouces - program and data mamories, locks, and Application API.
 #pragma once
 
+//#include "Operation.h"
 #include "RuntimeError.h"
 
 //! @namespace Eva
@@ -126,6 +127,12 @@ namespace Evm {
 										//!< this variable is true
 
 		static uint32_t _currentThreadID;
+
+		ofstream _traceFile;
+
+		void _openTraceFile();
+		void _closeTraceFile();
+		void _logTrace(uint32_t instructionAddress, string & msg);
 	};
 
 	struct ThreadError : runtime_error {
