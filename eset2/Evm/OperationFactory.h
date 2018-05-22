@@ -33,7 +33,7 @@ namespace Evm {
 		Interface that creates IOperation objects.
 		*/
 		struct IOperationFactory {
-			IOperationFactory(const BitBuffer & programMemory) :
+			IOperationFactory(const Utils::BitBuffer & programMemory) :
 				_programMemory{ programMemory }
 			{}
 
@@ -41,7 +41,7 @@ namespace Evm {
 			virtual OperationPtr build(uint32_t & offset) = 0;
 
 		protected:
-			const BitBuffer & _programMemory;
+			const Utils::BitBuffer & _programMemory;
 		};
 
 		template <typename T>
@@ -153,12 +153,12 @@ namespace Evm {
 		MathOperation class
 		*/
 		struct MathOperationFactory : IOperationFactory {
-			MathOperationFactory(const BitBuffer & bb, function<int64_t(int64_t, int64_t)> function);
+			MathOperationFactory(const Utils::BitBuffer & bb, function<int64_t(int64_t, int64_t)> function);
 			OperationPtr build(uint32_t & offset);
 		private:
 			function<int64_t(int64_t, int64_t)> _function;
 		};
 
-		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset);
+		OperationPtr makeOperation(const Utils::BitBuffer & bb, uint32_t & offset);
 	}
 }

@@ -14,7 +14,7 @@ namespace Evm {
 		/*
 		Acquire argument form the bit stram
 		*/
-		IArgument * getArgument(const BitBuffer & bb, uint32_t & offset)
+		IArgument * getArgument(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			IArgument * arg = nullptr;
 
@@ -67,7 +67,7 @@ namespace Evm {
 		/*
 		Acquire constant form the bit stram
 		*/
-		uint64_t getConstant(const BitBuffer & bb, uint32_t & offset)
+		uint64_t getConstant(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			try {
 				auto res = bb.getU64(offset, 64, true);
@@ -83,7 +83,7 @@ namespace Evm {
 		/*
 		Acquire instruction address form the bit stream
 		*/
-		uint32_t getAddress(const BitBuffer & bb, uint32_t & offset)
+		uint32_t getAddress(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			try {
 				auto res = bb.getU32(offset, 32, true);
@@ -110,7 +110,7 @@ namespace Evm {
 		uint64_t MemoryBYTEArgument::getValue(ThreadContext & thread) const
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				Bytes data = memory.read(address, 1);
@@ -127,7 +127,7 @@ namespace Evm {
 		void MemoryBYTEArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				Byte byte = static_cast<Byte>(value);
@@ -145,7 +145,7 @@ namespace Evm {
 		uint64_t MemoryWORDArgument::getValue(ThreadContext & thread) const
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				Bytes data = memory.read(address, 2);
@@ -167,7 +167,7 @@ namespace Evm {
 		void MemoryWORDArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				ConvertUnion cu;
@@ -189,7 +189,7 @@ namespace Evm {
 		uint64_t MemoryDWORDArgument::getValue(ThreadContext & thread) const
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				Bytes data = memory.read(address, 4);
@@ -213,7 +213,7 @@ namespace Evm {
 		void MemoryDWORDArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				ConvertUnion cu;
@@ -236,7 +236,7 @@ namespace Evm {
 		uint64_t MemoryQWORDArgument::getValue(ThreadContext & thread) const
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				Bytes data = memory.read(address, 8);
@@ -263,7 +263,7 @@ namespace Evm {
 		void MemoryQWORDArgument::setValue(ThreadContext & thread, uint64_t value)
 		{
 			try {
-				Memory & memory = thread.application()->dataMemory();
+				auto & memory = thread.application()->dataMemory();
 				uint64_t address = thread.reg(_regIndex);
 
 				ConvertUnion cu;

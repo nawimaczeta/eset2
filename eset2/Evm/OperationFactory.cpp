@@ -13,7 +13,7 @@ namespace Evm {
 			return make_unique<LoadConstOperation>(constant, arg1);
 		}
 
-		MathOperationFactory::MathOperationFactory(const BitBuffer & bb, function<int64_t(int64_t, int64_t)> function) :
+		MathOperationFactory::MathOperationFactory(const Utils::BitBuffer & bb, function<int64_t(int64_t, int64_t)> function) :
 			IOperationFactory{ bb },
 			_function{ function }
 		{}
@@ -44,7 +44,7 @@ namespace Evm {
 			return make_unique<CreateThreadOperation>(address, arg1);
 		}
 
-		OperationPtr makeOperation(const BitBuffer & bb, uint32_t & offset)
+		OperationPtr makeOperation(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			unique_ptr<IOperationFactory> factory = nullptr;
 			uint32_t tmpOffset;

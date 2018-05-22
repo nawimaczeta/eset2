@@ -49,8 +49,8 @@ namespace Evm {
 			virtual void setValue(ThreadContext & thread, uint64_t value);
 		};
 
-		IArgument * getArgument(const BitBuffer & bb, uint32_t & offset);
-		uint64_t getConstant(const BitBuffer & bb, uint32_t & offset);
-		uint32_t getAddress(const BitBuffer & bb, uint32_t & offset);
+		IArgument * getArgument(const Utils::BitBuffer & bb, uint32_t & offset);
+		uint64_t getConstant(const Utils::BitBuffer & bb, uint32_t & offset);
+		uint32_t getAddress(const Utils::BitBuffer & bb, uint32_t & offset);
 	}
 }

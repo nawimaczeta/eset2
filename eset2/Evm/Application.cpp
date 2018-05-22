@@ -101,12 +101,12 @@ namespace Evm {
 		}
 	}
 
-	Memory & Application::dataMemory()
+	Utils::Memory & Application::dataMemory()
 	{
 		return _dataMemory;
 	}
 
-	const BitBuffer & Application::programMemory() const
+	const Utils::BitBuffer & Application::programMemory() const
 	{
 		return _programMemory;
 	}
@@ -131,7 +131,7 @@ namespace Evm {
 		return move(evm);
 	}
 
-	BitBuffer Application::_extractProgramMemory(const File::EvmFile & evm) const
+	Utils::BitBuffer Application::_extractProgramMemory(const File::EvmFile & evm) const
 	{
 		auto its = File::extractCode(evm);
 		return{ its.first, its.second };
@@ -161,7 +161,7 @@ namespace Evm {
 	void getCliConfigurationHardcoded(CliConfiguration & cliConfig)
 	{
 		//const string EVM_FILE_NAME{ "input/math.evm" };
-		//const string EVM_FILE_NAME{ "input/memory.evm" };
+		const string EVM_FILE_NAME{ "input/memory.evm" };
 		//const string EVM_FILE_NAME{ "input/xor.evm" };
 		//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
 		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
@@ -170,7 +170,7 @@ namespace Evm {
 		//const string EVM_FILE_NAME{ "input/lock.evm" };
 		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
 		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
-		const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
+		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
 		//const string EVM_FILE_NAME{ "input/my/multithreaded_file_write.evm" };
 		//const string EVM_FILE_NAME{ "input/crc.evm" };
 

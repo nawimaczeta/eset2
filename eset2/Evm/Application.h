@@ -114,14 +114,14 @@ namespace Evm {
 		//!
 		//! API function for evm library. Getter of data memory.
 		//! @return reference to data memory object
-		Memory & dataMemory();
+		Utils::Memory & dataMemory();
 
 		//! @brief Get reference to program memory
 		//!
 		//! API function for evm library. Getter of program memory.
 		//! Program memory is bit accessed. Due to thread safety, it is read only memory.
 		//! @return reference to program memory
-		const BitBuffer & programMemory() const;
+		const Utils::BitBuffer & programMemory() const;
 
 		//! @brief Get reference to input file
 		//!
@@ -146,8 +146,8 @@ namespace Evm {
 
 	private:
 		unique_ptr<File::EvmFile> _evm;	//!< Pointer to evm file structure
-		const BitBuffer _programMemory;	//!< Program memory as bit buffer
-		Memory _dataMemory;				//!< Data memory
+		const Utils::BitBuffer _programMemory;	//!< Program memory as bit buffer
+		Utils::Memory _dataMemory;				//!< Data memory
 		ThreadList _threadList;			//!< List of evm threads
 		LockList _lockList;				//!< Directory with evm locks
 		const string _inputFileName;	//!< Input file name
@@ -161,7 +161,7 @@ namespace Evm {
 		unique_ptr<File::EvmFile> _parseEvmFile(const CliConfiguration & config) const;
 
 		//! @brief Helper function. Initialize program memory with data from evm file
-		BitBuffer _extractProgramMemory(const File::EvmFile & evm) const;
+		Utils::BitBuffer _extractProgramMemory(const File::EvmFile & evm) const;
 	};
 
 	//! @brief Get evm configuration from cli
