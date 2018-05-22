@@ -84,4 +84,10 @@ namespace Evm {
 			RuntimeError{ "Trying to access data out of data memory. " + msg }
 		{}
 	};
+
+	struct WriteToConstRuntimeError : RuntimeError {
+		WriteToConstRuntimeError() :
+			RuntimeError{ "Trying to write to constant argument (address or constant)" }
+		{}
+	};
 }

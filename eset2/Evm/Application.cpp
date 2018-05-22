@@ -161,18 +161,20 @@ namespace Evm {
 	void getCliConfigurationHardcoded(CliConfiguration & cliConfig)
 	{
 		//const string EVM_FILE_NAME{ "input/math.evm" };
-		const string EVM_FILE_NAME{ "input/memory.evm" };
+		//const string EVM_FILE_NAME{ "input/memory.evm" };
+		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
 		//const string EVM_FILE_NAME{ "input/xor.evm" };
 		//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
-		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
-		//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
-		//const string EVM_FILE_NAME{ "input/philosophers.evm" };
-		//const string EVM_FILE_NAME{ "input/lock.evm" };
-		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
-		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
-		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
-		//const string EVM_FILE_NAME{ "input/my/multithreaded_file_write.evm" };
 		//const string EVM_FILE_NAME{ "input/crc.evm" };
+		//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
+		//const string EVM_FILE_NAME{ "input/lock.evm" };
+		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
+		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
+		const string EVM_FILE_NAME{ "input/philosophers.evm" };
+		
+		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
+		//const string EVM_FILE_NAME{ "input/my/multithreaded_file_write.evm" };
+		
 
 		cliConfig.evmFileName = EVM_FILE_NAME;
 		cliConfig.inputFileName = "input/multithreaded_file_write.bin";

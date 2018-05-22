@@ -7,10 +7,10 @@ namespace Evm {
 	namespace Operation {
 		OperationPtr LoadConstOperationFactory::build(uint32_t & offset)
 		{
-			auto constant = Argument::getConstant(IOperationFactory::_programMemory, offset);
-			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, offset);
-
-			return make_unique<LoadConstOperation>(constant, arg1);
+			OperationPtr res = make_unique<LoadConstOperation>();
+			res->pushArgument(Argument::getConstant(IOperationFactory::_programMemory, offset));
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			return res;
 		}
 
 		MathOperationFactory::MathOperationFactory(const Utils::BitBuffer & bb, function<int64_t(int64_t, int64_t)> function) :
@@ -20,28 +20,28 @@ namespace Evm {
 
 		OperationPtr MathOperationFactory::build(uint32_t & offset)
 		{
-			auto arg1 = Argument::getArgument(IOperationFactory::_programMemory, offset);
-			auto arg2 = Argument::getArgument(IOperationFactory::_programMemory, offset);
-			auto arg3 = Argument::getArgument(IOperationFactory::_programMemory, offset);
-
-			return make_unique<MathOperation>(arg1, arg2, arg3, _function);
+			OperationPtr res = make_unique<MathOperation>(_function);
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			return res;
 		}
 
 		OperationPtr JumpEqualOperationFactory::build(uint32_t & offset)
 		{
-			uint32_t address = Argument::getAddress(_programMemory, offset);
-			auto arg1 = Argument::getArgument(_programMemory, offset);
-			auto arg2 = Argument::getArgument(_programMemory, offset);
-
-			return make_unique<JumpEqualOperation>(address, arg1, arg2);
+			OperationPtr res = make_unique<JumpEqualOperation>();
+			res->pushArgument(Argument::getAddress(_programMemory, offset));
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			return res;
 		}
 
 		OperationPtr CreateThreadOperationFactory::build(uint32_t & offset)
 		{
-			uint32_t address = Argument::getAddress(_programMemory, offset);
-			auto arg1 = Argument::getArgument(_programMemory, offset);
-
-			return make_unique<CreateThreadOperation>(address, arg1);
+			OperationPtr res = make_unique<CreateThreadOperation>();
+			res->pushArgument(Argument::getAddress(_programMemory, offset));
+			res->pushArgument(Argument::getRegisterArgument(_programMemory, offset));
+			return res;
 		}
 
 		OperationPtr makeOperation(const Utils::BitBuffer & bb, uint32_t & offset)

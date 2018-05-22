@@ -14,9 +14,9 @@ namespace Evm {
 		/*
 		Acquire argument form the bit stram
 		*/
-		IArgument * getArgument(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getRegisterArgument(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
-			IArgument * arg = nullptr;
+			ArgumentPtr arg = nullptr;
 
 			try {
 				auto argType = bb.getU8(offset, 1);
@@ -25,7 +25,7 @@ namespace Evm {
 					auto regIndex = bb.getU8(offset + 1, 4, true);
 
 					offset += 5;
-					arg = new RegisterArgument{ regIndex };
+					arg = make_unique<RegisterArgument>(regIndex);
 				}
 				else {
 					// Memory argument
@@ -36,19 +36,19 @@ namespace Evm {
 					switch (memorySize) {
 					case 0:
 						// byte access
-						arg = new MemoryBYTEArgument(regIndex);
+						arg = make_unique<MemoryBYTEArgument>(regIndex);
 						break;
 					case 1:
 						// word access
-						arg = new MemoryWORDArgument(regIndex);
+						arg = make_unique<MemoryWORDArgument>(regIndex);
 						break;
 					case 2:
 						// dword access
-						arg = new MemoryDWORDArgument(regIndex);
+						arg = make_unique<MemoryDWORDArgument>(regIndex);
 						break;
 					case 3:
 						// qword access
-						arg = new MemoryQWORDArgument(regIndex);
+						arg = make_unique<MemoryQWORDArgument>(regIndex);
 						break;
 					}
 				}
@@ -67,12 +67,12 @@ namespace Evm {
 		/*
 		Acquire constant form the bit stram
 		*/
-		uint64_t getConstant(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getConstant(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			try {
-				auto res = bb.getU64(offset, 64, true);
+				auto value = bb.getU64(offset, 64, true);
 				offset += 64;
-				return res;
+				return make_unique<ConstArgument>(value);
 			}
 			catch (out_of_range & e) {
 				(void)e;
@@ -83,12 +83,12 @@ namespace Evm {
 		/*
 		Acquire instruction address form the bit stream
 		*/
-		uint32_t getAddress(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getAddress(const Utils::BitBuffer & bb, uint32_t & offset)
 		{
 			try {
-				auto res = bb.getU32(offset, 32, true);
+				auto value = bb.getU32(offset, 32, true);
 				offset += 32;
-				return res;
+				return make_unique<AddressArgument>(value);
 			}
 			catch (out_of_range & e) {
 				(void)e;
@@ -287,5 +287,25 @@ namespace Evm {
 				throw e;
 			}
 		}
-	}
+
+		uint64_t ConstArgument::getValue(ThreadContext & thread) const
+		{
+			return _constValue;
+		}
+
+		void ConstArgument::setValue(ThreadContext & thread, uint64_t value)
+		{
+			throw WriteToConstRuntimeError{};
+		}
+
+		uint64_t AddressArgument::getValue(ThreadContext & thread) const
+		{
+			return static_cast<uint64_t>(_value);
+		}
+
+		void AddressArgument::setValue(ThreadContext & thread, uint64_t value)
+		{
+			throw WriteToConstRuntimeError{};
+		}
+}
 }

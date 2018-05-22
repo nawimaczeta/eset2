@@ -4,25 +4,26 @@
 namespace Evm {
 	namespace Operation {
 		void MovOperation::execute(ThreadContext & thread) {
-			auto arg1Value = _arg1->getValue(thread);
-			_arg2->setValue(thread, arg1Value);
+			auto arg1Value = _argList.at(0)->getValue(thread);
+			_argList.at(1)->setValue(thread, arg1Value);
 		}
 
 		void LoadConstOperation::execute(ThreadContext & thread) {
-			_arg1->setValue(thread, _constant);
+			uint64_t constValue = _argList.at(0)->getValue(thread);
+			_argList.at(1)->setValue(thread, constValue);
 		}
 
 		void MathOperation::execute(ThreadContext & thread) {
 			// Get arguments, convert them to signed numbers
-			uint64_t arg1Value = _arg1->getValue(thread);
-			uint64_t arg2Value = _arg2->getValue(thread);
+			uint64_t arg1Value = _argList.at(0)->getValue(thread);
+			uint64_t arg2Value = _argList.at(1)->getValue(thread);
 			int64_t arg1Signed = *reinterpret_cast<int64_t *>(&arg1Value);
 			int64_t arg2Signed = *reinterpret_cast<int64_t *>(&arg2Value);
 
 			// compute math operation, convert back to usigned
 			int64_t result = _mathOperation(arg1Signed, arg2Signed);
 			uint64_t resultUnsigned = *reinterpret_cast<uint64_t *>(&result);
-			_arg3->setValue(thread, resultUnsigned);
+			_argList.at(2)->setValue(thread, resultUnsigned);
 		}
 
 		void ConsoleWriteOperation::execute(ThreadContext & thread) {
@@ -33,7 +34,7 @@ namespace Evm {
 				// In my opinion this is a shared resource and should be protected by
 				// implementon
 				lock_guard<mutex> lock(sem);
-				uint64_t value = _arg1->getValue(thread);
+				uint64_t value = _argList.at(0)->getValue(thread);
 				ios_base::fmtflags flags{ cout.flags() };
 				cout << "0x" << setfill('0') << setw(16) << hex << value << "\n";
 				cout.flags(flags);
@@ -45,16 +46,18 @@ namespace Evm {
 			ios_base::fmtflags flags{ cin.flags() };
 			cin >> hex >> input;
 			cin.flags(flags);
-			_arg1->setValue(thread, input);
+			_argList.at(0)->setValue(thread, input);
 		}
 
 		void JumpOperation::execute(ThreadContext & thread) {
-			thread.programCounter(_address);
+			uint32_t address = static_cast<uint32_t>(_argList.at(0)->getValue(thread));
+			thread.programCounter(address);
 		}
 
 		void CallOperation::execute(ThreadContext & thread) {
+			uint32_t address = static_cast<uint32_t>(_argList.at(0)->getValue(thread));
 			thread.push(thread.programCounter());
-			thread.programCounter(_address);
+			thread.programCounter(address);
 		}
 
 		void HltOperation::execute(ThreadContext & thread) {
@@ -66,35 +69,37 @@ namespace Evm {
 		}
 
 		void JumpEqualOperation::execute(ThreadContext & thread) {
-			auto arg1Value = _arg1->getValue(thread);
-			auto arg2Value = _arg2->getValue(thread);
+			uint32_t address = static_cast<uint32_t>(_argList.at(0)->getValue(thread));
+			auto arg1Value = _argList.at(1)->getValue(thread);
+			auto arg2Value = _argList.at(2)->getValue(thread);
 			if (arg1Value == arg2Value) {
-				thread.programCounter(_address);
+				thread.programCounter(address);
 			}
 		}
 
 		void CreateThreadOperation::execute(ThreadContext & thread) {
-			uint64_t newThreadID = thread.application()->runNewThread(thread, _address);
-			_arg1->setValue(thread, newThreadID);
+			uint32_t address = static_cast<uint32_t>(_argList.at(0)->getValue(thread));
+			uint64_t newThreadID = thread.application()->runNewThread(thread, address);
+			_argList.at(1)->setValue(thread, newThreadID);
 		}
 
 		void JoinOperation::execute(ThreadContext & thread) {
-			uint64_t threadId = _arg1->getValue(thread);
+			uint64_t threadId = _argList.at(0)->getValue(thread);
 			thread.application()->joinThread(threadId);
 		}
 
 		void SleepOperation::execute(ThreadContext & thread) {
-			uint64_t ms = _arg1->getValue(thread);
+			uint64_t ms = _argList.at(0)->getValue(thread);
 			thread.sleep(ms);
 		}
 
 		void LockOperation::execute(ThreadContext & thread) {
-			uint64_t lockID = _arg1->getValue(thread);
+			uint64_t lockID = _argList.at(0)->getValue(thread);
 			thread.application()->lock(lockID);
 		}
 
 		void UnlockOperation::execute(ThreadContext & thread) {
-			uint64_t lockID = _arg1->getValue(thread);
+			uint64_t lockID = _argList.at(0)->getValue(thread);
 			thread.application()->unlock(lockID);
 		}
 
@@ -107,9 +112,9 @@ namespace Evm {
 				// implementon. I decided to implement the lock to achieve good
 				// execution of multithreaded_file_write.evm example
 				lock_guard<mutex> lock(sem);
-				auto offset = _arg1->getValue(thread);
-				auto numOfBytes = _arg2->getValue(thread);
-				auto memoryAddress = _arg3->getValue(thread);
+				auto offset = _argList.at(0)->getValue(thread);
+				auto numOfBytes = _argList.at(1)->getValue(thread);
+				auto memoryAddress = _argList.at(2)->getValue(thread);
 				auto & file = thread.application()->inputFile();
 				auto & memory = thread.application()->dataMemory();
 
@@ -125,9 +130,9 @@ namespace Evm {
 		}
 
 		void ReadOperation::execute(ThreadContext & thread) {
-			auto offset = _arg1->getValue(thread);
-			auto numOfBytes = _arg2->getValue(thread);
-			auto memoryAddress = _arg3->getValue(thread);
+			auto offset = _argList.at(0)->getValue(thread);
+			auto numOfBytes = _argList.at(1)->getValue(thread);
+			auto memoryAddress = _argList.at(2)->getValue(thread);
 			auto & file = thread.application()->inputFile();
 			auto & memory = thread.application()->dataMemory();
 
@@ -136,7 +141,7 @@ namespace Evm {
 			file.seekg(offset);
 			file.read(reinterpret_cast<char *>(dataBuffer.data()), dataBuffer.size());
 			auto bytesRead = file.gcount();
-			_arg4->setValue(thread, static_cast<uint64_t>(bytesRead));
+			_argList.at(3)->setValue(thread, static_cast<uint64_t>(bytesRead));
 		}
 	}
 }
