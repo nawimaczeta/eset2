@@ -49,11 +49,11 @@ namespace Evm {
 				try {
 					auto tmpProgramCounter = _programCounter;
 					auto operation = Operation::makeOperation(_parent->programMemory(), _programCounter);
-					operation->execute(*this);
-
 					if (_parent->configuartion().trace) {
 						_trace.log(tmpProgramCounter, operation->trace(*this));
 					}
+					
+					operation->execute(*this);
 				}
 				catch (RuntimeError & e) {
 					cerr << "Thread " << id() << " error at: " << programCounter() << ": " << e.what() << "\n";

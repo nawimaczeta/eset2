@@ -177,5 +177,5 @@ namespace Evm {
 	void getCliConfiguration(int argc, char** argv, CliConfiguration & cliConfig);
 
 	//! @brief Get hardcoded evm configuration (For tests)
-	void getCliConfigurationHardcoded(CliConfiguration & cliConfig);
+	void getCliConfiguration(CliConfiguration & cliConfig);
 }

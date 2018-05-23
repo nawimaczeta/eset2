@@ -13,9 +13,12 @@ int main(int argc, char** argv)
 {
 	try {
 		// get configuration from console
-		Evm::CliConfiguration cliConfig;				
-		//getCliConfiguration(argc, argv, cliConfig);		// get configuration from cli
-		getCliConfigurationHardcoded(cliConfig);		// hardcoded configuration - for tests
+		Evm::CliConfiguration cliConfig;
+#ifdef _DEBUG
+		getCliConfiguration(cliConfig);		// hardcoded configuration - for tests
+#else
+		getCliConfiguration(argc, argv, cliConfig);		// get configuration from cli
+#endif // _DEBUG
 
 		// Run application, wait for execution
 		Evm::Application app{ cliConfig };
@@ -26,7 +29,9 @@ int main(int argc, char** argv)
 		cout << e.what();
 	}
 
+#ifdef _DEBUG
 	getchar();
 	getchar();
+#endif // _DEBUG
     return 0;
 }

@@ -18,7 +18,7 @@ namespace Evm {
 		_programMemory{ _extractProgramMemory(*_evm) },
 		_dataMemory{ _evm->header.dataSize }
 	{
-		cout << *_evm << "\n";
+		//cout << *_evm << "\n";
 
 		// Copy initialized data to beginning of data memory
 		auto initDataIts = File::extractInitializedData(*_evm);
@@ -150,28 +150,30 @@ namespace Evm {
 			TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
 			TCLAP::UnlabeledValueArg<string> evmFilenameArg("evm", "evm file name", true, "", "filename");
 			TCLAP::ValueArg<std::string> filenameArg("i", "input_file", "Input file", false, "in", "filename");
+			TCLAP::SwitchArg traceArg("t", "trace", "Enable execution trace");
 			cmd.add(evmFilenameArg);
 			cmd.add(filenameArg);
+			cmd.add(traceArg);
 
 			cmd.parse(argc, argv);
 
 			cliConfig.evmFileName = evmFilenameArg.getValue();
 			cliConfig.inputFileIsGiven = filenameArg.isSet();
-			cout << "inputFileIsGiven? " << cliConfig.inputFileIsGiven << "\n";
 			cliConfig.inputFileName = filenameArg.getValue();
+			cliConfig.trace = traceArg.getValue();
 		}
 		catch (TCLAP::ArgException &e)  // catch any exceptions
 		{
 			throw CliConfigurationRuntimeError{ e.error() + " for arg " + e.argId() };
 		}
 	}
-	void getCliConfigurationHardcoded(CliConfiguration & cliConfig)
+	void getCliConfiguration(CliConfiguration & cliConfig)
 	{
 		//const string EVM_FILE_NAME{ "input/math.evm" };
-		const string EVM_FILE_NAME{ "input/memory.evm" };
+		//const string EVM_FILE_NAME{ "input/memory.evm" };
 		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
 		//const string EVM_FILE_NAME{ "input/xor.evm" };
-		//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
+		const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
 		//const string EVM_FILE_NAME{ "input/crc.evm" };
 		//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
 		//const string EVM_FILE_NAME{ "input/lock.evm" };

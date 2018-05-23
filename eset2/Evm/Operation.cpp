@@ -43,7 +43,7 @@ namespace Evm {
 		}
 
 		void ConsoleReadOperation::execute(ThreadContext & thread) {
-			uint16_t input;
+			uint64_t input;
 			ios_base::fmtflags flags{ cin.flags() };
 			cin >> hex >> input;
 			cin.flags(flags);

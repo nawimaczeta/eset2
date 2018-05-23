@@ -163,7 +163,8 @@ namespace Evm {
 		{
 			ostringstream oss;
 			uint64_t address = thread.reg(_regIndex);
-			oss << "BYTE:add:0x" << setfill('0') << setw(16) << hex << address << ":" <<setw(2) <<  getValue(thread);
+			oss << "BYTE:add:0x" << setfill('0') << setw(16) << hex << address << ":0x" 
+				<< setfill('0') << setw(2) << hex << getValue(thread);
 			return oss.str();
 		}
 
@@ -220,8 +221,8 @@ namespace Evm {
 		{
 			ostringstream oss;
 			uint64_t address = thread.reg(_regIndex);
-			oss << "WORD:add:0x" << setfill('0') << setw(16) << hex << address << ":" 
-				<< setw(4) << getValue(thread);
+			oss << "WORD:add:0x" << setfill('0') << setw(16) << hex << address << ":0x" 
+				<< setfill('0') << setw(4) << hex << getValue(thread);
 			return oss.str();
 		}
 
@@ -283,7 +284,7 @@ namespace Evm {
 			ostringstream oss;
 			uint64_t address = thread.reg(_regIndex);
 			oss << "DWORD:add:0x" << setfill('0') << setw(16) << hex << address << ":"
-				<< setw(8) << getValue(thread);
+				<< setfill('0') << setw(8) << hex << getValue(thread);
 			return oss.str();
 		}
 
@@ -351,8 +352,8 @@ namespace Evm {
 		{
 			ostringstream oss;
 			uint64_t address = thread.reg(_regIndex);
-			oss << "DWORD:add:0x" << setfill('0') << setw(16) << hex << address << ":"
-				<< getValue(thread);
+			oss << "QWORD:add:0x" << setfill('0') << setw(16) << hex << address << ":0x"
+				<< setfill('0') << setw(16) << hex << getValue(thread);
 			return oss.str();
 		}
 
