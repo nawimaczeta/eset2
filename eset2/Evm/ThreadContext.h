@@ -11,6 +11,7 @@
 
 //#include "Operation.h"
 #include "RuntimeError.h"
+#include "Trace.h"
 
 //! @namespace Eva
 //!
@@ -125,14 +126,11 @@ namespace Evm {
 		stack<uint32_t> _callStack;		//!< Call stack
 		bool _isRunning = false;		//!< The thread execution loop is running until
 										//!< this variable is true
+		Utils::Trace _trace;
+
+		string _traceFileName() const;
 
 		static uint32_t _currentThreadID;
-
-		ofstream _traceFile;
-
-		void _openTraceFile();
-		void _closeTraceFile();
-		void _logTrace(uint32_t instructionAddress, string & msg);
 	};
 
 	struct ThreadError : runtime_error {

@@ -5,18 +5,16 @@
 //! 
 //! Definition of Application class
 #include "stdafx.h"
-#include "ThreadContext.h"
 #include "Application.h"
-#include "RuntimeError.h"
 #include "tclap/CmdLine.h"
-
 
 namespace Evm {
 	Application::Application(CliConfiguration & config) :
-		_config{ config },
 		_evm{ _parseEvmFile(config) },
 		_programMemory{ _extractProgramMemory(*_evm) },
-		_dataMemory{ _evm->header.dataSize }
+		_dataMemory{ _evm->header.dataSize },
+		_inputFileName{config.inputFileName},
+		_isInputFileGiven{ config.inputFileIsGiven }
 	{
 		cout << *_evm << "\n";
 
@@ -25,38 +23,35 @@ namespace Evm {
 		_dataMemory.write(0, initDataIts.first, initDataIts.second);
 
 		// open input file if it is given by an user
-		if (_config.inputFileIsGiven) {
-			_inputFileStream.open(config.inputFileName, fstream::in | fstream::out | fstream::binary | fstream::app);
+		if (_isInputFileGiven) {
+			_inputFileStream.open(_inputFileName, fstream::in | fstream::out | fstream::binary | fstream::app);
 			if (!_inputFileStream.is_open()) {
-				throw InputFileRuntimeError{ config.inputFileName, "Unable to open" };
+				throw InputFileRuntimeError{ _inputFileName, "Unable to open" };
 			}
 		}
 	}
 
 	Application::~Application()
 	{
-		if (_config.inputFileIsGiven) {
+		if (_isInputFileGiven) {
 			_inputFileStream.close();
 		}
 	}
 
 	void Application::run()
 	{
-		//cout << "Application: spawn main thread\n";
-		// create first thread
+		// create and run main thread
 		_threadList.emplace_back(make_unique<ThreadContext>(this));
 		_threadList.at(0)->run();
-		//cout << "Application: main thread is alive!\n";
 	}
 
 	void Application::wait()
 	{
-		//cout << "Application: joining with main thread\n";
 		// wait for main thread
 		_threadList.at(0)->join();
-		//cout << "Application: main thread is over\n";
 
-		// terminate other threads, they shouldn't run when the main thread is dead.
+		// terminate and wait for other threads
+		// even though they shouldn't run when the main thread is dead already
 		for (auto & t : _threadList) {
 			t->terminate();
 			t->join();
@@ -65,7 +60,7 @@ namespace Evm {
 
 	uint64_t Application::runNewThread(ThreadContext & caller, uint32_t address)
 	{
-		// create new Thread from the caller
+		// create new Thread from based on the caller
  		_threadList.emplace_back(make_unique<ThreadContext>(caller, address));
 		uint64_t newThreadId = _threadList.size() - 1;
 		_threadList.at(newThreadId)->run();
@@ -80,13 +75,13 @@ namespace Evm {
 		}
 		catch (out_of_range & e) {
 			(void)e;
-			throw UnknownThreadRuntimeError(threadId);
+			throw UnknownThreadIDRuntimeError(threadId);
 		}
 	}
 
 	void Application::lock(uint64_t lockID)
 	{
-		// get mutex or create new if it doesn't exist
+		// get mutex or create new if it hasn't existed yet
 		mutex & m = _lockList[lockID];
 		m.lock();
 	}
@@ -103,19 +98,19 @@ namespace Evm {
 		}
 	}
 
-	Utils::Memory & Application::dataMemory()
+	Memory & Application::dataMemory()
 	{
 		return _dataMemory;
 	}
 
-	const Utils::BitBuffer & Application::programMemory() const
+	const BitBuffer & Application::programMemory() const
 	{
 		return _programMemory;
 	}
 
 	fstream & Application::inputFile()
 	{
-		if (!_config.inputFileIsGiven) {
+		if (!_isInputFileGiven) {
 			throw InputFileRuntimeError{ "Unknown user file. Give user file when lunch the application (-i filename)" };
 		}
 		return _inputFileStream;
@@ -123,12 +118,7 @@ namespace Evm {
 
 	const string & Application::inputFileName() const
 	{
-		return _config.inputFileName;
-	}
-
-	const CliConfiguration & Application::configuartion() const
-	{
-		return _config;
+		return _inputFileName;
 	}
 
 	unique_ptr<File::EvmFile> Application::_parseEvmFile(const CliConfiguration & config) const
@@ -138,7 +128,7 @@ namespace Evm {
 		return move(evm);
 	}
 
-	Utils::BitBuffer Application::_extractProgramMemory(const File::EvmFile & evm) const
+	BitBuffer Application::_extractProgramMemory(const File::EvmFile & evm) const
 	{
 		auto its = File::extractCode(evm);
 		return{ its.first, its.second };
@@ -147,11 +137,14 @@ namespace Evm {
 	void getCliConfiguration(int argc, char ** argv, CliConfiguration & cliConfig)
 	{
 		try {
-			TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
+			// Parse arguments from command line and extract application configuration
+			TCLAP::CmdLine cmd("ESET Evm virtual machine", ' ', "1");
 			TCLAP::UnlabeledValueArg<string> evmFilenameArg("evm", "evm file name", true, "", "filename");
 			TCLAP::ValueArg<std::string> filenameArg("i", "input_file", "Input file", false, "in", "filename");
+			TCLAP::SwitchArg traceArg("t", "trace", "Enable command execution trace", false);
 			cmd.add(evmFilenameArg);
 			cmd.add(filenameArg);
+			cmd.add(traceArg);
 
 			cmd.parse(argc, argv);
 
@@ -159,34 +152,33 @@ namespace Evm {
 			cliConfig.inputFileIsGiven = filenameArg.isSet();
 			cout << "inputFileIsGiven? " << cliConfig.inputFileIsGiven << "\n";
 			cliConfig.inputFileName = filenameArg.getValue();
+			cliConfig.trace = traceArg.getValue();
 		}
-		catch (TCLAP::ArgException &e)  // catch any exceptions
+		catch (TCLAP::ArgException &e)
 		{
 			throw CliConfigurationRuntimeError{ e.error() + " for arg " + e.argId() };
 		}
 	}
-	void getCliConfigurationHardcoded(CliConfiguration & cliConfig)
+	void getCliConfiguration(CliConfiguration & cliConfig)
 	{
-		//const string EVM_FILE_NAME{ "input/math.evm" };
-		const string EVM_FILE_NAME{ "input/memory.evm" };
-		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
+		const string EVM_FILE_NAME{ "input/math.evm" };
+		//const string EVM_FILE_NAME{ "input/memory.evm" };
 		//const string EVM_FILE_NAME{ "input/xor.evm" };
 		//const string EVM_FILE_NAME{ "input/xor-with-stack-frame.evm" };
-		//const string EVM_FILE_NAME{ "input/crc.evm" };
+		//const string EVM_FILE_NAME{ "input/fibonacci_loop.evm" };
 		//const string EVM_FILE_NAME{ "input/threadingBase.evm" };
-		//const string EVM_FILE_NAME{ "input/lock.evm" };
-		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
-		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
 		//const string EVM_FILE_NAME{ "input/philosophers.evm" };
-		
+		//const string EVM_FILE_NAME{ "input/lock.evm" };
+		//const string EVM_FILE_NAME{ "input/pseudorandom.evm" };
 		//const string EVM_FILE_NAME{ "input/sleep_test.evm" };
+		//const string EVM_FILE_NAME{ "input/multithreaded_file_write.evm" };
 		//const string EVM_FILE_NAME{ "input/my/multithreaded_file_write.evm" };
-		
+		//const string EVM_FILE_NAME{ "input/crc.evm" };
 
 		cliConfig.evmFileName = EVM_FILE_NAME;
-		//cliConfig.inputFileName = "input/multithreaded_file_write.bin";
+		cliConfig.inputFileName = "input/multithreaded_file_write.bin";
 		//cliConfig.inputFileName = "input/my/multithreaded_file_write.bin";
-		cliConfig.inputFileName = "input/crc.bin";
+		//cliConfig.inputFileName = "input/crc.bin";
 		//cliConfig.inputFileIsGiven = true;
 		cliConfig.inputFileIsGiven = true;
 		cliConfig.trace = true;

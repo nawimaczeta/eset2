@@ -1,0 +1,4 @@
+0x0000008d: loadConst const reg0	#  const:0x0000000000000000 reg0:0x0000000000000000
+0x000000d5: loadConst const reg1	#  const:0x0123456789abcdef reg1:0x0123456789abcdef
+0x0000011d: mov reg1 QWORD[reg0]	#  reg1:0x0123456789abcdef QWORD:0x0123456789abcdef
+0x0000012c: hlt	# 

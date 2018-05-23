@@ -160,7 +160,7 @@ namespace Evm {
 			for (auto & a : _argList) {
 				oss << " " << a->label();
 			}
-			oss << "\t\t# ";
+			oss << "\t# ";
 			for (auto & a : _argList) {
 				oss << " " << a->printValue(thread);
 			}

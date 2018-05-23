@@ -162,7 +162,8 @@ namespace Evm {
 		string MemoryBYTEArgument::printValue(ThreadContext & thread) const
 		{
 			ostringstream oss;
-			oss << "BYTE:0x" << setfill('0') << setw(2) << hex << getValue(thread);
+			uint64_t address = thread.reg(_regIndex);
+			oss << "BYTE:add:0x" << setfill('0') << setw(16) << hex << address << ":" <<setw(2) <<  getValue(thread);
 			return oss.str();
 		}
 
@@ -218,7 +219,9 @@ namespace Evm {
 		string MemoryWORDArgument::printValue(ThreadContext & thread) const
 		{
 			ostringstream oss;
-			oss << "WORD:0x" << setfill('0') << setw(4) << hex << getValue(thread);
+			uint64_t address = thread.reg(_regIndex);
+			oss << "WORD:add:0x" << setfill('0') << setw(16) << hex << address << ":" 
+				<< setw(4) << getValue(thread);
 			return oss.str();
 		}
 
@@ -278,7 +281,9 @@ namespace Evm {
 		string MemoryDWORDArgument::printValue(ThreadContext & thread) const
 		{
 			ostringstream oss;
-			oss << "DWORD:0x" << setfill('0') << setw(8) << hex << getValue(thread);
+			uint64_t address = thread.reg(_regIndex);
+			oss << "DWORD:add:0x" << setfill('0') << setw(16) << hex << address << ":"
+				<< setw(8) << getValue(thread);
 			return oss.str();
 		}
 
@@ -345,7 +350,9 @@ namespace Evm {
 		string MemoryQWORDArgument::printValue(ThreadContext & thread) const
 		{
 			ostringstream oss;
-			oss << "QWORD:0x" << setfill('0') << setw(16) << hex << getValue(thread);
+			uint64_t address = thread.reg(_regIndex);
+			oss << "DWORD:add:0x" << setfill('0') << setw(16) << hex << address << ":"
+				<< getValue(thread);
 			return oss.str();
 		}
 

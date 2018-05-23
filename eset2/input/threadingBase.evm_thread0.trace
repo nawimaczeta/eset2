@@ -1,0 +1,5 @@
+0x00000000: createThread address reg0	#  add:0x0000008d reg0:0x0000000000000001
+0x0000002a: joinThread reg0	#  reg0:0x0000000000000001
+0x00000034: loadConst const reg0	#  const:0x0000000000000000 reg0:0x0000000000000000
+0x0000007c: consoleWrite QWORD[reg0]	#  QWORD:0x0123456789abcdef
+0x00000088: hlt	# 

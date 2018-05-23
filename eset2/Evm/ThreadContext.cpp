@@ -10,6 +10,7 @@
 #include "RuntimeError.h"
 #include "Application.h"
 #include "Operation.h"
+//#include "Trace.h"
 
 namespace Evm {
 	uint32_t ThreadContext::_currentThreadID = 0;
@@ -19,10 +20,11 @@ namespace Evm {
 		_id{ _currentThreadID++ },
 		_thread{},
 		_parent{ application },
-		_programCounter{ 0 }
+		_programCounter{ 0 },
+		_trace{ _traceFileName(), _parent->configuartion().trace }
 	{
+		// clear register list 
 		fill(begin(_registerList), end(_registerList), 0);
-		_openTraceFile();
 	}
 
 	// Copy constructor for children threads
@@ -31,17 +33,15 @@ namespace Evm {
 		_thread{},
 		_parent{ caller._parent},
 		_programCounter{ address },
-		_registerList{ caller._registerList }
-	{
-		_closeTraceFile();
-	}
+		_registerList{ caller._registerList },
+		_trace{ _traceFileName(), _parent->configuartion().trace }
+	{}
 
 	void ThreadContext::run()
 	{
 		_isRunning = true;
 
 		_thread = thread{ [&]() {
-			//cout << "Thread " << _id << " is launched\n";
 			while (_isRunning) {
 				// Evm execution loop.
 				// In each iteration the next instruction is being decided and executed.
@@ -50,18 +50,16 @@ namespace Evm {
 					auto tmpProgramCounter = _programCounter;
 					auto operation = Operation::makeOperation(_parent->programMemory(), _programCounter);
 					operation->execute(*this);
-					//string str = operation->trace(*this);
-					//cout << str << "\n";
-					//cout << *operation << "\n";
-					_logTrace(tmpProgramCounter, operation->trace(*this));
+
+					if (_parent->configuartion().trace) {
+						_trace.log(tmpProgramCounter, operation->trace(*this));
+					}
 				}
 				catch (RuntimeError & e) {
-					//throw ThreadError{ *this, e };
 					cerr << "Thread " << id() << " error at: " << programCounter() << ": " << e.what() << "\n";
 					return;
 				}
 			}
-			//cout << "Thread " << _id << " is about to terminate\n";
 		} };
 	}
 
@@ -137,33 +135,9 @@ namespace Evm {
 		_isRunning = false;
 	}
 
-	void ThreadContext::_openTraceFile()
+	string ThreadContext::_traceFileName() const
 	{
-		bool trace = application()->configuartion().trace;
-		if (trace) {
-			string filename = application()->configuartion().evmFileName + "_thread_" + to_string(id()) + ".trace";
-			_traceFile.open(filename, fstream::trunc);
-			_traceFile << "Thread " << id() << " spawned\n";
-		}
+		return _parent->configuartion().evmFileName +
+			"_thread" + to_string(id()) + ".trace";
 	}
-
-	void ThreadContext::_closeTraceFile()
-	{
-		bool trace = application()->configuartion().trace;
-		if (trace) {
-			_traceFile.close();
-			_traceFile << "Thread " << id() << " closed\n";
-		}
-	}
-
-	void ThreadContext::_logTrace(uint32_t instructionAddress, string & msg)
-	{
-		bool trace = application()->configuartion().trace;
-		if (trace) {
-			ostringstream oss;
-			oss << ":0x" << setfill('0') << setw(8) << hex << instructionAddress << ": ";
-			_traceFile << oss.str() << msg << "\n";
-		}
-	}
-
 }
