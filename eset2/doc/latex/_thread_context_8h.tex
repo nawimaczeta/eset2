@@ -1,0 +1,50 @@
+\hypertarget{_thread_context_8h}{}\section{Evm/\+Thread\+Context.h File Reference}
+\label{_thread_context_8h}\index{Evm/\+Thread\+Context.\+h@{Evm/\+Thread\+Context.\+h}}
+
+
+E\+VM thread abstraction.  
+
+
+{\ttfamily \#include \char`\"{}Runtime\+Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Trace.\+h\char`\"{}}\newline
+Include dependency graph for Thread\+Context.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_thread_context_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_thread_context_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_thread_context}{Evm\+::\+Thread\+Context}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_evm}{Evm}} thread class. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_evm_1_1_thread_error}{Evm\+::\+Thread\+Error}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_eva}{Eva}}
+\item 
+ \mbox{\hyperlink{namespace_evm}{Evm}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+E\+VM thread abstraction. 
+
+\begin{DoxyAuthor}{Author}
+Lukasz Iwanecki 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05.\+2018 Thread\+Context class represents an instance of evm thread. Each thread has an unique ID and exclusively a set of registers, program counter, call stack. Threads contain pointer to a parent -\/ Application, therefore they are capable of obtaining access to shared resouces -\/ program and data mamories, locks, and Application A\+PI. 
+\end{DoxyDate}

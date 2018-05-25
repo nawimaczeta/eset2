@@ -1,0 +1,87 @@
+\hypertarget{struct_evm_1_1_operation_1_1_jump_equal_operation}{}\section{Evm\+:\+:Operation\+:\+:Jump\+Equal\+Operation Struct Reference}
+\label{struct_evm_1_1_operation_1_1_jump_equal_operation}\index{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation@{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation}}
+
+
+jump\+Equal operation  
+
+
+
+
+{\ttfamily \#include $<$Operation.\+h$>$}
+
+
+
+Inheritance diagram for Evm\+:\+:Operation\+:\+:Jump\+Equal\+Operation\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{struct_evm_1_1_operation_1_1_jump_equal_operation__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Evm\+:\+:Operation\+:\+:Jump\+Equal\+Operation\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{struct_evm_1_1_operation_1_1_jump_equal_operation__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{struct_evm_1_1_operation_1_1_jump_equal_operation_a5edc133dd24ca78cc59203ab3ba47763}{execute}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread) override
+\begin{DoxyCompactList}\small\item\em Execution of the instruction. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_evm_1_1_operation_1_1_jump_equal_operation_a65e98ee1b1679e12c1d1dd000ebfe937}{I\+Operation}} (string \&opcode)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+jump\+Equal operation 
+
+jump\+Equal address, arg1, arg2; Move instruction pointer to address if arg1 == arg2. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_operation_1_1_jump_equal_operation_a5edc133dd24ca78cc59203ab3ba47763}\label{struct_evm_1_1_operation_1_1_jump_equal_operation_a5edc133dd24ca78cc59203ab3ba47763}} 
+\index{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation@{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation}!execute@{execute}}
+\index{execute@{execute}!Evm\+::\+Operation\+::\+Jump\+Equal\+Operation@{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation}}
+\subsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily void Evm\+::\+Operation\+::\+Jump\+Equal\+Operation\+::execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Execution of the instruction. 
+
+May by call by an application to execute the operation. The execution requires to be awared of thread context within the operation is executed. 
+\begin{DoxyParams}{Parameters}
+{\em thread} & Context of \mbox{\hyperlink{namespace_evm}{Evm}} thread \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{struct_evm_1_1_operation_1_1_i_operation_a7285631335da103423c01471dedeb1d7}{Evm\+::\+Operation\+::\+I\+Operation}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_operation_1_1_jump_equal_operation_a65e98ee1b1679e12c1d1dd000ebfe937}\label{struct_evm_1_1_operation_1_1_jump_equal_operation_a65e98ee1b1679e12c1d1dd000ebfe937}} 
+\index{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation@{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation}!I\+Operation@{I\+Operation}}
+\index{I\+Operation@{I\+Operation}!Evm\+::\+Operation\+::\+Jump\+Equal\+Operation@{Evm\+::\+Operation\+::\+Jump\+Equal\+Operation}}
+\subsubsection{\texorpdfstring{I\+Operation()}{IOperation()}}
+{\footnotesize\ttfamily Evm\+::\+Operation\+::\+I\+Operation\+::\+I\+Operation\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opcode} & Printable label of the instruction \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Evm/Operation.\+h\item 
+Evm/\mbox{\hyperlink{_operation_8cpp}{Operation.\+cpp}}\end{DoxyCompactItemize}

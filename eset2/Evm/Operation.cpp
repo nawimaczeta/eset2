@@ -1,19 +1,14 @@
+//! @file	Operation.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+
+//! Definition of Operation classes
 #include "stdafx.h"
 #include "Operation.h"
 #include "Application.h"
 
 namespace Evm {
 	namespace Operation {
-		void MovOperation::execute(ThreadContext & thread) {
-			auto arg1Value = _argList.at(0)->getValue(thread);
-			_argList.at(1)->setValue(thread, arg1Value);
-		}
-
-		void LoadConstOperation::execute(ThreadContext & thread) {
-			uint64_t constValue = _argList.at(0)->getValue(thread);
-			_argList.at(1)->setValue(thread, constValue);
-		}
-
 		void MathOperation::execute(ThreadContext & thread) {
 			// Get arguments, convert them to signed numbers
 			uint64_t arg1Value = _argList.at(0)->getValue(thread);
@@ -27,14 +22,23 @@ namespace Evm {
 			_argList.at(2)->setValue(thread, resultUnsigned);
 		}
 
+		void MovOperation::execute(ThreadContext & thread) {
+			auto arg1Value = _argList.at(0)->getValue(thread);
+			_argList.at(1)->setValue(thread, arg1Value);
+		}
+
+		void LoadConstOperation::execute(ThreadContext & thread) {
+			uint64_t constValue = _argList.at(0)->getValue(thread);
+			_argList.at(1)->setValue(thread, constValue);
+		}
+
 		void ConsoleWriteOperation::execute(ThreadContext & thread) {
 			static mutex sem;
 
 			{
 				// mutex protection of console output.
-				// In my opinion this is a shared resource and should be protected by
-				// implementon
 				lock_guard<mutex> lock(sem);
+
 				uint64_t value = _argList.at(0)->getValue(thread);
 				ios_base::fmtflags flags{ cout.flags() };
 				cout << "0x" << setfill('0') << setw(16) << hex << value << "\n";
@@ -108,9 +112,9 @@ namespace Evm {
 			static mutex sem;
 
 			{
-				// mutex protection of console output.
+				// mutex protection of file.
 				// In my opinion this is a shared resource and should be protected by
-				// implementon. I decided to implement the lock to achieve good
+				// by locks in user application. However I decided to implement the lock to achieve good
 				// execution of multithreaded_file_write.evm example
 				lock_guard<mutex> lock(sem);
 				auto offset = _argList.at(0)->getValue(thread);

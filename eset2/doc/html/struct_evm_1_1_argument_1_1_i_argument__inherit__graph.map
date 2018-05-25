@@ -1,0 +1,10 @@
+<map id="Evm::Argument::IArgument" name="Evm::Argument::IArgument">
+<area shape="rect" id="node2" href="$struct_evm_1_1_argument_1_1_address_argument.html" title="Address argument. " alt="" coords="232,5,455,32"/>
+<area shape="rect" id="node3" href="$struct_evm_1_1_argument_1_1_const_argument.html" title="Const argument. " alt="" coords="239,56,448,83"/>
+<area shape="rect" id="node4" href="$struct_evm_1_1_argument_1_1_i_register_base_argument.html" title="Subinterface for register based arguments. " alt="" coords="258,107,429,149"/>
+<area shape="rect" id="node5" href="$struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument.html" title="Memory BYTE[rX] argument. " alt="" coords="511,13,767,40"/>
+<area shape="rect" id="node6" href="$struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument.html" title="Memory DWORD[rX] argument. " alt="" coords="503,64,775,91"/>
+<area shape="rect" id="node7" href="$struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument.html" title="Memory QWORD[rX] argument. " alt="" coords="503,115,776,141"/>
+<area shape="rect" id="node8" href="$struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument.html" title="Memory WORD[rX] argument. " alt="" coords="508,165,771,192"/>
+<area shape="rect" id="node9" href="$struct_evm_1_1_argument_1_1_register_argument.html" title="Register argument (rX) " alt="" coords="528,216,751,243"/>
+</map>

@@ -1,9 +1,16 @@
+//! @file	Argument.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+//! 
+//! Definition of Argument classes
 #include "stdafx.h"
 #include "Argument.h"
 #include "Application.h"
 
 namespace Evm {
 	namespace Argument {
+		//! Use during bytes conversion to BYTEs, WORDs, DWORDs and QWORDs
+		//! It is also good for big- little-endian convertion
 		union ConvertUnion {
 			uint64_t u64;
 			uint32_t u32[2];
@@ -11,26 +18,23 @@ namespace Evm {
 			uint8_t u8[8];
 		};
 
-		/*
-		Acquire argument form the bit stram
-		*/
-		ArgumentPtr getRegisterArgument(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getRegisterArgument(const Utils::BitBuffer & programMemory, uint32_t & offset)
 		{
 			ArgumentPtr arg = nullptr;
 
 			try {
-				auto argType = bb.getU8(offset, 1);
+				auto argType = programMemory.getU8(offset, 1);
 				if (argType == 0) {
 					// Argument - index of a register
-					auto regIndex = bb.getU8(offset + 1, 4, true);
+					auto regIndex = programMemory.getU8(offset + 1, 4, true);
 
 					offset += 5;
 					arg = make_unique<RegisterArgument>(regIndex);
 				}
 				else {
 					// Memory argument
-					auto memorySize = bb.getU8(offset + 1, 2, true);
-					auto regIndex = bb.getU8(offset + 3, 4, true);
+					auto memorySize = programMemory.getU8(offset + 1, 2, true);
+					auto regIndex = programMemory.getU8(offset + 3, 4, true);
 					offset += 7;
 
 					switch (memorySize) {
@@ -64,13 +68,10 @@ namespace Evm {
 			return arg;
 		}
 
-		/*
-		Acquire constant form the bit stram
-		*/
-		ArgumentPtr getConstantArgument(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getConstantArgument(const Utils::BitBuffer & programMemory, uint32_t & offset)
 		{
 			try {
-				auto value = bb.getU64(offset, 64, true);
+				auto value = programMemory.getU64(offset, 64, true);
 				offset += 64;
 				return make_unique<ConstArgument>(value);
 			}
@@ -80,13 +81,10 @@ namespace Evm {
 			}
 		}
 
-		/*
-		Acquire instruction address form the bit stream
-		*/
-		ArgumentPtr getAddressArgument(const Utils::BitBuffer & bb, uint32_t & offset)
+		ArgumentPtr getAddressArgument(const Utils::BitBuffer & programMemory, uint32_t & offset)
 		{
 			try {
-				auto value = bb.getU32(offset, 32, true);
+				auto value = programMemory.getU32(offset, 32, true);
 				offset += 32;
 				return make_unique<AddressArgument>(value);
 			}
@@ -95,7 +93,6 @@ namespace Evm {
 				throw ProgramMemoryOutOfRangeRuntimeError{};
 			}
 		}
-
 
 		uint64_t RegisterArgument::getValue(ThreadContext & thread) const
 		{
@@ -109,13 +106,13 @@ namespace Evm {
 
 		string RegisterArgument::label() const
 		{
-			return "reg" + to_string(_regIndex);
+			return "r" + to_string(_regIndex);
 		}
 
 		string RegisterArgument::printValue(ThreadContext & thread) const
 		{
 			ostringstream oss;
-			oss << "reg" << to_string(_regIndex) << ":0x" << setfill('0') << setw(16) << hex << getValue(thread);
+			oss << "r" << to_string(_regIndex) << ":0x" << setfill('0') << setw(16) << hex << getValue(thread);
 			return oss.str();
 		}
 
@@ -156,7 +153,7 @@ namespace Evm {
 
 		string MemoryBYTEArgument::label() const
 		{
-			return "BYTE[reg" + to_string(_regIndex) + "]";
+			return "BYTE[r" + to_string(_regIndex) + "]";
 		}
 
 		string MemoryBYTEArgument::printValue(ThreadContext & thread) const
@@ -214,7 +211,7 @@ namespace Evm {
 
 		string MemoryWORDArgument::label() const
 		{
-			return "WORD[reg" + to_string(_regIndex) + "]";
+			return "WORD[r" + to_string(_regIndex) + "]";
 		}
 
 		string MemoryWORDArgument::printValue(ThreadContext & thread) const
@@ -276,7 +273,7 @@ namespace Evm {
 
 		string MemoryDWORDArgument::label() const
 		{
-			return "DWORD[reg" + to_string(_regIndex) + "]";
+			return "DWORD[r" + to_string(_regIndex) + "]";
 		}
 
 		string MemoryDWORDArgument::printValue(ThreadContext & thread) const
@@ -345,7 +342,7 @@ namespace Evm {
 
 		string MemoryQWORDArgument::label() const
 		{
-			return "QWORD[reg" + to_string(_regIndex) + "]";
+			return "QWORD[r" + to_string(_regIndex) + "]";
 		}
 
 		string MemoryQWORDArgument::printValue(ThreadContext & thread) const

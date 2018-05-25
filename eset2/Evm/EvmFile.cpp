@@ -1,16 +1,18 @@
-
+//! @file	EvmFile.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+//! 
+//! Evm file related functions and structures
 #include "stdafx.h"
 #include "EvmFile.h"
 #include "RuntimeError.h"
 
 namespace Evm {
 	namespace File {
-		static const uint32_t HEADER_SIZE = 20;
-		static const char HEADER_MAGIC[8] = { 'E', 'S', 'E', 'T', '-', 'V' , 'M', '2' };
+		static const uint32_t HEADER_SIZE = 20;		//!< Header size in bytes
+		static const char HEADER_MAGIC[8] = 
+		{ 'E', 'S', 'E', 'T', '-', 'V' , 'M', '2' };	//!< Evm file magic
 
-		/*
-		Make evm object from given file
-		*/
 		unique_ptr<File::EvmFile> makeEvmFromFile(const string & filename)
 		{
 			ifstream ifs(filename, ios::binary);
@@ -33,10 +35,12 @@ namespace Evm {
 				evm->header.magic[i] = ifs.get();
 			}
 
+			// Fill EvmFile::Header with values from the file
 			ifs.read(reinterpret_cast<char *>(&evm->header.codeSize), 4);
 			ifs.read(reinterpret_cast<char *>(&evm->header.dataSize), 4);
 			ifs.read(reinterpret_cast<char *>(&evm->header.initialDataSize), 4);
 
+			// Get payload
 			Bytes newPayload(evm->fileSize - HEADER_SIZE);
 			ifs.read(reinterpret_cast<char *>(newPayload.data()), newPayload.size());
 

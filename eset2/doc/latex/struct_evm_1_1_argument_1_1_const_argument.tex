@@ -1,0 +1,130 @@
+\hypertarget{struct_evm_1_1_argument_1_1_const_argument}{}\section{Evm\+:\+:Argument\+:\+:Const\+Argument Struct Reference}
+\label{struct_evm_1_1_argument_1_1_const_argument}\index{Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}}
+
+
+Inheritance diagram for Evm\+:\+:Argument\+:\+:Const\+Argument\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{struct_evm_1_1_argument_1_1_const_argument__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Evm\+:\+:Argument\+:\+:Const\+Argument\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{struct_evm_1_1_argument_1_1_const_argument__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_const_argument_a58766ea5cf2f90482407c040b9d78d5d}\label{struct_evm_1_1_argument_1_1_const_argument_a58766ea5cf2f90482407c040b9d78d5d}} 
+{\bfseries Const\+Argument} (uint64\+\_\+t const\+Value)
+\item 
+virtual uint64\+\_\+t \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_abd4e5bb5fdad5eb9bd76436ea9c6836c}{get\+Value}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread) const override
+\begin{DoxyCompactList}\small\item\em Get value. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_ab456fa9175551b4c04815ccd65c76bd2}{set\+Value}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread, uint64\+\_\+t value) override
+\begin{DoxyCompactList}\small\item\em Set value. \end{DoxyCompactList}\item 
+virtual string \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_a90801800ff37e785e946f077f1c486f6}{label}} () const override
+\begin{DoxyCompactList}\small\item\em Get printable representation of the argument. \end{DoxyCompactList}\item 
+virtual string \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_a5741f701088fadebf19b733c6973898b}{print\+Value}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread) const override
+\begin{DoxyCompactList}\small\item\em Get printable value of the parameter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_const_argument_abd4e5bb5fdad5eb9bd76436ea9c6836c}\label{struct_evm_1_1_argument_1_1_const_argument_abd4e5bb5fdad5eb9bd76436ea9c6836c}} 
+\index{Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}!get\+Value@{get\+Value}}
+\index{get\+Value@{get\+Value}!Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}}
+\subsubsection{\texorpdfstring{get\+Value()}{getValue()}}
+{\footnotesize\ttfamily uint64\+\_\+t Evm\+::\+Argument\+::\+Const\+Argument\+::get\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get value. 
+
+Return value of the argument 
+\begin{DoxyParams}{Parameters}
+{\em thread} & Thread context within this argument is used \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value of the parameter 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_af01db10f34498344831877847c2fc038}{Evm\+::\+Argument\+::\+I\+Argument}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_const_argument_a90801800ff37e785e946f077f1c486f6}\label{struct_evm_1_1_argument_1_1_const_argument_a90801800ff37e785e946f077f1c486f6}} 
+\index{Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}!label@{label}}
+\index{label@{label}!Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}}
+\subsubsection{\texorpdfstring{label()}{label()}}
+{\footnotesize\ttfamily string Evm\+::\+Argument\+::\+Const\+Argument\+::label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get printable representation of the argument. 
+
+\begin{DoxyReturn}{Returns}
+string with argument label 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_a35bdae816e89f6f9fc393b6e03c5e521}{Evm\+::\+Argument\+::\+I\+Argument}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_const_argument_a5741f701088fadebf19b733c6973898b}\label{struct_evm_1_1_argument_1_1_const_argument_a5741f701088fadebf19b733c6973898b}} 
+\index{Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}!print\+Value@{print\+Value}}
+\index{print\+Value@{print\+Value}!Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}}
+\subsubsection{\texorpdfstring{print\+Value()}{printValue()}}
+{\footnotesize\ttfamily string Evm\+::\+Argument\+::\+Const\+Argument\+::print\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get printable value of the parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thread} & Thread context within this argument is used \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string with argument value 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_afcab2d2a1515518a111881a635c83da3}{Evm\+::\+Argument\+::\+I\+Argument}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_const_argument_ab456fa9175551b4c04815ccd65c76bd2}\label{struct_evm_1_1_argument_1_1_const_argument_ab456fa9175551b4c04815ccd65c76bd2}} 
+\index{Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}!set\+Value@{set\+Value}}
+\index{set\+Value@{set\+Value}!Evm\+::\+Argument\+::\+Const\+Argument@{Evm\+::\+Argument\+::\+Const\+Argument}}
+\subsubsection{\texorpdfstring{set\+Value()}{setValue()}}
+{\footnotesize\ttfamily void Evm\+::\+Argument\+::\+Const\+Argument\+::set\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread,  }\item[{uint64\+\_\+t}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Set value. 
+
+Set value of the argument. \begin{DoxyWarning}{Warning}
+For read-\/only arguments this throws an exception 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em thread} & Thread context within this argument is used \\
+\hline
+{\em value} & New value of the parameter \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_a24e4c76f2750e664e3895d2ff4b9146d}{Evm\+::\+Argument\+::\+I\+Argument}}.
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Evm/\mbox{\hyperlink{_argument_8h}{Argument.\+h}}\item 
+Evm/Argument.\+cpp\end{DoxyCompactItemize}

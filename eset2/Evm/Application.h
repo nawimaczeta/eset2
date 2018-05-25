@@ -14,14 +14,13 @@
 #pragma once
 
 #include "stdafx.h"
-//#include "ThreadContext.h"
 #include "Memory.h"
 #include "BitBuffer.h"
 #include "EvmFile.h"
 
 struct ThreadContext;
 
-//! @namespace Eva
+//! @namespace Evm
 //!
 //! Main namespace of Evm library
 namespace Evm {

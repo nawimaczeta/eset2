@@ -1,0 +1,252 @@
+\hypertarget{struct_evm_1_1_thread_context}{}\section{Evm\+:\+:Thread\+Context Struct Reference}
+\label{struct_evm_1_1_thread_context}\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+
+
+\mbox{\hyperlink{namespace_evm}{Evm}} thread class.  
+
+
+
+
+{\ttfamily \#include $<$Thread\+Context.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_evm_1_1_thread_context_acfbc6d50abd403e1d5ad80844e01cf66}{Thread\+Context}} (\mbox{\hyperlink{struct_evm_1_1_application}{Application}} $\ast$\mbox{\hyperlink{struct_evm_1_1_thread_context_ace9600627e2e504650735d1c132897ad}{application}})
+\begin{DoxyCompactList}\small\item\em Basic constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_evm_1_1_thread_context_ab48faed75f15ece141cc169b9308a634}{Thread\+Context}} (const \mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&caller, uint32\+\_\+t address)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_evm_1_1_thread_context_a55937dfacd5c99758e21d3ad1a233248}{id}} () const
+\begin{DoxyCompactList}\small\item\em Get Thread ID. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_a1783f0f6cd523e7dc161bda3bfc1da91}{run}} ()
+\begin{DoxyCompactList}\small\item\em Run the thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_a990679f6118a8ba97d1a25400768c7c8}{join}} ()
+\begin{DoxyCompactList}\small\item\em Join the thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_a4f9e4331dffb52e0165c3ffc27ca1421}{sleep}} (uint64\+\_\+t ms)
+\begin{DoxyCompactList}\small\item\em Sleep. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_ae095ee4a87d555fa4c3a55584b058ebb}{reg}} (uint8\+\_\+t index, uint64\+\_\+t value)
+\item 
+uint64\+\_\+t \mbox{\hyperlink{struct_evm_1_1_thread_context_a7a599a3cce4260d4c54be752e20bace8}{reg}} (uint8\+\_\+t index) const
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_evm_1_1_thread_context_a25d16549548a3c6dc375e25da9729ccc}{program\+Counter}} () const
+\begin{DoxyCompactList}\small\item\em Get value in program counter. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_accc8a047d91d5dc8defd19d9a1a1e5a1}{program\+Counter}} (uint32\+\_\+t new\+Value)
+\begin{DoxyCompactList}\small\item\em Set value to program counter. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_aaf430328926f33c679492b43e79ca302}{push}} (uint32\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Push value to a stack. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_evm_1_1_thread_context_aaa860b37b80d9f68292c04df7f7bf030}{pop}} ()
+\item 
+\mbox{\hyperlink{struct_evm_1_1_application}{Application}} $\ast$ \mbox{\hyperlink{struct_evm_1_1_thread_context_ace9600627e2e504650735d1c132897ad}{application}} ()
+\begin{DoxyCompactList}\small\item\em Get pointer to application. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_thread_context_aed1e36bdf15b042767c1301d5901ba6c}{terminate}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{namespace_evm}{Evm}} thread class. 
+
+The class provides basic functionality of a single evm thread. \mbox{\hyperlink{namespace_evm}{Evm}} appliation has at least one thread 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_acfbc6d50abd403e1d5ad80844e01cf66}\label{struct_evm_1_1_thread_context_acfbc6d50abd403e1d5ad80844e01cf66}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!Thread\+Context@{Thread\+Context}}
+\index{Thread\+Context@{Thread\+Context}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{Thread\+Context()}{ThreadContext()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Evm\+::\+Thread\+Context\+::\+Thread\+Context (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_application}{Application}} $\ast$}]{application }\end{DoxyParamCaption})}
+
+
+
+Basic constructor. 
+
+Usually used to create the first thread.  appliation Pointer to a parent \mbox{\Hypertarget{struct_evm_1_1_thread_context_ab48faed75f15ece141cc169b9308a634}\label{struct_evm_1_1_thread_context_ab48faed75f15ece141cc169b9308a634}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!Thread\+Context@{Thread\+Context}}
+\index{Thread\+Context@{Thread\+Context}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{Thread\+Context()}{ThreadContext()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Evm\+::\+Thread\+Context\+::\+Thread\+Context (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{caller,  }\item[{uint32\+\_\+t}]{address }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+It is used to create new evm threads that are based on caller thread 
+\begin{DoxyParams}{Parameters}
+{\em caller} & Reference to caller thread \\
+\hline
+{\em address} & Program counter value for the new thread \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_ace9600627e2e504650735d1c132897ad}\label{struct_evm_1_1_thread_context_ace9600627e2e504650735d1c132897ad}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!application@{application}}
+\index{application@{application}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{application()}{application()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_evm_1_1_application}{Application}} $\ast$ Evm\+::\+Thread\+Context\+::application (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get pointer to application. 
+
+Return pointer to a parent -\/ application It is good way to achieve access to application shared data like other threads, locks and memory \begin{DoxyReturn}{Returns}
+Pointer to parent application 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_a55937dfacd5c99758e21d3ad1a233248}\label{struct_evm_1_1_thread_context_a55937dfacd5c99758e21d3ad1a233248}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!id@{id}}
+\index{id@{id}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{id()}{id()}}
+{\footnotesize\ttfamily uint32\+\_\+t Evm\+::\+Thread\+Context\+::id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get Thread ID. 
+
+The function returns the thread ID \begin{DoxyReturn}{Returns}
+Thread IS 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_a990679f6118a8ba97d1a25400768c7c8}\label{struct_evm_1_1_thread_context_a990679f6118a8ba97d1a25400768c7c8}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!join@{join}}
+\index{join@{join}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{join()}{join()}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::join (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Join the thread. 
+
+The sunction suspends until the thread is in exetution. \begin{DoxyNote}{Note}
+Blocking function 
+\end{DoxyNote}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_aaa860b37b80d9f68292c04df7f7bf030}\label{struct_evm_1_1_thread_context_aaa860b37b80d9f68292c04df7f7bf030}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!pop@{pop}}
+\index{pop@{pop}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{pop()}{pop()}}
+{\footnotesize\ttfamily uint32\+\_\+t Evm\+::\+Thread\+Context\+::pop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Pop value from a stack
+
+Load return address form a stack \begin{DoxyReturn}{Returns}
+Value from the top of the stuck 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_a25d16549548a3c6dc375e25da9729ccc}\label{struct_evm_1_1_thread_context_a25d16549548a3c6dc375e25da9729ccc}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!program\+Counter@{program\+Counter}}
+\index{program\+Counter@{program\+Counter}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{program\+Counter()}{programCounter()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily uint32\+\_\+t Evm\+::\+Thread\+Context\+::program\+Counter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get value in program counter. 
+
+Current value in program counter \mbox{\Hypertarget{struct_evm_1_1_thread_context_accc8a047d91d5dc8defd19d9a1a1e5a1}\label{struct_evm_1_1_thread_context_accc8a047d91d5dc8defd19d9a1a1e5a1}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!program\+Counter@{program\+Counter}}
+\index{program\+Counter@{program\+Counter}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{program\+Counter()}{programCounter()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::program\+Counter (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{new\+Value }\end{DoxyParamCaption})}
+
+
+
+Set value to program counter. 
+
+It is good for jump and call instructions 
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & New value for Program Counter \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_aaf430328926f33c679492b43e79ca302}\label{struct_evm_1_1_thread_context_aaf430328926f33c679492b43e79ca302}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!push@{push}}
+\index{push@{push}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{push()}{push()}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::push (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{value }\end{DoxyParamCaption})}
+
+
+
+Push value to a stack. 
+
+Save return address on a stack 
+\begin{DoxyParams}{Parameters}
+{\em value} & Value to push to the stack \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_ae095ee4a87d555fa4c3a55584b058ebb}\label{struct_evm_1_1_thread_context_ae095ee4a87d555fa4c3a55584b058ebb}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!reg@{reg}}
+\index{reg@{reg}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{reg()}{reg()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::reg (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{index,  }\item[{uint64\+\_\+t}]{value }\end{DoxyParamCaption})}
+
+Set a value to a register with given index 
+\begin{DoxyParams}{Parameters}
+{\em index} & Index of the register (0-\/15) \\
+\hline
+{\em value} & New value \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_bad_register_runtime_error}{Bad\+Register\+Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_a7a599a3cce4260d4c54be752e20bace8}\label{struct_evm_1_1_thread_context_a7a599a3cce4260d4c54be752e20bace8}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!reg@{reg}}
+\index{reg@{reg}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{reg()}{reg()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily uint64\+\_\+t Evm\+::\+Thread\+Context\+::reg (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{index }\end{DoxyParamCaption}) const}
+
+Get a value of a register with given index 
+\begin{DoxyParams}{Parameters}
+{\em index} & Index of the register (0-\/15) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value Value of the register 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_bad_register_runtime_error}{Bad\+Register\+Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_a1783f0f6cd523e7dc161bda3bfc1da91}\label{struct_evm_1_1_thread_context_a1783f0f6cd523e7dc161bda3bfc1da91}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!run@{run}}
+\index{run@{run}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run the thread. 
+
+The function launches the current thread. Essentially it spowns a system thread. A task operates in loop where the evm instructions are captured, decoded and executed. The exectution lasts until \mbox{\hyperlink{struct_evm_1_1_thread_context_aed1e36bdf15b042767c1301d5901ba6c}{terminate()}} function is called or and error occurs. \begin{DoxyNote}{Note}
+Non-\/blocking function 
+\end{DoxyNote}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_a4f9e4331dffb52e0165c3ffc27ca1421}\label{struct_evm_1_1_thread_context_a4f9e4331dffb52e0165c3ffc27ca1421}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!sleep@{sleep}}
+\index{sleep@{sleep}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{sleep()}{sleep()}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::sleep (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{ms }\end{DoxyParamCaption})}
+
+
+
+Sleep. 
+
+Suspend execution of the thread for given time 
+\begin{DoxyParams}{Parameters}
+{\em ms} & Time in milliseconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Blocking function 
+\end{DoxyNote}
+\mbox{\Hypertarget{struct_evm_1_1_thread_context_aed1e36bdf15b042767c1301d5901ba6c}\label{struct_evm_1_1_thread_context_aed1e36bdf15b042767c1301d5901ba6c}} 
+\index{Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}!terminate@{terminate}}
+\index{terminate@{terminate}!Evm\+::\+Thread\+Context@{Evm\+::\+Thread\+Context}}
+\subsubsection{\texorpdfstring{terminate()}{terminate()}}
+{\footnotesize\ttfamily void Evm\+::\+Thread\+Context\+::terminate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Terminate
+
+Terminate a thread 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Evm/\mbox{\hyperlink{_thread_context_8h}{Thread\+Context.\+h}}\item 
+Evm/\mbox{\hyperlink{_thread_context_8cpp}{Thread\+Context.\+cpp}}\end{DoxyCompactItemize}

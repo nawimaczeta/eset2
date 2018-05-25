@@ -1,0 +1,8 @@
+<map id="Evm::Argument::IRegisterBaseArgument" name="Evm::Argument::IRegisterBaseArgument">
+<area shape="rect" id="node3" href="$struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument.html" title="Memory BYTE[rX] argument. " alt="" coords="459,5,715,32"/>
+<area shape="rect" id="node4" href="$struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument.html" title="Memory DWORD[rX] argument. " alt="" coords="451,56,723,83"/>
+<area shape="rect" id="node5" href="$struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument.html" title="Memory QWORD[rX] argument. " alt="" coords="451,107,724,133"/>
+<area shape="rect" id="node6" href="$struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument.html" title="Memory WORD[rX] argument. " alt="" coords="456,157,719,184"/>
+<area shape="rect" id="node7" href="$struct_evm_1_1_argument_1_1_register_argument.html" title="Register argument (rX) " alt="" coords="476,208,699,235"/>
+<area shape="rect" id="node2" href="$struct_evm_1_1_argument_1_1_i_argument.html" title="Evm::Argument::IArgument" alt="" coords="5,107,184,133"/>
+</map>

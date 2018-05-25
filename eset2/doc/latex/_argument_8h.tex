@@ -1,0 +1,83 @@
+\hypertarget{_argument_8h}{}\section{Evm/\+Argument.h File Reference}
+\label{_argument_8h}\index{Evm/\+Argument.\+h@{Evm/\+Argument.\+h}}
+
+
+Argument interface.  
+
+
+{\ttfamily \#include \char`\"{}stdafx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Thread\+Context.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Bit\+Buffer.\+h\char`\"{}}\newline
+Include dependency graph for Argument.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_argument_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_argument_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument}{Evm\+::\+Argument\+::\+I\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_register_base_argument}{Evm\+::\+Argument\+::\+I\+Register\+Base\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_register_argument}{Evm\+::\+Argument\+::\+Register\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument}{Evm\+::\+Argument\+::\+Memory\+B\+Y\+T\+E\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument}{Evm\+::\+Argument\+::\+Memory\+W\+O\+R\+D\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument}{Evm\+::\+Argument\+::\+Memory\+D\+W\+O\+R\+D\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument}{Evm\+::\+Argument\+::\+Memory\+Q\+W\+O\+R\+D\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument}{Evm\+::\+Argument\+::\+Const\+Argument}}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_argument_1_1_address_argument}{Evm\+::\+Argument\+::\+Address\+Argument}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_evm}{Evm}}
+\item 
+ \mbox{\hyperlink{namespace_operation}{Operation}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_argument_8h_a381695562092c5476ce10e9c1de85c39}\label{_argument_8h_a381695562092c5476ce10e9c1de85c39}} 
+using {\bfseries Evm\+::\+Argument\+::\+Argument\+Ptr} = unique\+\_\+ptr$<$ Argument\+::\+I\+Argument $>$
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_argument_8cpp_abd976cba2d60258125ddf78fa42169ab}\label{_argument_8cpp_abd976cba2d60258125ddf78fa42169ab}} 
+Argument\+Ptr {\bfseries Evm\+::\+Argument\+::get\+Register\+Argument} (const Utils\+::\+Bit\+Buffer \&bb, uint32\+\_\+t \&offset)
+\item 
+\mbox{\Hypertarget{_argument_8cpp_a2675a4417e4dae7cdc37b8da02b81566}\label{_argument_8cpp_a2675a4417e4dae7cdc37b8da02b81566}} 
+Argument\+Ptr {\bfseries Evm\+::\+Argument\+::get\+Constant\+Argument} (const Utils\+::\+Bit\+Buffer \&bb, uint32\+\_\+t \&offset)
+\item 
+\mbox{\Hypertarget{_argument_8cpp_a36b08c051d864bfda048a3011f695864}\label{_argument_8cpp_a36b08c051d864bfda048a3011f695864}} 
+Argument\+Ptr {\bfseries Evm\+::\+Argument\+::get\+Address\+Argument} (const Utils\+::\+Bit\+Buffer \&bb, uint32\+\_\+t \&offset)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Argument interface. 
+
+\begin{DoxyAuthor}{Author}
+Lukasz Iwanecki 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05.\+2018 I\+Argument interface represents \mbox{\hyperlink{namespace_evm}{Evm}} instruction argument. Arguments are passes to I\+Operation class. \mbox{\hyperlink{namespace_evm}{Evm}} sepcification intriduces a few argument types\+: address, constant, register, B\+Y\+TE, W\+O\+R\+Dm D\+W\+O\+RD and Q\+W\+O\+RD. Each of them can be implemeted as I\+Argument. Argument values are always 64bit unsigned numbers. It is usually true but there is one exception -\/ address argument is 32-\/bit. It is up caller class to cast that value to 32-\/bit, but fortunatly the caller is awared of argument types it uses. The I\+Argument interface has two classes responsible of printing the arguemnt. label() function prints readable form of the argument. print\+Value() returns label as well as value of the parameter in runtime 
+\end{DoxyDate}

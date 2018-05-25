@@ -1,4 +1,8 @@
-
+//! @file	BitBuffer.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+//! 
+//! Definition of BitBuffer classes
 #include "stdafx.h"
 #include "BitBuffer.h"
 #include "RuntimeError.h"

@@ -1,0 +1,58 @@
+\hypertarget{_application_8h}{}\section{Evm/\+Application.h File Reference}
+\label{_application_8h}\index{Evm/\+Application.\+h@{Evm/\+Application.\+h}}
+
+
+E\+VM application.  
+
+
+{\ttfamily \#include \char`\"{}stdafx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Memory.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Bit\+Buffer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Evm\+File.\+h\char`\"{}}\newline
+Include dependency graph for Application.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_application_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_application_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_evm_1_1_cli_configuration}{Evm\+::\+Cli\+Configuration}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_evm}{Evm}} configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_evm_1_1_application}{Evm\+::\+Application}}
+\begin{DoxyCompactList}\small\item\em Main E\+VM application class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_evm}{Evm}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespace_evm_aa2edd047bba5bfc0fd7bdf9d49538c16}{Evm\+::get\+Cli\+Configuration}} (int argc, char $\ast$$\ast$argv, Cli\+Configuration \&cli\+Config)
+\begin{DoxyCompactList}\small\item\em Get evm configuration from cli. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespace_evm_a2bc4977241c7e7f3b7014738bdb57424}\label{namespace_evm_a2bc4977241c7e7f3b7014738bdb57424}} 
+void \mbox{\hyperlink{namespace_evm_a2bc4977241c7e7f3b7014738bdb57424}{Evm\+::get\+Cli\+Configuration}} (Cli\+Configuration \&cli\+Config)
+\begin{DoxyCompactList}\small\item\em Get hardcoded evm configuration (For tests) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+E\+VM application. 
+
+\begin{DoxyAuthor}{Author}
+Lukasz Iwanecki 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05.\+2018 E\+VM application abstraction. It is responsible for parsing and running evm file. It also provides data and program memories, thread list, locks list input file as well as interfaces to these objects. To run the application, you should fill the Cli\+Configuration structure or let it to be captured from a console by \mbox{\hyperlink{namespace_evm_aa2edd047bba5bfc0fd7bdf9d49538c16}{get\+Cli\+Configuration()}}. Create an Application object with the configuration as a parameter. Invoke run() method and then wait() to suspend the main thread until the evm execution is ready. The application throws Evm\+::\+Runtime\+Errors that shoul be cought and print to an user 
+\end{DoxyDate}

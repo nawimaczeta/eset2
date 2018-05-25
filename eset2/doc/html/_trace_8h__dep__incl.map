@@ -1,0 +1,11 @@
+<map id="Evm/Trace.h" name="Evm/Trace.h">
+<area shape="rect" id="node2" href="$_thread_context_8h.html" title="EVM thread abstraction. " alt="" coords="203,80,350,107"/>
+<area shape="rect" id="node3" href="$_application_8cpp.html" title="EVM application. " alt="" coords="5,155,145,181"/>
+<area shape="rect" id="node4" href="$_argument_8h.html" title="Argument interface. " alt="" coords="169,155,288,181"/>
+<area shape="rect" id="node6" href="$_operation_8h.html" title="Operation &#45; abstraction which represent Evm instruction. " alt="" coords="267,229,385,256"/>
+<area shape="rect" id="node10" href="$_thread_context_8cpp.html" title="EVM application. " alt="" coords="350,379,510,405"/>
+<area shape="rect" id="node5" href="$_argument_8cpp.html" title="Evm/Argument.cpp" alt="" coords="111,229,243,256"/>
+<area shape="rect" id="node9" href="$_operation_factory_8cpp.html" title="OperationFactory class definition. " alt="" coords="7,379,183,405"/>
+<area shape="rect" id="node7" href="$_operation_8cpp.html" title="Evm/Operation.cpp" alt="" coords="260,304,392,331"/>
+<area shape="rect" id="node8" href="$_operation_factory_8h.html" title="Operation &#45; abstraction which represent Evm instruction. " alt="" coords="73,304,235,331"/>
+</map>

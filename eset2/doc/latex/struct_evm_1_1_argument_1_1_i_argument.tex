@@ -1,0 +1,119 @@
+\hypertarget{struct_evm_1_1_argument_1_1_i_argument}{}\section{Evm\+:\+:Argument\+:\+:I\+Argument Struct Reference}
+\label{struct_evm_1_1_argument_1_1_i_argument}\index{Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}}
+
+
+Inheritance diagram for Evm\+:\+:Argument\+:\+:I\+Argument\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{struct_evm_1_1_argument_1_1_i_argument__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_i_argument_a46a050eab0061cce199ca390bb91ed0a}\label{struct_evm_1_1_argument_1_1_i_argument_a46a050eab0061cce199ca390bb91ed0a}} 
+virtual \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_a46a050eab0061cce199ca390bb91ed0a}{$\sim$\+I\+Argument}} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+virtual uint64\+\_\+t \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_af01db10f34498344831877847c2fc038}{get\+Value}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread) const =0
+\begin{DoxyCompactList}\small\item\em Get value. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_a24e4c76f2750e664e3895d2ff4b9146d}{set\+Value}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread, uint64\+\_\+t value)=0
+\begin{DoxyCompactList}\small\item\em Set value. \end{DoxyCompactList}\item 
+virtual string \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_a35bdae816e89f6f9fc393b6e03c5e521}{label}} () const =0
+\begin{DoxyCompactList}\small\item\em Get printable representation of the argument. \end{DoxyCompactList}\item 
+virtual string \mbox{\hyperlink{struct_evm_1_1_argument_1_1_i_argument_afcab2d2a1515518a111881a635c83da3}{print\+Value}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&thread) const =0
+\begin{DoxyCompactList}\small\item\em Get printable value of the parameter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_i_argument_af01db10f34498344831877847c2fc038}\label{struct_evm_1_1_argument_1_1_i_argument_af01db10f34498344831877847c2fc038}} 
+\index{Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}!get\+Value@{get\+Value}}
+\index{get\+Value@{get\+Value}!Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}}
+\subsubsection{\texorpdfstring{get\+Value()}{getValue()}}
+{\footnotesize\ttfamily virtual uint64\+\_\+t Evm\+::\+Argument\+::\+I\+Argument\+::get\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get value. 
+
+Return value of the argument 
+\begin{DoxyParams}{Parameters}
+{\em thread} & Thread context within this argument is used \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value of the parameter 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{struct_evm_1_1_argument_1_1_address_argument_a8dfdf1626e06e7c72af39ca3f09ecec7}{Evm\+::\+Argument\+::\+Address\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_abd4e5bb5fdad5eb9bd76436ea9c6836c}{Evm\+::\+Argument\+::\+Const\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument_a07ee2f720366e41d8509f3c5aef8a46a}{Evm\+::\+Argument\+::\+Memory\+Q\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument_a2236851a43925f9c93db6d107bc5986e}{Evm\+::\+Argument\+::\+Memory\+D\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument_a689f534d26558b10f9d10ae80e221dee}{Evm\+::\+Argument\+::\+Memory\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument_af038f3d7e425ef70f5688bda45eb8d31}{Evm\+::\+Argument\+::\+Memory\+B\+Y\+T\+E\+Argument}}, and \mbox{\hyperlink{struct_evm_1_1_argument_1_1_register_argument_aa2bb3ec054c1370ccde12b283f9887b1}{Evm\+::\+Argument\+::\+Register\+Argument}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_i_argument_a35bdae816e89f6f9fc393b6e03c5e521}\label{struct_evm_1_1_argument_1_1_i_argument_a35bdae816e89f6f9fc393b6e03c5e521}} 
+\index{Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}!label@{label}}
+\index{label@{label}!Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}}
+\subsubsection{\texorpdfstring{label()}{label()}}
+{\footnotesize\ttfamily virtual string Evm\+::\+Argument\+::\+I\+Argument\+::label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get printable representation of the argument. 
+
+\begin{DoxyReturn}{Returns}
+string with argument label 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{struct_evm_1_1_argument_1_1_address_argument_a4a8ca0f63e6139140f924c2cab9b3d40}{Evm\+::\+Argument\+::\+Address\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_a90801800ff37e785e946f077f1c486f6}{Evm\+::\+Argument\+::\+Const\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument_adb47000f058eca32e797c63857b4a558}{Evm\+::\+Argument\+::\+Memory\+Q\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument_aa65e3072de44a5261193fdcfa2babc11}{Evm\+::\+Argument\+::\+Memory\+D\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument_a3a719074885eb9d1329e75a2b888bd47}{Evm\+::\+Argument\+::\+Memory\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument_afbe889873f7f6c825d9554e2029294b3}{Evm\+::\+Argument\+::\+Memory\+B\+Y\+T\+E\+Argument}}, and \mbox{\hyperlink{struct_evm_1_1_argument_1_1_register_argument_ab464babd0865a84e76265843c355220b}{Evm\+::\+Argument\+::\+Register\+Argument}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_i_argument_afcab2d2a1515518a111881a635c83da3}\label{struct_evm_1_1_argument_1_1_i_argument_afcab2d2a1515518a111881a635c83da3}} 
+\index{Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}!print\+Value@{print\+Value}}
+\index{print\+Value@{print\+Value}!Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}}
+\subsubsection{\texorpdfstring{print\+Value()}{printValue()}}
+{\footnotesize\ttfamily virtual string Evm\+::\+Argument\+::\+I\+Argument\+::print\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get printable value of the parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thread} & Thread context within this argument is used \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string with argument value 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{struct_evm_1_1_argument_1_1_address_argument_afaefa598d24c588a0047df1b88033bbd}{Evm\+::\+Argument\+::\+Address\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_a5741f701088fadebf19b733c6973898b}{Evm\+::\+Argument\+::\+Const\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument_a428099eec7efa97b28a07f9b4d1a257b}{Evm\+::\+Argument\+::\+Memory\+Q\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument_adea7b11736aa7af73ad702e6aaf6e464}{Evm\+::\+Argument\+::\+Memory\+D\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument_ac8c383d86bde6ef724583560bd0436e0}{Evm\+::\+Argument\+::\+Memory\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument_a7fbed3cafe6784094617c522a2c91412}{Evm\+::\+Argument\+::\+Memory\+B\+Y\+T\+E\+Argument}}, and \mbox{\hyperlink{struct_evm_1_1_argument_1_1_register_argument_a68e1690a92a7e7844fd89cc9b2dd3a6c}{Evm\+::\+Argument\+::\+Register\+Argument}}.
+
+\mbox{\Hypertarget{struct_evm_1_1_argument_1_1_i_argument_a24e4c76f2750e664e3895d2ff4b9146d}\label{struct_evm_1_1_argument_1_1_i_argument_a24e4c76f2750e664e3895d2ff4b9146d}} 
+\index{Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}!set\+Value@{set\+Value}}
+\index{set\+Value@{set\+Value}!Evm\+::\+Argument\+::\+I\+Argument@{Evm\+::\+Argument\+::\+I\+Argument}}
+\subsubsection{\texorpdfstring{set\+Value()}{setValue()}}
+{\footnotesize\ttfamily virtual void Evm\+::\+Argument\+::\+I\+Argument\+::set\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{thread,  }\item[{uint64\+\_\+t}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set value. 
+
+Set value of the argument. \begin{DoxyWarning}{Warning}
+For read-\/only arguments this throws an exception 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em thread} & Thread context within this argument is used \\
+\hline
+{\em value} & New value of the parameter \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{struct_evm_1_1_argument_1_1_address_argument_a2fa90885150424134b181ff01704e798}{Evm\+::\+Argument\+::\+Address\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_const_argument_ab456fa9175551b4c04815ccd65c76bd2}{Evm\+::\+Argument\+::\+Const\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_q_w_o_r_d_argument_aff2a33f879d440a90c93a7635c5d705a}{Evm\+::\+Argument\+::\+Memory\+Q\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_d_w_o_r_d_argument_ad1b0d692889006c0db43740f099d8689}{Evm\+::\+Argument\+::\+Memory\+D\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_w_o_r_d_argument_a9572abaa123939edd7c724074ac3b7ec}{Evm\+::\+Argument\+::\+Memory\+W\+O\+R\+D\+Argument}}, \mbox{\hyperlink{struct_evm_1_1_argument_1_1_memory_b_y_t_e_argument_a6da25d3c59f1676c39ac8f0f0f211863}{Evm\+::\+Argument\+::\+Memory\+B\+Y\+T\+E\+Argument}}, and \mbox{\hyperlink{struct_evm_1_1_argument_1_1_register_argument_afc97b81c554d6f77c9736178c54816cc}{Evm\+::\+Argument\+::\+Register\+Argument}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Evm/\mbox{\hyperlink{_argument_8h}{Argument.\+h}}\end{DoxyCompactItemize}

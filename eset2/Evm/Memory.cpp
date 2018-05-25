@@ -1,3 +1,7 @@
+//! @file	Memory.cpp
+//! @author	Lukasz Iwanecki
+//! @date	05.2018
+//! @brief	Memory class definition
 #include "stdafx.h"
 #include "Memory.h"
 

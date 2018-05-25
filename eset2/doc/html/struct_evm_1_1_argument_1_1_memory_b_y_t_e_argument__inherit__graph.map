@@ -1,0 +1,4 @@
+<map id="Evm::Argument::MemoryBYTEArgument" name="Evm::Argument::MemoryBYTEArgument">
+<area shape="rect" id="node2" href="$struct_evm_1_1_argument_1_1_i_register_base_argument.html" title="Subinterface for register based arguments. " alt="" coords="48,80,219,121"/>
+<area shape="rect" id="node3" href="$struct_evm_1_1_argument_1_1_i_argument.html" title="Evm::Argument::IArgument" alt="" coords="44,5,223,32"/>
+</map>

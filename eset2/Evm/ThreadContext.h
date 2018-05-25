@@ -133,6 +133,7 @@ namespace Evm {
 		static uint32_t _currentThreadID;
 	};
 
+	//!< Thread exception type
 	struct ThreadError : runtime_error {
 		ThreadError(ThreadContext & thread, RuntimeError & runtimeError) :
 			runtime_error{ _message(thread, runtimeError)}

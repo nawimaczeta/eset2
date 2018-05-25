@@ -1,0 +1,294 @@
+\hypertarget{struct_evm_1_1_application}{}\section{Evm\+:\+:Application Struct Reference}
+\label{struct_evm_1_1_application}\index{Evm\+::\+Application@{Evm\+::\+Application}}
+
+
+Main E\+VM application class.  
+
+
+
+
+{\ttfamily \#include $<$Application.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_aadbcc3dd7f4464ecb028bc5692cde348}\label{struct_evm_1_1_application_aadbcc3dd7f4464ecb028bc5692cde348}} 
+using {\bfseries Thread\+Contex\+Ptr} = unique\+\_\+ptr$<$ \mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} $>$
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_ad36d3ad5af0c655ce793abe07a241e5d}\label{struct_evm_1_1_application_ad36d3ad5af0c655ce793abe07a241e5d}} 
+using {\bfseries Thread\+List} = vector$<$ Thread\+Contex\+Ptr $>$
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_acf0318d8baa36b9ea02f89c6f2d99874}\label{struct_evm_1_1_application_acf0318d8baa36b9ea02f89c6f2d99874}} 
+using {\bfseries Lock\+List} = map$<$ uint64\+\_\+t, mutex $>$
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_evm_1_1_application_ac0dcf0cf2c0b1b3e70024a07536534a2}{Application}} (\mbox{\hyperlink{struct_evm_1_1_cli_configuration}{Cli\+Configuration}} \&config)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_ab209f49ad8c73c1f3fde7c66585284fb}\label{struct_evm_1_1_application_ab209f49ad8c73c1f3fde7c66585284fb}} 
+\mbox{\hyperlink{struct_evm_1_1_application_ab209f49ad8c73c1f3fde7c66585284fb}{$\sim$\+Application}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_application_a26403ae00f2a6d2ef5fa3e78e183f4ce}{run}} ()
+\begin{DoxyCompactList}\small\item\em Run the evm execution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_application_a17e8baa475b18f35f70823a91f12304c}{wait}} ()
+\begin{DoxyCompactList}\small\item\em Wait for execution. \end{DoxyCompactList}\item 
+uint64\+\_\+t \mbox{\hyperlink{struct_evm_1_1_application_a4b5883ca11f132aa33ede5a2acd997cc}{run\+New\+Thread}} (\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&caller, uint32\+\_\+t address)
+\begin{DoxyCompactList}\small\item\em Spawn new evm thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_application_a71ad6065512bd28e0208fee37597484b}{join\+Thread}} (uint64\+\_\+t thread\+Id)
+\begin{DoxyCompactList}\small\item\em Join a thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_application_a102467a47420ec04d5ab1e68bd465579}{lock}} (uint64\+\_\+t lock\+ID)
+\begin{DoxyCompactList}\small\item\em Obtain a lock. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_evm_1_1_application_a1f1efb23d8d815d3b92b9a2f85b328f1}{unlock}} (uint64\+\_\+t lock\+ID)
+\begin{DoxyCompactList}\small\item\em Release a lock. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_evm_1_1_utils_1_1_memory}{Utils\+::\+Memory}} \& \mbox{\hyperlink{struct_evm_1_1_application_ae298c9f84fb6a0a4d51aa6ca39dce96a}{data\+Memory}} ()
+\begin{DoxyCompactList}\small\item\em Get reference to data memory. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{struct_evm_1_1_utils_1_1_bit_buffer}{Utils\+::\+Bit\+Buffer}} \& \mbox{\hyperlink{struct_evm_1_1_application_a0e55226ef456356c5d25f8da1c9ae926}{program\+Memory}} () const
+\begin{DoxyCompactList}\small\item\em Get reference to program memory. \end{DoxyCompactList}\item 
+fstream \& \mbox{\hyperlink{struct_evm_1_1_application_a9cb5d822b96435dd1e48f02e3a14e66a}{input\+File}} ()
+\begin{DoxyCompactList}\small\item\em Get reference to input file. \end{DoxyCompactList}\item 
+const string \& \mbox{\hyperlink{struct_evm_1_1_application_ac7916137b6e8cb5ae323e1ec9ce9f050}{input\+File\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Get input file name. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_a4baabf3c0d1eeef319952726eed7f8a1}\label{struct_evm_1_1_application_a4baabf3c0d1eeef319952726eed7f8a1}} 
+const \mbox{\hyperlink{struct_evm_1_1_cli_configuration}{Cli\+Configuration}} \& {\bfseries configuartion} () const
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_a0ccd71f9edb98d0255597973a1105d08}\label{struct_evm_1_1_application_a0ccd71f9edb98d0255597973a1105d08}} 
+{\bfseries Application} (const \mbox{\hyperlink{struct_evm_1_1_application}{Application}} \&)=delete
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_ad280fab63abb3218d0f7619d4c31359a}\label{struct_evm_1_1_application_ad280fab63abb3218d0f7619d4c31359a}} 
+{\bfseries Application} (\mbox{\hyperlink{struct_evm_1_1_application}{Application}} \&\&)=delete
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_a5dc9e3d6c4bddc6d0339d3d12b9a48d8}\label{struct_evm_1_1_application_a5dc9e3d6c4bddc6d0339d3d12b9a48d8}} 
+\mbox{\hyperlink{struct_evm_1_1_application}{Application}} \& {\bfseries operator=} (const \mbox{\hyperlink{struct_evm_1_1_application}{Application}} \&)=delete
+\item 
+\mbox{\Hypertarget{struct_evm_1_1_application_a93122a21cf168f84d6ca24f7db680589}\label{struct_evm_1_1_application_a93122a21cf168f84d6ca24f7db680589}} 
+\mbox{\hyperlink{struct_evm_1_1_application}{Application}} \& {\bfseries operator=} (\mbox{\hyperlink{struct_evm_1_1_application}{Application}} \&\&)=delete
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main E\+VM application class. 
+
+The class is responsible for parsing and execution of E\+VM files. It is responsible for parsing and running evm file. It also provides data and program memories, thread list, locks list input file as well as interfaces to these objects. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_application_ac0dcf0cf2c0b1b3e70024a07536534a2}\label{struct_evm_1_1_application_ac0dcf0cf2c0b1b3e70024a07536534a2}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!Application@{Application}}
+\index{Application@{Application}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{Application()}{Application()}}
+{\footnotesize\ttfamily Evm\+::\+Application\+::\+Application (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_cli_configuration}{Cli\+Configuration}} \&}]{config }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+The constructor is initializes thread list, lock list and other internal structures. It also parses an evm file, validate it, and initializes data and program memories. 
+\begin{DoxyParams}{Parameters}
+{\em config} & reference to configuration file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_evm_1_1_application_ae298c9f84fb6a0a4d51aa6ca39dce96a}\label{struct_evm_1_1_application_ae298c9f84fb6a0a4d51aa6ca39dce96a}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!data\+Memory@{data\+Memory}}
+\index{data\+Memory@{data\+Memory}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{data\+Memory()}{dataMemory()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_evm_1_1_utils_1_1_memory}{Utils\+::\+Memory}} \& Evm\+::\+Application\+::data\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get reference to data memory. 
+
+A\+PI function for evm library. Getter of data memory. \begin{DoxyReturn}{Returns}
+reference to data memory object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_evm_1_1_application_a9cb5d822b96435dd1e48f02e3a14e66a}\label{struct_evm_1_1_application_a9cb5d822b96435dd1e48f02e3a14e66a}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!input\+File@{input\+File}}
+\index{input\+File@{input\+File}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{input\+File()}{inputFile()}}
+{\footnotesize\ttfamily fstream \& Evm\+::\+Application\+::input\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get reference to input file. 
+
+The function returns reference to inpute file, but only if the file is given. If the file is not given be an user the function throws \mbox{\hyperlink{struct_evm_1_1_input_file_runtime_error}{Input\+File\+Runtime\+Error}} exception \begin{DoxyReturn}{Returns}
+reference to input file 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_application_ac7916137b6e8cb5ae323e1ec9ce9f050}\label{struct_evm_1_1_application_ac7916137b6e8cb5ae323e1ec9ce9f050}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!input\+File\+Name@{input\+File\+Name}}
+\index{input\+File\+Name@{input\+File\+Name}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{input\+File\+Name()}{inputFileName()}}
+{\footnotesize\ttfamily const string \& Evm\+::\+Application\+::input\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get input file name. 
+
+The function returns input file name \begin{DoxyReturn}{Returns}
+input file name 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_evm_1_1_application_a71ad6065512bd28e0208fee37597484b}\label{struct_evm_1_1_application_a71ad6065512bd28e0208fee37597484b}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!join\+Thread@{join\+Thread}}
+\index{join\+Thread@{join\+Thread}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{join\+Thread()}{joinThread()}}
+{\footnotesize\ttfamily void Evm\+::\+Application\+::join\+Thread (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{thread\+Id }\end{DoxyParamCaption})}
+
+
+
+Join a thread. 
+
+A\+PI function for evm library. Suspend current thread execution until a thread with given ID is done \begin{DoxyNote}{Note}
+This is blocking function 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em thread\+Id} & id of a related thread \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_application_a102467a47420ec04d5ab1e68bd465579}\label{struct_evm_1_1_application_a102467a47420ec04d5ab1e68bd465579}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!lock@{lock}}
+\index{lock@{lock}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily void Evm\+::\+Application\+::lock (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{lock\+ID }\end{DoxyParamCaption})}
+
+
+
+Obtain a lock. 
+
+A\+PI function for evm library. Obtain a lock with given ID. When the lock doesn\textquotesingle{}t exist it will be created. If the lock is already obtained, the thread will be suspended. \begin{DoxyNote}{Note}
+The function is blocking when the lock is already obtained~\newline
+otherwise is is non-\/blocking 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em lock\+ID} & ID of the lock \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_application_a0e55226ef456356c5d25f8da1c9ae926}\label{struct_evm_1_1_application_a0e55226ef456356c5d25f8da1c9ae926}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!program\+Memory@{program\+Memory}}
+\index{program\+Memory@{program\+Memory}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{program\+Memory()}{programMemory()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{struct_evm_1_1_utils_1_1_bit_buffer}{Utils\+::\+Bit\+Buffer}} \& Evm\+::\+Application\+::program\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get reference to program memory. 
+
+A\+PI function for evm library. Getter of program memory. Program memory is bit accessed. Due to thread safety, it is read only memory. \begin{DoxyReturn}{Returns}
+reference to program memory 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_evm_1_1_application_a26403ae00f2a6d2ef5fa3e78e183f4ce}\label{struct_evm_1_1_application_a26403ae00f2a6d2ef5fa3e78e183f4ce}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!run@{run}}
+\index{run@{run}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Evm\+::\+Application\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run the evm execution. 
+
+Running the evm file execution. It creates at least one thread. \begin{DoxyNote}{Note}
+This is non-\/blocking function 
+\end{DoxyNote}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_application_a4b5883ca11f132aa33ede5a2acd997cc}\label{struct_evm_1_1_application_a4b5883ca11f132aa33ede5a2acd997cc}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!run\+New\+Thread@{run\+New\+Thread}}
+\index{run\+New\+Thread@{run\+New\+Thread}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{run\+New\+Thread()}{runNewThread()}}
+{\footnotesize\ttfamily uint64\+\_\+t Evm\+::\+Application\+::run\+New\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_evm_1_1_thread_context}{Thread\+Context}} \&}]{caller,  }\item[{uint32\+\_\+t}]{address }\end{DoxyParamCaption})}
+
+
+
+Spawn new evm thread. 
+
+A\+PI function for evm library. The function creates new evm thread based on caller. The new thread\textquotesingle{}s program counter is set to address value. \begin{DoxyNote}{Note}
+This is non-\/blocking function 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em caller} & reference to caller thread \\
+\hline
+{\em address} & initial value to the new thread program counter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new thread ID 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_application_a1f1efb23d8d815d3b92b9a2f85b328f1}\label{struct_evm_1_1_application_a1f1efb23d8d815d3b92b9a2f85b328f1}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!unlock@{unlock}}
+\index{unlock@{unlock}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{unlock()}{unlock()}}
+{\footnotesize\ttfamily void Evm\+::\+Application\+::unlock (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{lock\+ID }\end{DoxyParamCaption})}
+
+
+
+Release a lock. 
+
+A\+PI function for evm library. Release a lock with given ID. When the lock doesn\textquotesingle{}t exist \mbox{\hyperlink{struct_evm_1_1_bad_lock_i_d_runtime_error}{Bad\+Lock\+I\+D\+Runtime\+Error}} exception will be thrown \begin{DoxyNote}{Note}
+This is non-\/blocking function 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em lock\+ID} & ID of the lock \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{struct_evm_1_1_application_a17e8baa475b18f35f70823a91f12304c}\label{struct_evm_1_1_application_a17e8baa475b18f35f70823a91f12304c}} 
+\index{Evm\+::\+Application@{Evm\+::\+Application}!wait@{wait}}
+\index{wait@{wait}!Evm\+::\+Application@{Evm\+::\+Application}}
+\subsubsection{\texorpdfstring{wait()}{wait()}}
+{\footnotesize\ttfamily void Evm\+::\+Application\+::wait (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Wait for execution. 
+
+The function waits until the main evm thread is done. If the main thread is done, other threads are terminated and joined. \begin{DoxyNote}{Note}
+This is blocking function 
+\end{DoxyNote}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{struct_evm_1_1_runtime_error}{Runtime\+Error}}} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Evm/\mbox{\hyperlink{_application_8h}{Application.\+h}}\item 
+Evm/\mbox{\hyperlink{_application_8cpp}{Application.\+cpp}}\end{DoxyCompactItemize}
